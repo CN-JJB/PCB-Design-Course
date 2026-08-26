@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+<defs>
+ <marker id="r" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 Z" fill="#d33"/></marker>
+ <marker id="b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3 Z" fill="#2563eb"/></marker>
+ <style>text{font-family:Arial,'Noto Sans SC',sans-serif;fill:#172033}.title{font-size:30px;font-weight:700}.h{font-size:20px;font-weight:700}.t{font-size:17px}.small{font-size:15px}.sig{stroke:#d33;stroke-width:7;fill:none}.ret{stroke:#2563eb;stroke-width:6;fill:none}.field{stroke:#8b5cf6;stroke-width:2;fill:none;opacity:.45}</style>
+</defs>
+<rect width="1200" height="560" fill="white"/>
+<text x="600" y="42" text-anchor="middle" class="title">信号不是“一根线”：去程 + 参考结构 + 回流共同构成互连</text>
+<rect x="90" y="105" width="150" height="120" rx="12" fill="#eef2ff" stroke="#64748b"/><text x="165" y="150" text-anchor="middle" class="h">Driver</text><text x="165" y="182" text-anchor="middle" class="t">STM32 GPIO</text>
+<rect x="960" y="105" width="150" height="120" rx="12" fill="#ecfdf5" stroke="#64748b"/><text x="1035" y="150" text-anchor="middle" class="h">Receiver</text><text x="1035" y="182" text-anchor="middle" class="t">Peripheral</text>
+<path d="M240 150 C430 120 760 120 960 150" class="sig" marker-end="url(#r)"/><text x="600" y="104" text-anchor="middle" class="h" fill="#d33">Signal current / 去程</text>
+<rect x="200" y="325" width="800" height="22" rx="4" fill="#334155"/><text x="1020" y="343" class="t">Reference plane</text>
+<path d="M950 370 C760 420 420 420 250 370" class="ret" marker-end="url(#b)"/><text x="600" y="448" text-anchor="middle" class="h" fill="#2563eb">Return current / 回流（真实为面电流密度分布）</text>
+<path d="M320 155 C330 225 330 265 320 325" class="field"/><path d="M420 143 C430 220 430 260 420 325" class="field"/><path d="M520 138 C530 218 530 260 520 325" class="field"/><path d="M620 138 C630 218 630 260 620 325" class="field"/><path d="M720 140 C730 220 730 260 720 325" class="field"/><path d="M820 145 C830 222 830 264 820 325" class="field"/>
+<text x="600" y="270" text-anchor="middle" class="t" fill="#7c3aed">电场/磁场分布由信号导体与参考导体的几何关系共同决定</text>
+<path d="M165 225 L165 337 L235 337" stroke="#64748b" stroke-width="3" fill="none"/><path d="M1035 225 L1035 337 L995 337" stroke="#64748b" stroke-width="3" fill="none"/>
+<text x="600" y="510" text-anchor="middle" class="small">重要：蓝线只是教学箭头。真实回流并不是单根细线；其面电流分布随频率、几何结构和可用返回路径而变化。</text>
+</svg>
