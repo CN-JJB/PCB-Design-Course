@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <defs>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d33"/></marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/></marker>
+    <style>
+      text{font-family:Arial,'Noto Sans SC',sans-serif;fill:#172033}.title{font-size:30px;font-weight:700}.h{font-size:22px;font-weight:700}.t{font-size:17px}.small{font-size:15px}.sig{stroke:#d33;stroke-width:8;fill:none;stroke-linecap:round}.ret{stroke:#2563eb;stroke-width:6;fill:none;stroke-dasharray:12 8}.copper{fill:#d98b2b}.gnd{fill:#334155}.fr4{fill:#f1e6c9}.mask{fill:#2f855a}
+    </style>
+  </defs>
+  <rect width="1200" height="620" fill="#fff"/>
+  <text x="600" y="45" text-anchor="middle" class="title">从二层板到四层板：真正增加的是“可控的参考结构”</text>
+
+  <!-- left -->
+  <rect x="40" y="85" width="520" height="455" rx="18" fill="#fafafa" stroke="#d8dee9"/>
+  <text x="300" y="125" text-anchor="middle" class="h">二层板：信号与地在争抢同一片铜</text>
+  <rect x="85" y="180" width="430" height="18" class="copper"/>
+  <rect x="85" y="198" width="430" height="170" class="fr4"/>
+  <rect x="85" y="368" width="430" height="18" class="copper"/>
+  <text x="535" y="195" class="small">Top</text><text x="535" y="385" class="small">Bottom</text>
+  <path d="M120 175 C210 145 290 220 410 165" class="sig" marker-end="url(#arrowRed)"/>
+  <path d="M410 395 C330 430 255 345 125 410" class="ret" marker-end="url(#arrowBlue)"/>
+  <rect x="245" y="360" width="85" height="34" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+  <text x="287" y="383" text-anchor="middle" class="small" fill="#ef4444">地被割裂</text>
+  <text x="90" y="455" class="t">问题不是“二层一定不能高速”，而是：</text>
+  <text x="105" y="486" class="t">• 回流路径容易被走线、过孔和铜皮开口打断</text>
+  <text x="105" y="517" class="t">• 走线到参考导体的距离和几何关系难保持稳定</text>
+
+  <!-- right -->
+  <rect x="640" y="85" width="520" height="455" rx="18" fill="#f8fbff" stroke="#cbd5e1"/>
+  <text x="900" y="125" text-anchor="middle" class="h">四层板：给关键信号一个连续参考平面</text>
+  <rect x="690" y="166" width="420" height="16" class="copper"/><text x="1120" y="180" class="small">L1 Signal</text>
+  <rect x="690" y="182" width="420" height="55" class="fr4"/>
+  <rect x="690" y="237" width="420" height="18" class="gnd"/><text x="1120" y="252" class="small">L2 GND</text>
+  <rect x="690" y="255" width="420" height="125" class="fr4"/>
+  <rect x="690" y="380" width="420" height="18" class="copper"/><text x="1120" y="395" class="small">L3 PWR</text>
+  <rect x="690" y="398" width="420" height="55" class="fr4"/>
+  <rect x="690" y="453" width="420" height="16" class="copper"/><text x="1120" y="468" class="small">L4 Signal</text>
+  <path d="M720 160 C820 135 930 190 1060 150" class="sig" marker-end="url(#arrowRed)"/>
+  <path d="M1060 265 C965 295 840 235 725 275" class="ret" marker-end="url(#arrowBlue)"/>
+  <text x="700" y="510" class="t">关键变化：</text>
+  <text x="715" y="540" class="t">• L1 的回流可以紧邻信号分布在连续 L2 GND 上</text>
+  <text x="715" y="570" class="t">• 几何关系稳定后，阻抗、传播与 EMI 才更可控</text>
+
+  <text x="600" y="602" text-anchor="middle" class="small">红色＝信号去程；蓝色虚线＝高频回流。示意图强调概念，不代表真实电流只沿一条细线流动。</text>
+</svg>
