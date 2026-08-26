@@ -3,7 +3,7 @@
 > 到这里，课程第一次不再新增一套“独立理论”。你已经分别学过 SI、PI、EMI/EMC；Part 5 的任务是把它们放到同一张原理图、同一个四层 stackup、同一块有限板框里做取舍。
 
 <p align="center">
-  <img src="../assets/images/part5-overview.jpg" width="960" alt="STM32F407 V2 四层综合项目教材总览">
+  <img src="../assets/svg/v2-part5-overview.svg" width="960" alt="STM32F407 V2 四层综合项目教材总览">
 </p>
 
 > 上图是本 Part 的**教学总览图**：它用一张页面把系统目标、四层叠层、USB/CAN/SDIO、SI/PI/EMC 挑战和工程交付闭环放在一起。具体参数仍以本 Part 正文、器件一手资料和实际板厂工艺为准。
