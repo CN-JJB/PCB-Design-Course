@@ -161,7 +161,7 @@ V2 EMC：
 **[开始四层综合项目](15_Part5_四层综合/00_本Part导读.md)**
 
 <p align="center">
-  <img src="assets/images/part5-overview.jpg" width="980" alt="Part 5 STM32F407 V2 四层综合项目总览">
+  <img src="assets/svg/v2-part5-overview.svg" width="980" alt="Part 5 STM32F407 V2 四层综合项目总览">
 </p>
 
 Part 5 不再新增孤立理论，而是把前面的 **SI + PI + EMC** 压回同一块真实四层板：
