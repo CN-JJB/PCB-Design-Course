@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Microsoft YaHei, sans-serif">
+  <rect width="960" height="560" fill="#fafafa"/>
+  <text x="480" y="32" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">推荐六层叠层：SIG–GND–SIG–PWR–GND–SIG（方案一）</text>
+  <g transform="translate(250,64)">
+    <rect x="0" y="0"    width="470" height="24" fill="#c47f3c" stroke="#8a5527"/><text x="235" y="17" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">L1 SIG 外层微带（参考 L2-GND ✓）</text>
+    <rect x="0" y="24"   width="470" height="26" fill="#efe6cf" stroke="#c9bb92"/><text x="482" y="42" font-size="13" fill="#8a7a45">薄PP 0.1mm → 阻抗低感、回流最紧</text>
+    <rect x="0" y="50"   width="470" height="22" fill="#4a7ba6" stroke="#2d547a"/><text x="235" y="66" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">L2 GND 完整平面（EMC 基石）</text>
+    <rect x="0" y="72"   width="470" height="30" fill="#efe6cf" stroke="#c9bb92"/><text x="482" y="92" font-size="13" fill="#8a7a45">PP 0.21mm</text>
+    <rect x="0" y="102"  width="470" height="24" fill="#c47f3c" stroke="#8a5527"/><text x="235" y="119" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">L3 SIG 带状线 ★双参考屏蔽最优（高速主力）</text>
+    <rect x="0" y="126"  width="470" height="76" fill="#e8dfc8" stroke="#b3a67f"/><text x="235" y="169" text-anchor="middle" font-size="15" fill="#7a6a3a">芯板 Core 0.3~0.71mm</text>
+    <rect x="0" y="202"  width="470" height="24" fill="#c97f4a" stroke="#8a5527"/><text x="235" y="219" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">L4 PWR 平面（多电源域在此分割）</text>
+    <rect x="0" y="226"  width="470" height="30" fill="#efe6cf" stroke="#c9bb92"/><text x="482" y="246" font-size="13" fill="#8a7a45">PP 0.21mm</text>
+    <rect x="0" y="256"  width="470" height="22" fill="#4a7ba6" stroke="#2d547a"/><text x="235" y="272" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">L5 GND 完整平面（第二回流基石）</text>
+    <rect x="0" y="278"  width="470" height="26" fill="#efe6cf" stroke="#c9bb92"/><text x="482" y="296" font-size="13" fill="#8a7a45">薄PP 0.1mm</text>
+    <rect x="0" y="304"  width="470" height="24" fill="#c47f3c" stroke="#8a5527"/><text x="235" y="321" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">L6 SIG 外层微带（参考 L5-GND ✓）</text>
+    <line x1="-36" y1="164" x2="506" y2="164" stroke="#d33" stroke-dasharray="7,5"/>
+    <text x="510" y="169" font-size="13" fill="#d33">对称轴</text>
+    <!-- plane capacitance callout -->
+    <path d="M-140,61 h128 M-140,267 h128" stroke="#2e7d32" stroke-width="2"/>
+    <text x="-360" y="58" font-size="14" fill="#2e7d32">L2/L3 与 L5/L6 的</text>
+    <text x="-372" y="78" font-size="14" fill="#2e7d32">信号-地紧邻耦合</text>
+    <text x="-372" y="264" font-size="14" fill="#2e7d32">L4/L5 平面对=平板电容</text>
+    <text x="-372" y="284" font-size="14" fill="#2e7d32">C≈ε·A/d，GHz 段主力</text>
+  </g>
+  <text x="480" y="432" text-anchor="middle" font-size="15" fill="#333">三大红利：① 每个信号层都有紧邻 GND 参考 ② L3 双侧屏蔽带状线 ③ L4/L5 平面对提供 GHz 级低阻抗</text>
+  <text x="480" y="456" text-anchor="middle" font-size="14" fill="#b06a10">注意课题：L3 的参考之一是 L4(PWR)——敏感组要避开电源域分割缝的正上方投影</text>
+  <text x="480" y="482" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/01_叠层设计基础》4.5 节 ＆ 项目四/五/六实战应用</text>
+</svg>

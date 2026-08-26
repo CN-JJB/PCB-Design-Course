@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#333"/></marker>
+  </defs>
+  <rect width="960" height="520" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">微带线的阻抗由什么决定（几何 + 材料）</text>
+
+  <g transform="translate(120,70)">
+    <!-- air -->
+    <rect x="0" y="0" width="700" height="150" fill="#f2f7ff" stroke="#c5d5ea"/>
+    <text x="350" y="28" text-anchor="middle" font-size="14" fill="#6a86a8">空气（εr≈1）——外层走线有一半场在空气中，速度更快</text>
+    <!-- trace -->
+    <rect x="240" y="118" width="220" height="16" fill="#c47f3c" stroke="#8a5527"/>
+    <text x="470" y="131" font-size="15" fill="#8a5527">铜厚 t（1oz=35μm）</text>
+    <!-- substrate -->
+    <rect x="0" y="134" width="700" height="140" fill="#e8dfc8" stroke="#b3a67f"/>
+    <text x="350" y="212" text-anchor="middle" font-size="17" fill="#7a6a3a">介质 FR4：εr ≈ 4.2~4.6，tanδ ≈ 0.02</text>
+    <!-- ground -->
+    <rect x="0" y="274" width="700" height="22" fill="#4a7ba6" stroke="#2d547a"/>
+    <text x="350" y="290" text-anchor="middle" font-size="15" fill="#fff" font-weight="bold">参考平面 L2</text>
+
+    <!-- w dimension -->
+    <line x1="240" y1="108" x2="460" y2="108" stroke="#d33" stroke-width="2" marker-start="url(#ar3)" marker-end="url(#ar3)"/>
+    <text x="350" y="100" text-anchor="middle" font-size="16" fill="#d33" font-weight="bold">线宽 w</text>
+    <!-- h dimension -->
+    <line x1="720" y1="134" x2="720" y2="274" stroke="#2e7d32" stroke-width="2" marker-start="url(#ar3)" marker-end="url(#ar3)"/>
+    <text x="730" y="210" font-size="16" fill="#2e7d32" font-weight="bold">介质厚 h</text>
+
+    <!-- formula -->
+    <rect x="60" y="320" width="600" height="64" rx="10" fill="#fff" stroke="#ddd"/>
+    <text x="360" y="346" text-anchor="middle" font-size="19" fill="#222" font-weight="bold">Z₀ ≈ √(L/C)　——只由 w、h、t、εr 决定，与长度无关</text>
+    <text x="360" y="372" text-anchor="middle" font-size="14.5" fill="#666">JLC04161H 例：h=0.210mm, εr=4.4, 1oz → 50Ω 时 w≈0.36mm</text>
+  </g>
+
+  <!-- sensitivity table -->
+  <g transform="translate(70,452)" font-size="14.5">
+    <text x="0" y="0" fill="#222" font-weight="bold">灵敏度速记：</text>
+    <text x="110" y="0" fill="#2e7d32" font-weight="bold">w +10% ⇒ Z₀ 约 −5%</text>
+    <text x="330" y="0">｜</text>
+    <text x="350" y="0" fill="#b06a10" font-weight="bold">h +10% ⇒ Z₀ 约 +3~4%</text>
+    <text x="560" y="0">｜</text>
+    <text x="580" y="0" fill="#555">εr ↑ ⇒ Z₀ ↓</text>
+  </g>
+  <text x="480" y="505" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/02_特性阻抗与传输线》＋ assets/html/impedance_calculator.html 在线互动计算</text>
+</svg>

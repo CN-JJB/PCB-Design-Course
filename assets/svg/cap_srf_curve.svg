@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Microsoft YaHei, sans-serif">
+  <rect width="960" height="520" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">真实电容的阻抗曲线：V 形、自谐振与反谐振峰</text>
+
+  <!-- log-log axes -->
+  <g transform="translate(110,70)">
+    <line x1="0" y1="330" x2="700" y2="330" stroke="#333" marker-end="url(#cx)"/>
+    <line x1="0" y1="330" x2="0" y2="16" stroke="#333" marker-end="url(#cx)"/>
+    <text x="692" y="352" font-size="14">log f</text>
+    <text x="-14" y="14" font-size="14">log Z</text>
+
+    <!-- 10uF curve (valley left) -->
+    <path d="M40,40 C90,90 120,180 170,205 C210,225 250,215 290,235 C340,258 380,270 430,280"
+          fill="none" stroke="#4a7ba6" stroke-width="3"/>
+    <text x="36" y="28" font-size="13.5" fill="#4a7ba6">10μF(大封装)</text>
+    <!-- 1uF -->
+    <path d="M130,50 C190,100 230,190 290,212 C330,228 370,220 420,242 C480,268 520,278 570,288"
+          fill="none" stroke="#2e7d32" stroke-width="3"/>
+    <text x="126" y="38" font-size="13.5" fill="#2e7d32">1μF</text>
+    <!-- 0.1uF -->
+    <path d="M250,60 C320,115 360,200 430,218 C475,230 520,222 580,245 C640,268 668,276 700,282"
+          fill="none" stroke="#c47f3c" stroke-width="3"/>
+    <text x="246" y="48" font-size="13.5" fill="#b06a10">0.1μF/0402</text>
+
+    <!-- envelope dashed -->
+    <path d="M40,42 C200,200 300,214 430,216 C560,218 650,246 700,281"
+          fill="none" stroke="#888" stroke-dasharray="7,6" stroke-width="2"/>
+
+    <!-- anti-resonance peak marker between 10uF inductive and 1uF capacitive -->
+    <circle cx="292" cy="233" r="7" fill="none" stroke="#d33" stroke-width="3"/>
+    <path d="M292,233 l40,-52" stroke="#d33" stroke-width="2" marker-end="url(#cr)"/>
+    <text x="338" y="176" font-size="14.5" fill="#d33" font-weight="bold">反谐振峰：大电容已感性</text>
+    <text x="338" y="196" font-size="14.5" fill="#d33">小电容还容性 → 交接处高阻抗尖峰</text>
+    <text x="338" y="218" font-size="13.5" fill="#777">压制：多颗同值并联摊平 / 选带阻尼的ESR</text>
+
+    <!-- SRF marker on 0.1uF valley -->
+    <circle cx="430" cy="217" r="6" fill="none" stroke="#b06a10" stroke-width="2.5"/>
+    <text x="452" y="206" font-size="14" fill="#b06a10" font-weight="bold">SRF≈22MHz(0402)</text>
+    <text x="452" y="226" font-size="13" fill="#b06a10">谷底左侧容性↓ 右侧感性↑</text>
+  </g>
+
+  <g transform="translate(110,432)" font-size="14.5" fill="#333">
+    <text x="0" y="0">设计含义：多种容值接力覆盖宽频段；虚线包络才是整组电容的真实能力——布局差会把包络整体抬高。</text>
+  </g>
+  <defs>
+    <marker id="cx" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#333"/></marker>
+    <marker id="cr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#d33"/></marker>
+  </defs>
+  <text x="480" y="500" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/04_电源完整性PDN》4.3 节</text>
+</svg>

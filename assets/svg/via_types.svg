@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" font-family="Microsoft YaHei, sans-serif">
+  <rect width="960" height="430" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">过孔三兄弟：通孔 / 盲孔 / 埋孔</text>
+  <text x="480" y="54" text-anchor="middle" font-size="13.5" fill="#777">成本：通孔 1× ＜ 盲孔 +30~60% ＜ 埋孔 +40~80%（需多轮压合钻孔）</text>
+
+  <g transform="translate(60,90)" font-size="14">
+    <!-- through -->
+    <g transform="translate(0,0)">
+      <rect x="0" y="0" width="220" height="26" fill="#c47f3c"/><text x="110" y="-8" text-anchor="middle" fill="#8a5527">L1</text>
+      <rect x="0" y="26" width="220" height="52" fill="#e8dfc8"/>
+      <rect x="0" y="78" width="220" height="22" fill="#4a7ba6"/><text x="110" y="94" text-anchor="middle" fill="#fff" font-size="12">L2</text>
+      <rect x="0" y="100" width="220" height="52" fill="#e8dfc8"/>
+      <rect x="0" y="152" width="220" height="26" fill="#c47f3c"/><text x="110" y="196" text-anchor="middle" fill="#8a5527">L4</text>
+      <rect x="98" y="-6" width="24" height="190" rx="10" fill="none" stroke="#d33" stroke-width="5"/>
+      <circle cx="110" cy="89" r="3" fill="#fff" opacity="0"/>
+      <text x="110" y="240" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">通孔 Through</text>
+      <text x="110" y="262" text-anchor="middle" fill="#555">打穿所有层，最便宜</text>
+      <text x="110" y="282" text-anchor="middle" fill="#b06a10">高速信号会有残桩</text>
+    </g>
+    <!-- blind -->
+    <g transform="translate(330,0)">
+      <rect x="0" y="0" width="220" height="26" fill="#c47f3c"/>
+      <rect x="0" y="26" width="220" height="52" fill="#e8dfc8"/>
+      <rect x="0" y="78" width="220" height="22" fill="#4a7ba6"/>
+      <rect x="0" y="100" width="220" height="52" fill="#e8dfc8"/>
+      <rect x="0" y="152" width="220" height="26" fill="#c47f3c"/>
+      <rect x="98" y="-6" width="24" height="112" rx="10" fill="none" stroke="#2e7d32" stroke-width="5"/>
+      <text x="110" y="240" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">盲孔 Blind（L1→L2）</text>
+      <text x="110" y="262" text-anchor="middle" fill="#555">外层到内层，不穿透</text>
+      <text x="110" y="282" text-anchor="middle" fill="#2e7d32">HDI/手机板常用，无残桩</text>
+    </g>
+    <!-- buried -->
+    <g transform="translate(660,0)">
+      <rect x="0" y="0" width="220" height="26" fill="#c47f3c"/>
+      <rect x="0" y="26" width="220" height="52" fill="#e8dfc8"/>
+      <rect x="0" y="78" width="220" height="22" fill="#4a7ba6"/>
+      <rect x="0" y="100" width="220" height="52" fill="#e8dfc8"/>
+      <rect x="0" y="152" width="220" height="26" fill="#c47f3c"/>
+      <rect x="98" y="84" width="24" height="74" rx="10" fill="none" stroke="#7b3fa0" stroke-width="5"/>
+      <text x="110" y="240" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">埋孔 Buried（L2→L3）</text>
+      <text x="110" y="262" text-anchor="middle" fill="#555">只在内部层间，外面看不见</text>
+      <text x="110" y="282" text-anchor="middle" fill="#7b3fa0">工艺轮次最多、最贵</text>
+    </g>
+  </g>
+  <text x="480" y="408" text-anchor="middle" font-size="14" fill="#999">学习项目全部用通孔即可；BGA 0.65mm 以下逃逸或 >5Gbps 残桩威胁时才考虑盲埋孔</text>
+</svg>

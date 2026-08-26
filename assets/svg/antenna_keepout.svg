@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Microsoft YaHei, sans-serif">
+  <defs>
+    <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="12" fill="#ffebee"/>
+      <line x1="0" y1="0" x2="0" y2="12" stroke="#ef9a9a" stroke-width="3"/>
+    </pattern>
+    <marker id="kr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#333"/></marker>
+  </defs>
+  <rect width="960" height="520" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">RF 净空区：模组天线的"神圣领地"</text>
+
+  <!-- board -->
+  <g transform="translate(70,70)">
+    <rect x="0" y="0" width="820" height="300" rx="10" fill="#e8dfc8" stroke="#b3a67f"/>
+    <!-- keepout zone -->
+    <rect x="560" y="30" width="230" height="240" fill="url(#hatch)" stroke="#d33" stroke-dasharray="8,5"/>
+    <text x="675" y="140" text-anchor="middle" font-size="15.5" fill="#c62828" font-weight="bold">天线净空区</text>
+    <text x="675" y="166" text-anchor="middle" font-size="13.5" fill="#c62828">所有层禁铜禁走线</text>
+    <text x="675" y="188" text-anchor="middle" font-size="13.5" fill="#c62828">(含底层投影)</text>
+    <!-- module -->
+    <rect x="330" y="60" width="250" height="180" rx="6" fill="#37474f"/>
+    <rect x="580" y="120" width="46" height="60" fill="#263238"/>
+    <text x="455" y="150" text-anchor="middle" font-size="16" fill="#fff">ESP32-WROOM</text>
+    <text x="455" y="176" text-anchor="middle" font-size="13" fill="#b0bec5">天线段必须朝净空区伸出</text>
+    <!-- stitching wall -->
+    <g fill="#2e7d32">
+      <circle cx="556" cy="40" r="7"/><circle cx="556" cy="76" r="7"/><circle cx="556" cy="112" r="7"/><circle cx="556" cy="148" r="7"/><circle cx="556" cy="184" r="7"/><circle cx="556" cy="220" r="7"/><circle cx="556" cy="256" r="7"/>
+    </g>
+    <path d="M540,148 h-14" stroke="#333" marker-end="url(#kr)"/>
+    <text x="380" y="278" font-size="13.5" fill="#2e7d32">缝合孔墙：间距≤λ/20（2.4GHz 取 ≤2~3mm 密缝，工程常取 8mm 起步加密）</text>
+    <!-- LDO far away -->
+    <rect x="60" y="90" width="70" height="50" fill="#5c6bc0"/>
+    <text x="95" y="120" text-anchor="middle" font-size="13" fill="#fff">LDO</text>
+    <text x="95" y="164" text-anchor="middle" font-size="12.5" fill="#3949ab">发热体远离RF侧</text>
+  </g>
+
+  <!-- rules -->
+  <g transform="translate(70,410)" font-size="14.5">
+    <text x="0" y="0" fill="#222" font-weight="bold">三条铁律：① 天线延伸方向 ≥10mm 全层禁铜 ② 外壳金属件避开此锥形区(金属漆外壳=产品杀手) ③ 底层正对天线位置同样禁铜</text>
+    <text x="0" y="30" fill="#555">KiCad 操作：Place → Add Keepout Area → 勾选全部铜层；模组摆位先于一切元件锁定</text>
+  </g>
+  <text x="480" y="500" text-anchor="middle" font-size="13" fill="#999">配套：《06_实战项目/03_ESP32底板》第 5 节 ＆ 《07_进阶专题/03_RF射频板设计入门》3.4 节</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" font-family="Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="gr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#2e7d32"/></marker>
+    <marker id="br" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#d33"/></marker>
+  </defs>
+  <rect width="960" height="470" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">去耦电容安装：决定成败的不是容值，是电感</text>
+
+  <!-- GOOD -->
+  <g transform="translate(60,70)">
+    <text x="170" y="-8" text-anchor="middle" font-size="17" fill="#2e7d32" font-weight="bold">✓ 优秀：≤1.5mm + 双孔落地（总感≈2nH）</text>
+    <rect x="0" y="120" width="360" height="60" fill="#e8dfc8" stroke="#b3a67f"/>
+    <rect x="40" y="96" width="90" height="24" fill="#c47f3c"/><text x="85" y="113" text-anchor="middle" font-size="13" fill="#fff">VDD 焊盘</text>
+    <rect x="150" y="88" width="46" height="26" fill="#5c6bc0"/>
+    <text x="173" y="80" text-anchor="middle" font-size="13" fill="#3949ab">0.1μF</text>
+    <path d="M130,108 h18 M196,104 c14,-6 22,-6 34,-6" fill="none" stroke="#8a5527" stroke-width="4"/>
+    <circle cx="252" cy="98" r="10" fill="none" stroke="#2e7d32" stroke-width="4"/>
+    <circle cx="284" cy="98" r="10" fill="none" stroke="#2e7d32" stroke-width="4"/>
+    <path d="M252,110 V180 M284,110 V180" stroke="#2e7d32" stroke-width="4"/>
+    <path d="M136,108 h14" stroke="#2e7d32" stroke-width="2" marker-end="url(#gr)"/>
+    <text x="20" y="212" font-size="14" fill="#333">短出线 → 双过孔直落 GND 平面</text>
+    <text x="20" y="236" font-size="14" fill="#2e7d32" font-weight="bold">先连电容，再连别的 —— 引脚延长线上直接落座</text>
+  </g>
+
+  <!-- BAD -->
+  <g transform="translate(540,70)">
+    <text x="170" y="-8" text-anchor="middle" font-size="17" fill="#d33" font-weight="bold">✗ 灾难：16mm 细线 + 单孔远地（≈16nH！）</text>
+    <rect x="0" y="120" width="360" height="60" fill="#e8dfc8" stroke="#b3a67f"/>
+    <rect x="10" y="96" width="90" height="24" fill="#c47f3c"/><text x="55" y="113" text-anchor="middle" font-size="13" fill="#fff">VDD 焊盘</text>
+    <path d="M100,106 h84" stroke="#b06a10" stroke-width="3"/>
+    <rect x="184" y="94" width="46" height="26" fill="#5c6bc0"/>
+    <text x="207" y="86" text-anchor="middle" font-size="13" fill="#3949ab">0.1μF</text>
+    <path d="M230,107 h58" stroke="#b06a10" stroke-width="3"/>
+    <circle cx="300" cy="160" r="10" fill="none" stroke="#d33" stroke-width="4"/>
+    <path d="M288,112 C320,118 310,140 300,148" fill="none" stroke="#b06a10" stroke-width="3" marker-end="url(#br)"/>
+    <text x="20" y="212" font-size="14" fill="#333">引线 16mm ≈ 16nH —— 这颗"0.1μF"实际是个 16nH 电感</text>
+    <text x="20" y="236" font-size="14" fill="#d33" font-weight="bold">高频段完全失效，等于白焊</text>
+  </g>
+
+  <!-- ranking -->
+  <g transform="translate(60,352)" font-size="15">
+    <text x="0" y="0" font-weight="bold" fill="#222">安装方式排名：</text>
+    <text x="0" y="30" fill="#2e7d32">① Via-in-pad 孔在盘里(需塞孔工艺)　② 盘侧短出线+双孔 ★打样最优　③ 单孔就近及格　④ 出线&gt;2mm 开始失效</text>
+    <text x="0" y="62" fill="#555">铁律排序口诀：距离 → 孔数 → 路径宽度。三者全优，0.1μF 才真是 0.1μF。</text>
+  </g>
+  <text x="480" y="452" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/04_电源完整性PDN》4.4 节 ＆ 项目二/六实战核对表</text>
+</svg>

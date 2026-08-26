@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" font-family="Microsoft YaHei, sans-serif">
+  <rect width="960" height="470" fill="#fafafa"/>
+  <text x="480" y="32" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">经典四层叠层：TOP–GND–PWR–BOTTOM（方案A）</text>
+  <text x="480" y="56" text-anchor="middle" font-size="14" fill="#777">数值示例为嘉立创 JLC04161H 类标准叠层，实际以下单页当期公布为准</text>
+
+  <g transform="translate(230,84)">
+    <!-- L1 -->
+    <rect x="0" y="0" width="500" height="26" fill="#c47f3c" stroke="#8a5527"/>
+    <text x="250" y="18" text-anchor="middle" font-size="15" fill="#fff" font-weight="bold">L1  TOP 信号层（35μm 微带线，参考 L2）</text>
+    <!-- PP -->
+    <rect x="0" y="26" width="500" height="42" fill="#efe6cf" stroke="#c9bb92"/>
+    <text x="512" y="53" font-size="14" fill="#8a7a45">PP 半固化片 ≈0.210mm ← 决定阻抗的 h</text>
+    <!-- L2 -->
+    <rect x="0" y="68" width="500" height="24" fill="#4a7ba6" stroke="#2d547a"/>
+    <text x="250" y="85" text-anchor="middle" font-size="15" fill="#fff" font-weight="bold">L2  GND 完整地平面（H oz）</text>
+    <!-- Core -->
+    <rect x="0" y="92" width="500" height="120" fill="url(#none)" fill-opacity="0" />
+    <rect x="0" y="92" width="500" height="120" fill="#e8dfc8" stroke="#b3a67f"/>
+    <text x="250" y="158" text-anchor="middle" font-size="16" fill="#7a6a3a">芯板 Core 0.71mm</text>
+    <!-- L3 -->
+    <rect x="0" y="212" width="500" height="24" fill="#c97f4a" stroke="#8a5527"/>
+    <text x="250" y="229" text-anchor="middle" font-size="15" fill="#fff" font-weight="bold">L3  PWR 电源平面（可分割多电压域）</text>
+    <!-- PP -->
+    <rect x="0" y="236" width="500" height="42" fill="#efe6cf" stroke="#c9bb92"/>
+    <text x="-12" y="263" text-anchor="end" font-size="14" fill="#8a7a45">PP ≈0.210mm</text>
+    <!-- L4 -->
+    <rect x="0" y="278" width="500" height="26" fill="#c47f3c" stroke="#8a5527"/>
+    <text x="250" y="296" text-anchor="middle" font-size="15" fill="#fff" font-weight="bold">L4  BOTTOM 信号层（35μm，参考 L3-PWR）</text>
+
+    <!-- symmetry axis -->
+    <line x1="-40" y1="152" x2="540" y2="152" stroke="#d33" stroke-dasharray="7,5"/>
+    <text x="545" y="157" font-size="14" fill="#d33">中心对称轴：材料与铜厚必须上下镜像</text>
+
+    <!-- impedance callout -->
+    <path d="M-160,13 h150" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrG)"/>
+    <text x="-330" y="18" font-size="15" fill="#2e7d32" font-weight="bold">50Ω 微带线宽≈0.36mm</text>
+    <path d="M-160,291 h150" stroke="#b06a10" stroke-width="2" marker-end="url(#arrO)"/>
+    <text x="-352" y="296" font-size="14" fill="#b06a10">⚠ 参考的是 PWR：回流需经去耦电容跨回 GND</text>
+  </g>
+  <defs>
+    <marker id="arrG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#2e7d32"/></marker>
+    <marker id="arrO" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#b06a10"/></marker>
+  </defs>
+  <text x="480" y="440" text-anchor="middle" font-size="14" fill="#999">优点：结构简单、两层都有紧邻参考｜缺点：L4 回流断链风险 → 重要高速线放 L1 或上六层</text>
+  <text x="480" y="458" text-anchor="middle" font-size="13" fill="#999" >配套：《04_多层板理论/01_叠层设计基础》4.4 节</text>
+</svg>

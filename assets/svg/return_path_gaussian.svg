@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" font-family="Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#333"/></marker>
+    <linearGradient id="bell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff7043" stop-opacity=".75"/>
+      <stop offset="100%" stop-color="#ffab91" stop-opacity=".05"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="500" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">高频回流的真实样子：紧贴信号线正下方的高斯分布</text>
+
+  <!-- top trace -->
+  <g transform="translate(80,70)">
+    <rect x="0" y="0" width="800" height="120" fill="#efe6cf" stroke="#c9bb92"/>
+    <rect x="180" y="18" width="440" height="12" fill="#c47f3c" stroke="#8a5527"/>
+    <path d="M180,24 h440" stroke="#d33" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="640" y="20" font-size="15" fill="#d33">信号电流 →（去程）</text>
+    <text x="180" y="58" font-size="14" fill="#555">介质厚度 h（越薄，回流越集中，串扰越小——多层板的隐性红利）</text>
+    <line x1="400" y1="30" x2="400" y2="118" stroke="#888" stroke-dasharray="5,4" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <text x="410" y="106" font-size="14" fill="#666">h</text>
+  </g>
+
+  <!-- ground plane with gaussian density -->
+  <g transform="translate(80,196)">
+    <rect x="0" y="0" width="800" height="130" fill="#4a7ba6" stroke="#2d547a"/>
+    <path d="M180,130 C300,128 340,10 400,10 C460,10 500,128 620,130 Z" fill="url(#bell)"/>
+    <line x1="400" y1="10" x2="400" y2="130" stroke="#fff" stroke-dasharray="4,4" opacity=".7"/>
+    <path d="M620,70 h-170" stroke="#2e547a" stroke-width="0" />
+    <path d="M600,64 h-150" stroke="#fff" stroke-width="2" marker-end="url(#arW)"/>
+    <text x="608" y="68" font-size="15" fill="#fff">← 回流电流（反向）</text>
+    <!-- ±3h band -->
+    <line x1="280" y1="0" x2="280" y2="130" stroke="#ffd54f" stroke-dasharray="6,4" stroke-width="2"/>
+    <line x1="520" y1="0" x2="520" y2="130" stroke="#ffd54f" stroke-dasharray="6,4" stroke-width="2"/>
+    <text x="400" y="150" text-anchor="middle" font-size="14.5" fill="#222">约 94% 的回流集中在正下方 ±3h 宽度内</text>
+  </g>
+
+  <!-- derived rules -->
+  <g transform="translate(80,392)" font-size="15" fill="#333">
+    <text x="0" y="0">由这张图直接推出的两条工程铁律：</text>
+    <text x="0" y="28" fill="#2e7d32" font-weight="bold">① 3W 规则：</text><text x="96" y="28">中心距≥3倍线宽时，两线的回流带几乎不重叠 → 串扰降约 70%</text>
+    <text x="0" y="56" fill="#b06a10" font-weight="bold">② 平面完整性：</text><text x="104" y="56">任何切断这条橙色带的缝隙/挖空 = 回流被迫绕行 → 环路面积暴涨</text>
+  </g>
+  <defs><marker id="arW" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#fff"/></marker></defs>
+  <text x="480" y="492" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/03_回流路径与地弹》3.1 节</text>
+</svg>

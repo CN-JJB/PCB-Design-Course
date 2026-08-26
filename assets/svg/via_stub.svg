@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="Microsoft YaHei, sans-serif">
+  <rect width="960" height="540" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">通孔残桩 Stub：藏在板内的谐振陷阱</text>
+
+  <g transform="translate(140,64)">
+    <!-- 6-layer stack -->
+    <g font-size="13.5">
+      <rect x="0" y="0" width="420" height="22" fill="#c47f3c"/><text x="-10" y="16" text-anchor="end" fill="#8a5527">L1 SIG</text>
+      <rect x="0" y="22" width="420" height="26" fill="#efe6cf"/>
+      <rect x="0" y="48" width="420" height="20" fill="#4a7ba6"/><text x="-10" y="63" text-anchor="end" fill="#2d547a">L2 GND</text>
+      <rect x="0" y="68" width="420" height="26" fill="#efe6cf"/>
+      <rect x="0" y="94" width="420" height="20" fill="#c47f3c"/><text x="-10" y="109" text-anchor="end" fill="#8a5527">L3 SIG</text>
+      <rect x="0" y="114" width="420" height="26" fill="#e8dfc8"/>
+      <rect x="0" y="140" width="420" height="20" fill="#4a7ba6"/><text x="-10" y="155" text-anchor="end" fill="#2d547a">L5 GND</text>
+      <rect x="0" y="160" width="420" height="26" fill="#efe6cf"/>
+      <rect x="0" y="186" width="420" height="22" fill="#c47f3c"/><text x="-10" y="202" text-anchor="end" fill="#8a5527">L6 SIG</text>
+    </g>
+    <!-- via L1 to L4, stub to L6 -->
+    <line x1="210" y1="-6" x2="210" y2="150" stroke="#2e7d32" stroke-width="7"/>
+    <line x1="210" y1="150" x2="210" y2="192" stroke="#d33" stroke-width="7"/>
+    <circle cx="210" cy="150" r="9" fill="none" stroke="#d33" stroke-width="2.5"/>
+    <!-- signal path arrow on L4? we used L4 as PWR in stack; simplify: target layer label -->
+    <text x="228" y="146" font-size="14" fill="#2e7d32">信号在 L4 落地 ✓</text>
+    <path d="M232,172 h-12" stroke="#d33" stroke-width="2" marker-end="url(#sr)"/>
+    <text x="240" y="177" font-size="15" fill="#d33" font-weight="bold">残桩：开路支线 → 能量进去全反射回来</text>
+  </g>
+
+  <!-- formula card -->
+  <g transform="translate(90,300)">
+    <rect x="0" y="0" width="780" height="120" rx="10" fill="#fff" stroke="#ddd"/>
+    <text x="390" y="34" text-anchor="middle" font-size="18" fill="#222" font-weight="bold">危险频率 f_notch ≈ v / (4 × 残桩长度)</text>
+    <text x="390" y="64" text-anchor="middle" font-size="15" fill="#555">FR4 内 v≈15cm/ns：残桩 1mm → 37GHz(安全)；残桩 8mm → ≈4.7GHz（HDMI 已受威胁）</text>
+    <text x="390" y="96" text-anchor="middle" font-size="15" fill="#2e7d32" font-weight="bold">对策排序：浅层对换层 ＞ 背钻(贵) ＞ 盲孔 HDI(更贵)</text>
+  </g>
+  <text x="480" y="468" text-anchor="middle" font-size="14" fill="#b06a10">布线纪律：高速换层尽量选"靠近目标层的层对"，把残桩压到最短</text>
+  <text x="480" y="496" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/06_过孔串扰与高速专题》6.1 节</text>
+  <defs><marker id="sr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#d33"/></marker></defs>
+</svg>

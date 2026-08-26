@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="dr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#d33"/></marker>
+    <marker id="db" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#1565c0"/></marker>
+  </defs>
+  <rect width="960" height="520" fill="#fafafa"/>
+  <text x="480" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#222">差分对：两根反相线的抵消艺术</text>
+
+  <!-- odd mode -->
+  <g transform="translate(80,70)">
+    <text x="180" y="-10" text-anchor="middle" font-size="17" font-weight="bold" fill="#2e7d32">奇模 Odd（差分信号的工作模式）</text>
+    <rect x="0" y="90" width="380" height="70" fill="#e8dfc8" stroke="#b3a67f"/>
+    <rect x="30" y="60" width="320" height="12" fill="#c47f3c"/>
+    <rect x="30" y="98" width="320" height="12" fill="#c47f3c"/>
+    <path d="M40,66 h140" stroke="#d33" stroke-width="2.5" marker-end="url(#dr)"/>
+    <path d="M340,104 h-140" stroke="#1565c0" stroke-width="2.5" marker-end="url(#db)"/>
+    <text x="196" y="56" text-anchor="middle" font-size="14" fill="#d33">+V → I</text>
+    <text x="196" y="132" text-anchor="middle" font-size="14" fill="#1565c0">−V → −I</text>
+    <!-- field cancellation arcs -->
+    <path d="M190,84 q26,-14 52,0 M216,84 q-26,14 -52,0" stroke="#777" fill="none"/>
+    <text x="196" y="182" text-anchor="middle" font-size="14" fill="#333">远处电磁场互相抵消 → 辐射小、抗共模强</text>
+  </g>
+
+  <!-- even mode -->
+  <g transform="translate(560,70)">
+    <text x="160" y="-10" text-anchor="middle" font-size="17" font-weight="bold" fill="#b06a10">偶模 Even（共模噪声的传播模式）</text>
+    <rect x="0" y="90" width="340" height="70" fill="#e8dfc8" stroke="#b3a67f"/>
+    <rect x="20" y="60" width="300" height="12" fill="#c47f3c"/>
+    <rect x="20" y="98" width="300" height="12" fill="#c47f3c"/>
+    <path d="M30,66 h130" stroke="#d33" stroke-width="2.5" marker-end="url(#dr)"/>
+    <path d="M30,104 h130" stroke="#d33" stroke-width="2.5" marker-end="url(#dr)"/>
+    <text x="170" y="56" text-anchor="middle" font-size="14" fill="#d33">+V → I</text>
+    <text x="170" y="132" text-anchor="middle" font-size="14" fill="#d33">+V → I（同向叠加，辐射最强）</text>
+    <text x="170" y="182" text-anchor="middle" font-size="14" fill="#333">EMC 关心的主角：共模噪声走的就是这条路</text>
+  </g>
+
+  <!-- formula card -->
+  <g transform="translate(100,300)">
+    <rect x="0" y="0" width="760" height="150" rx="10" fill="#fff" stroke="#ddd"/>
+    <text x="380" y="36" text-anchor="middle" font-size="18.5" fill="#222" font-weight="bold">Zdiff = 2 × Zodd ＜ 2 × Z₀　（紧耦合让每根线看到的 L、C 都变了）</text>
+    <text x="380" y="70" text-anchor="middle" font-size="15.5" fill="#555">所以 90Ω 差分 ≠ 两根 45Ω 线：要按耦合对整体求解 (w, s) 组合</text>
+    <text x="380" y="102" text-anchor="middle" font-size="15" fill="#333">间距纪律：s 全程恒定（pad 区除外）；s/w 越小耦合越紧、抗扰越好，但线要变细维持阻抗</text>
+    <text x="380" y="130" text-anchor="middle" font-size="14" fill="#b06a10">等长的本质：保证两线边沿同时到达 → skew 会直接转化为抖动</text>
+  </g>
+  <defs><marker id="dr2" /></defs>
+  <text x="480" y="494" text-anchor="middle" font-size="13" fill="#999">配套：《04_多层板理论/02_特性阻抗与传输线》2.5 节 ＆ 《05_KiCad多层板操作/02》差分布线实操</text>
+</svg>
