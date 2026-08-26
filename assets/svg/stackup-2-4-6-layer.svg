@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+<rect width="1400" height="820" fill="#ffffff"/>
+<text x="60" y="65" font-family="sans-serif" font-size="34" font-weight="700">2 层、4 层、6 层 PCB：增加的不只是“铜层数量”</text>
+<text x="60" y="105" font-family="sans-serif" font-size="20" fill="#475569">层数越多，越容易为关键网络提供连续参考平面、稳定阻抗和更好的电源/地结构</text>
+
+<g transform="translate(80,160)">
+<rect x="0" y="0" width="360" height="560" rx="18" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="120" y="48" font-family="sans-serif" font-size="28" font-weight="700">2 层板</text>
+<rect x="50" y="110" width="260" height="28" fill="#d97706"/><text x="65" y="102" font-family="sans-serif" font-size="18">L1 Signal / Components</text>
+<rect x="50" y="138" width="260" height="130" fill="#f5deb3"/>
+<rect x="50" y="268" width="260" height="28" fill="#d97706"/><text x="65" y="330" font-family="sans-serif" font-size="18">L2 Signal / GND pour</text>
+<text x="45" y="390" font-family="sans-serif" font-size="18" fill="#334155">优点</text>
+<text x="45" y="420" font-family="sans-serif" font-size="17">• 成本低、简单</text>
+<text x="45" y="450" font-family="sans-serif" font-size="17">• 适合低密度/低速设计</text>
+<text x="45" y="495" font-family="sans-serif" font-size="18" fill="#991b1b">挑战</text>
+<text x="45" y="525" font-family="sans-serif" font-size="17">• 信号/电源/地争抢空间</text>
+</g>
+
+<g transform="translate(520,160)">
+<rect x="0" y="0" width="360" height="560" rx="18" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="120" y="48" font-family="sans-serif" font-size="28" font-weight="700">4 层板</text>
+<rect x="50" y="95" width="260" height="24" fill="#d97706"/><text x="65" y="88" font-family="sans-serif" font-size="17">L1 Signal</text>
+<rect x="50" y="119" width="260" height="50" fill="#f5deb3"/>
+<rect x="50" y="169" width="260" height="24" fill="#475569"/><text x="65" y="218" font-family="sans-serif" font-size="17">L2 GND plane</text>
+<rect x="50" y="193" width="260" height="72" fill="#f5deb3"/>
+<rect x="50" y="265" width="260" height="24" fill="#2563eb"/><text x="65" y="318" font-family="sans-serif" font-size="17">L3 Power / Signal</text>
+<rect x="50" y="289" width="260" height="50" fill="#f5deb3"/>
+<rect x="50" y="339" width="260" height="24" fill="#d97706"/><text x="65" y="395" font-family="sans-serif" font-size="17">L4 Signal</text>
+<text x="45" y="445" font-family="sans-serif" font-size="18" fill="#166534">价值</text>
+<text x="45" y="475" font-family="sans-serif" font-size="17">• 顶层易获得连续 GND 参考</text>
+<text x="45" y="505" font-family="sans-serif" font-size="17">• 更容易做阻抗与回流管理</text>
+</g>
+
+<g transform="translate(960,160)">
+<rect x="0" y="0" width="360" height="560" rx="18" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="120" y="48" font-family="sans-serif" font-size="28" font-weight="700">6 层板</text>
+<rect x="50" y="80" width="260" height="20" fill="#d97706"/><text x="65" y="73" font-family="sans-serif" font-size="16">L1 Signal</text>
+<rect x="50" y="100" width="260" height="28" fill="#f5deb3"/>
+<rect x="50" y="128" width="260" height="20" fill="#475569"/><text x="65" y="170" font-family="sans-serif" font-size="16">L2 GND</text>
+<rect x="50" y="148" width="260" height="32" fill="#f5deb3"/>
+<rect x="50" y="180" width="260" height="20" fill="#d97706"/><text x="65" y="222" font-family="sans-serif" font-size="16">L3 Signal / Power</text>
+<rect x="50" y="200" width="260" height="32" fill="#f5deb3"/>
+<rect x="50" y="232" width="260" height="20" fill="#2563eb"/><text x="65" y="274" font-family="sans-serif" font-size="16">L4 Power / Signal</text>
+<rect x="50" y="252" width="260" height="32" fill="#f5deb3"/>
+<rect x="50" y="284" width="260" height="20" fill="#475569"/><text x="65" y="326" font-family="sans-serif" font-size="16">L5 GND</text>
+<rect x="50" y="304" width="260" height="28" fill="#f5deb3"/>
+<rect x="50" y="332" width="260" height="20" fill="#d97706"/><text x="65" y="380" font-family="sans-serif" font-size="16">L6 Signal</text>
+<text x="45" y="430" font-family="sans-serif" font-size="18" fill="#166534">价值</text>
+<text x="45" y="460" font-family="sans-serif" font-size="17">• 更多信号层可邻近参考平面</text>
+<text x="45" y="490" font-family="sans-serif" font-size="17">• 更强的布线密度与隔离能力</text>
+<text x="45" y="520" font-family="sans-serif" font-size="17">• 更适合复杂高速/多电源设计</text>
+</g>
+
+<rect x="80" y="750" width="1240" height="46" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+<text x="105" y="780" font-family="sans-serif" font-size="19" fill="#1e3a8a">注意：图中是教学示例，不是唯一正确叠层。真正项目必须结合板厂叠层、阻抗目标、器件与布线需求确定。</text>
+</svg>
