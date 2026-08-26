@@ -27,14 +27,7 @@
 
 **[10_Part0_从二层到多层/00_本Part导读.md](10_Part0_从二层到多层/00_本Part导读.md)**
 
-你会先补齐真正需要的地基：
-
-- PCB 走线为什么不是理想导线；
-- 电流回路与 Return Path；
-- Reference Plane；
-- 为什么高速主要看 edge rate / flight time，而不是固定 MHz；
-- 如何从 Datasheet / Hardware Guide 提取 PCB 规则；
-- KiCad 9 的 Physical Stackup / Net Classes / Custom Rules 思维。
+重点：PCB 互连不是理想导线、Return Path / Reference Plane、edge rate / flight time、从 Datasheet 提取 PCB 规则、KiCad 9 多层必备操作。
 
 配套：
 
@@ -50,17 +43,10 @@
 
 主控：`STM32F407VGT6 / LQFP100`
 
-流程：
-
 ```text
-需求
-→ power tree / schematic
-→ 真实四层 stackup
-→ placement
-→ routing rules
-→ DRC + manual review
-→ Gerber
-→ bring-up
+需求 → power tree / schematic → 真实四层 stackup
+→ placement → routing rules → DRC + manual review
+→ Gerber → bring-up
 ```
 
 项目资产：
@@ -77,16 +63,10 @@
 
 **[12_Part2_信号完整性/00_本Part导读.md](12_Part2_信号完整性/00_本Part导读.md)**
 
-这部分不把 SI 写成“高速玄学”，而是围绕同一块 V2 PCB 依次解决：
-
 ```text
-传播
-→ transmission line / Z0
-→ reflection / termination
-→ return path / layer transition
-→ crosstalk
-→ differential pair / USB FS
-→ TDR / eye / oscilloscope
+传播 → transmission line / Z0 → reflection / termination
+→ return path / layer transition → crosstalk
+→ differential pair / USB FS → TDR / eye / oscilloscope
 → KiCad SI Review
 ```
 
@@ -108,7 +88,7 @@
 - [Crosstalk Lab](interactive/crosstalk-lab.html)
 - [Edge Rate Lab](interactive/edge-rate-lab.html)
 
-V2 工程资产：
+V2 SI 工程资产：
 
 - [SI Upgrade Plan](projects/stm32f407-mainline/v2/si-upgrade-plan.md)
 - [SI Net Inventory](projects/stm32f407-mainline/v2/si-net-inventory.md)
@@ -116,14 +96,65 @@ V2 工程资产：
 - [SI Review](projects/stm32f407-mainline/v2/si-review.md)
 - [Part 2 Fault Lab](projects/stm32f407-mainline/fault-lab/part2-si-faults.md)
 
-Part 2 已明确修正旧稿中的几类问题：
+### ✅ Part 3｜Power Integrity：从“有 3.3 V”到“电源网络可解释”
 
-- 不再用固定 MHz 作为“高速”的物理分界；
-- 修正旧稿 `1 ns × 15 cm/ns = 1.5 cm` 的数量级错误；
-- 不把 `22/33 Ω` source resistor 写成固定答案；
-- 不把 `3W/3H/5H/1 mm` 跨场景写成铁律；
-- 不把“差分等长”当成差分设计全部；
-- 不假设“两根单端线”自动等于正确 differential impedance。
+从这里开始：
+
+**[13_Part3_电源完整性/00_本Part导读.md](13_Part3_电源完整性/00_本Part导读.md)**
+
+Part 3 从 STM32F407 的真实去耦要求出发：
+
+```text
+瞬态电流
+→ local decoupling
+→ C / ESR / ESL / SRF / DC Bias
+→ mounting inductance
+→ PDN / target impedance
+→ anti-resonance
+→ plane / spreading inductance
+→ ground bounce / SSN
+→ Buck hot loop
+→ measurement integrity
+→ KiCad PI Review
+```
+
+核心章节：
+
+- [瞬态电流与去耦](13_Part3_电源完整性/01_瞬态电流与去耦.md)
+- [真实电容：ESR / ESL / 自谐振](13_Part3_电源完整性/02_真实电容_ESR_ESL与自谐振.md)
+- [安装电感与布局](13_Part3_电源完整性/03_安装电感与布局.md)
+- [PDN 与目标阻抗](13_Part3_电源完整性/04_PDN与目标阻抗.md)
+- [多电容与反谐振](13_Part3_电源完整性/05_多电容与反谐振.md)
+- [电源地平面与地弹](13_Part3_电源完整性/06_电源地平面与地弹.md)
+- [Buck 热环路与布局](13_Part3_电源完整性/07_Buck热环路与布局.md)
+- [示波器测电源噪声](13_Part3_电源完整性/08_示波器测电源噪声.md)
+- [KiCad 中的 PI 落地与 Review](13_Part3_电源完整性/09_KiCad中的PI落地与Review.md)
+- [参考资料与数据纪律](13_Part3_电源完整性/10_参考资料与数据纪律.md)
+
+互动实验：
+
+- [Decoupling Impedance Lab](interactive/decoupling-impedance-lab.html)
+- [Target Impedance Lab](interactive/target-impedance-lab.html)
+- [Buck Hot Loop Lab](interactive/buck-hot-loop-lab.html)
+
+V2 PI 工程资产：
+
+- [PI Upgrade Plan](projects/stm32f407-mainline/v2/pi-upgrade-plan.md)
+- [PI Rail Budget](projects/stm32f407-mainline/v2/pi-rail-budget.md)
+- [PI Review](projects/stm32f407-mainline/v2/pi-review.md)
+- [Part 3 Fault Lab](projects/stm32f407-mainline/fault-lab/part3-pi-faults.md)
+
+Part 3 明确修正/避免的常见误导：
+
+- 不把 `100 nF` 当所有芯片通用魔法值；
+- 不用固定 `≤2 mm` 替代完整 decoupling-loop review；
+- 不假设标称 `10 µF` 在 DC Bias 下仍有 10 µF；
+- 不把 ESR 越低越好写成无条件规则；
+- 不把 `100 nF + 1 µF + 10 µF` 当自动覆盖全频段；
+- 不把 target impedance 当所有器件的万能签核公式；
+- 不把 plane 当零阻抗超级导线；
+- 不把 regulator 额定电流等同于热与瞬态能力；
+- 不用长示波器地线的波形直接判定 PCB 噪声。
 
 ---
 
@@ -134,7 +165,7 @@ Part 2 已明确修正旧稿中的几类问题：
 | 0 | 二层 → 多层认知跃迁 | 能分析 reference / return / edge rate |
 | 1 | STM32F407 四层 V1 | 第一块可 Review 的四层 MCU 板 |
 | 2 | Signal Integrity | V1 → V2：传输线/反射/端接/回流/串扰/差分 |
-| 3 | Power Integrity | 去耦/PDN/ESL/安装电感/Ground Bounce/Buck |
+| 3 | Power Integrity | V2：去耦/PDN/ESL/安装电感/Ground Bounce/Buck |
 | 4 | EMI / EMC | 回路面积/共模/接口/ESD/电缆/预兼容测试 |
 | 5 | 四层综合 | STM32F407 V2：USB/CAN/SDIO |
 | 6 | 四层 → 六层 | Stackup / reference / 多电源域 |
@@ -146,8 +177,6 @@ Part 2 已明确修正旧稿中的几类问题：
 
 ## 主线不是六块互不相干的 Demo
 
-新版课程使用一个产品家族持续升级：
-
 ```text
 STM32F407 V1 — 四层基本功
       ↓
@@ -156,40 +185,38 @@ STM32F407 V2 — USB / CAN / SDIO + SI/PI/EMC
 STM32H7 V3 — 六层 + Ethernet / SDRAM
 ```
 
-另有 FPGA 板级设计专项。
-
-这样每学一个理论，你都会立刻回到“正在画的那块板”验证。
+另有 FPGA 板级设计专项。每学一个理论，都立刻回到“正在画的那块板”验证。
 
 ---
 
 ## Fault Lab：故意画错，然后亲手修
 
-课程会保留第二条暗线：**故障板实验**。
-
-不是只展示正确答案，而是让你分析：
+课程保留第二条暗线：**故障板实验**。
 
 ```text
-What is the symptom?
+Symptom
 → DRC 为什么可能看不见？
-→ signal/power current 怎么走？
-→ reference / return 在哪里断？
+→ current path / field / parasitic
 → root cause
-→ Before / After
-→ 新增 Checklist
+→ measurement plan
+→ KiCad Before / After
+→ Checklist
 ```
 
-Part 1 已定义基础布局/电源/制造错误；Part 2 继续加入：
+Part 3 新增典型故障：
 
-- 同频率不同 edge-rate 风险；
-- impedance discontinuity；
-- source resistor 放错位置；
-- 跨 reference slot；
-- layer transition 缺少回流分析；
-- 长距离平行串扰；
-- differential geometry 不对称；
-- 过度 meander；
-- USB ESD 位置错误；
-- 示波器长地线制造伪振铃。
+- 电容很近但 GND 绕远；
+- 多颗去耦共享长窄 neck；
+- MLCC 只看 nominal C；
+- 无依据的“电容农场”；
+- 3V3 plane narrow neck；
+- 多个 VSS 串联后单 via 落地；
+- Buck CIN 放错位置；
+- SW copper 过大；
+- FB 穿 noisy region；
+- 长探头地线制造伪尖峰；
+- 只看 regulator rated current；
+- 擅自修改 VCAP。
 
 ---
 
@@ -199,11 +226,11 @@ Part 1 已定义基础布局/电源/制造错误；Part 2 继续加入：
 
 统一视觉语言：
 
-- **红色**：signal / outgoing current；
+- **红色**：signal / outgoing current / high-di/dt path；
 - **蓝色**：return current；
 - **深灰**：GND reference；
 - **铜色**：signal/power copper；
-- **紫色**：field / sensitive electromagnetic relationship；
+- **紫色**：field / impedance / sensitive relationship；
 - **红色警示**：错误结构；
 - **绿色**：改进结构。
 
@@ -213,24 +240,15 @@ Part 1 已定义基础布局/电源/制造错误；Part 2 继续加入：
 
 ## 数字与规则的写作纪律
 
-本课程会区分：
+课程区分：
 
 1. **物理原理**；
 2. **工程经验**；
 3. **器件厂家要求**；
 4. **接口标准要求**；
-5. **板厂制造限制**。
-
-例如不会再把：
-
-```text
-高速 = 超过 50 MHz
-换层地孔必须 ≤1 mm
-去耦必须 ≤2 mm
-板边每 10 mm 一个地孔
-```
-
-写成无条件“铁律”。
+5. **板厂制造限制**；
+6. **系统设计目标**；
+7. **教学数量级示例**。
 
 关键数字尽量就近给出一手资料来源和适用条件。
 
@@ -238,35 +256,29 @@ Part 1 已定义基础布局/电源/制造错误；Part 2 继续加入：
 
 ## 当前一手资料基线
 
-- KiCad 9 PCB Editor：https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
+- KiCad 9 PCB Editor：https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
 - STM32F407VG：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
 - STM32F407 Datasheet：https://www.st.com/resource/en/datasheet/stm32f407vg.pdf
 - ST AN4488：https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf
 - ST AN4879 USB hardware guide：https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
 - USB-IF USB 2.0 documents：https://www.usb.org/documents?search=usb%202.0
-- TI transmission-line / high-speed design application reports：https://www.ti.com/
+- TI Power Delivery Network Analysis：https://www.ti.com/lit/an/swpa222a/swpa222a.pdf
+- TI Good Buck Converter Layout Practices：https://www.ti.com/lit/pdf/slva494
+- TI Buck Converter Layout Considerations for Radiated EMI：https://www.ti.com/lit/an/snva755/snva755.pdf
+- Murata MLCC DC Bias：https://ds.murata.com/simsurfing_data/pdf/en-us/mlcc/sim_mlcc_measuringcond_e.pdf
 - JLCPCB controlled-impedance stackup：https://jlcpcb.com/impedance
-- AP2112：https://www.diodes.com/part/view/AP2112
 
-板厂、接口规范和软件参数可能变化，课程会记录查询日期；实际下单/使用前重新核对。
+板厂、标准和软件参数可能变化，实际下单/设计冻结前重新核对。
 
 ---
 
 ## 关于旧版目录
 
-仓库中的 `01_零基础入门`、`03_二层板实战`、`04_多层板理论`、`05_KiCad多层板操作`、`06_实战项目` 等是本次重构前的内容来源。
+仓库中的 `01_零基础入门`、`03_二层板实战`、`04_多层板理论`、`05_KiCad多层板操作`、`06_实战项目` 等是重构前的内容来源。
 
 **不会长期保留两套平行教材。**
 
-迁移原则：
-
-- 好的解释 → 合并到新主线；
-- 好的案例 → 重写并保留；
-- 重复内容 → 合并；
-- 过度绝对/误导规则 → 修正；
-- 已完成迁移的旧章节 → 在对应 Part 完成后逐步删除。
-
-Git 历史本身会保存旧版本，因此最终仓库只保留一条清晰学习路径。
+迁移原则：好的解释合并、好的案例重写保留、重复内容合并、过度绝对/误导规则修正，已完成迁移的旧章节在对应 Part 稳定后逐步删除。Git 历史保存旧版本。
 
 ---
 
