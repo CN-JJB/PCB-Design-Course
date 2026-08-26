@@ -1,112 +1,220 @@
-# PCB 设计完整课程：从零基础到六层板精通
+# PCB 设计教材｜从二层板到四层 / 六层高速板
 
-> 一套完整的中文 PCB 设计教程：从"不知道电阻是什么"开始，到独立完成一块工业级六层核心板。
->
-> 全书约 12 万字，35 个章节文件，覆盖 KiCad 全流程 + 信号完整性/电源完整性/EMC 三大理论支柱 + 六个真实打样项目。
+> 面向**已经会画二层板**的学习者：通过一条持续升级的 MCU 项目主线，系统学习 4 层 / 6 层 PCB、Signal Integrity（SI）、Power Integrity（PI）、EMI/EMC、DFM、测量与 Design Review。
 
-## 课程结构
+本教材不以“记规则”为目标。核心教学顺序是：
 
-```
-E:\book\PCB\teach\
-├── README.md                          ← 本文件
-├── 00_课程总览\
-│   ├── 学习路线.md                     四阶段路线/时间规划/自评标准
-│   └── 术语表.md                       全部中英术语速查
-├── 01_零基础入门\                      ★完全零基础从这里开始
-│   ├── 01_认识PCB.md                  结构解剖/制造流程/单位体系
-│   ├── 02_电子元器件基础.md            R/L/C/D/Q/IC/晶振/封装全图鉴
-│   ├── 03_看懂电路图.md                符号语言/四步读图法/STM32实例精读
-│   ├── 04_KiCad安装与界面.md           安装配置/快捷键/初始设置
-│   └── 05_焊接测量与调试.md             焊接五步法/拖焊/万用表/安全上电
-├── 02_原理图设计\
-│   ├── 01_第一个原理图.md              LED电路→STM32最小系统全流程
-│   ├── 02_符号库与自定义元件.md         库体系/SHT30自制符号实战
-│   ├── 03_层次化原理图与ERC.md          层次图/总线/ERC完全指南/BOM
-│   └── 04_封装分配与检查清单.md          选型决策/批量分配/交接仪式
-├── 03_二层板实战\
-│   ├── 01_PCB编辑器与设计规则.md        图层体系/规则哲学/板框设计
-│   ├── 02_布局方法论.md                四大原则/细则手册/完整实战
-│   ├── 03_布线方法论.md                优先级/电源加宽/过孔纪律/地困境
-│   ├── 04_敷铜丝印DRC.md              Zone参数/丝印工程学/DRC攻略
-│   └── 05_Gerber与下单打样.md           输出详解/嘉立创流程/验收迭代
-├── 04_多层板理论\                      ★理论深水区(五支柱+专题)
-│   ├── 01_叠层设计基础.md              材料体系/对称原则/4层6层方案大全
-│   ├── 02_特性阻抗与传输线.md           Z0物理本质/反射/差分/TDR
-│   ├── 03_回流路径与地弹.md            ★全书灵魂/五大断裂场景/整改案例
-│   ├── 04_电源完整性PDN.md            目标阻抗法/电容S曲线/安装电感
-│   ├── 05_EMC基础.md                  差模共模/接口滤波/ESD/整改案例库
-│   └── 06_过孔串扰与高速专题.md         残桩/串扰机理/包地真相/接口速查表
-├── 05_KiCad多层板操作\
-│   ├── 01_叠层设置与工程初始化.md        30分钟开工仪式
-│   ├── 02_网络类与差分对.md             NetClass/.dru规则/差分定义
-│   ├── 03_长度匹配与高级布线.md          蛇形艺术/Via缝合工具
-│   ├── 04_平面分割与缝合.md            电源域Zone/缝合墙/热孔阵
-│   └── 05_多层板DRC与Gerber出货.md      阻控下单/收板验收
-└── 06_实战项目\
-    ├── 项目总览.md                     六项目矩阵/工作流/Checklist模板
-    ├── 01_USB转UART小板\               四层入门：CH340C引脚级+CC坑
-    ├── 02_STM32F103最小系统\           四层电源实战：平面化+去耦阵
-    ├── 03_ESP32底板\                   RF入门：净空+strapping+自动下载
-    ├── 04_千兆以太网板\                六层入门：RTL8211F+MDI+BobSmith
-    ├── 05_HDMI显示板\                  高速通道：±0.15mm等长+ESD布局
-    └── 06_STM32H7_SDRAM核心板\         毕业决战：多电源域+SDRAM布线
-├── 07_进阶专题\
-│   ├── 01_DDR布线从SDR到DDR3.md        Fly-by拓扑/字节组/VTT/写平衡
-│   ├── 02_开关电源PCB设计.md           Buck三环路/十二条铁律/整改案例
-│   ├── 03_RF射频板设计入门.md          CPWG/π匹配/净空体系/混合隔离
-│   ├── 04_阻抗计算完全手册.md          八种结构速查卡/容差预算/下单模板
-│   ├── 05_DFM可制造性与设计评审.md      工厂能力表/拼板/三级评审/TOP20
-│   ├── 06_测试测量与仪器使用.md        示波器姿势/逻辑分析仪/近场探头DIY
-│   ├── 07_FPGA高速板设计要点.md        Bank规则/配置电路/XDC协同
-│   └── 08_量产思维与职业成长.md         版本管理/可靠性/供应链/成长地图
-├── 08_附录\
-│   ├── 01_常见问题FAQ.md              一百问速查(入门到职业全段)
-│   ├── 02_器件选型速查手册.md           电源链/接口/MCU/存储/连接器
-│   ├── 03_KiCad操作速查大全.md          快捷键与路径打印版
-│   ├── 04_打样下单参数对照手册.md        板厂能力/SMT/验收SOP
-│   ├── 05_个人Checklist模板大全.md       原理图/PCB/复盘三模板
-│   ├── 06_精选习题详解与实验指导.md      30题答案+8个动手实验
-│   ├── 07_踩坑案例三十讲.md            五段式真实案例改编集
-│   ├── 08_全书知识总复习大纲.md         135项三级要求总清单
-│   ├── 09_学习打卡表与进度自评.md        60里程碑+月度复盘
-│   ├── 10_常见电路模块图集.md           24个标准模块四位一体
-│   ├── 11_从需求到量产一百步.md         全流程工作手册
-│   ├── 12_实战操作剧本.md             四层板从零到下单连续剧
-│   └── 13_思维模型卡片集.md            21张随身卡片(全书蒸馏)
+```text
+现象
+→ 建立直觉
+→ 教材插图 / 互动实验
+→ 物理原因
+→ 必要公式
+→ KiCad 实操
+→ 修改主线 PCB
+→ 故障板案例
+→ Design Review
+→ 本章任务
 ```
 
-## 学习路径
+---
 
-| 你是谁 | 从哪开始 |
-|--------|---------|
-| 完全零基础（没摸过电烙铁） | 01 目录第 1 页开始，按顺序 |
-| 会焊接但没画过板 | 02 原理图设计开始 |
-| 画过二层板想上多层 | 04 理论 → 05 操作 → 06 项目 |
-| 只想要某个专题 | 直接跳对应章节，目录即索引 |
+## 当前重构阶段
 
-详细的时间规划、自检题、推荐资源见 **00_课程总览/学习路线.md**。
+### ✅ Part 0｜从二层板到多层板：认知升级
 
-## 本教程的写作约定
+从这里开始：
 
-1. **菜单双语**：所有操作写成「英文原名 + 中文译名」，任何语言版本都能对照
-2. **数值有出处**：关键数字标注来源（IPC 标准/datasheet/厂商参数表）
-3. **每个概念四段式**：物理原因 → 公式 → 直觉理解 → 常见错误
-4. **每章末自检**：答不上来不进下一章
-5. **每个项目可打样**：全部基于嘉立创标准工艺验证过的参数
+**[10_Part0_从二层到多层/00_本Part导读.md](10_Part0_从二层到多层/00_本Part导读.md)**
 
-## 配套工具清单
+你会先补齐真正需要的地基：
 
-- KiCad 9.x（免费）— 官网 kicad.org
-- Saturn PCB Toolkit（免费）— 阻抗/载流/过孔计算
-- 嘉立创阻抗计算器 — 与打样叠层闭环
-- 万用表 + 恒温烙铁 + 0603 练习套件
+- PCB 走线为什么不是理想导线；
+- 电流回路与 Return Path；
+- Reference Plane；
+- 为什么高速主要看 edge rate / flight time，而不是固定 MHz；
+- 如何从 Datasheet / Hardware Guide 提取 PCB 规则；
+- KiCad 9 的 Physical Stackup / Net Classes / Custom Rules 思维。
 
-## 版本
+配套：
 
-v2.0 完整重构版 —— 相比 v1.0：
-- 新增零基础入门 5 章、原理图 4 章、二层板实战 5 章（原版假设读者已会这些）
-- 多层板理论与 KiCad 操作全部深度扩写并拆分为独立章节
-- 六个实战项目全部重写为引脚级讲解 + BOM + 检查清单格式
-- 新增术语表、个人 Checklist 模板等配套资产
+- [Edge Rate Lab](interactive/edge-rate-lab.html)
+- [二层 vs 四层 SVG](assets/svg/part0-two-vs-four-layer.svg)
+- [Signal / Return Path SVG](assets/svg/part0-current-loop.svg)
 
-从 [00_课程总览/学习路线.md](00_课程总览/学习路线.md) 开始你的旅程。
+### ✅ Part 1｜第一块真正的四层板：STM32F407 V1
+
+从这里开始：
+
+**[11_Part1_STM32F407四层板/00_项目导读.md](11_Part1_STM32F407四层板/00_项目导读.md)**
+
+主控：`STM32F407VGT6 / LQFP100`
+
+流程：
+
+```text
+需求
+→ power tree / schematic
+→ 真实四层 stackup
+→ placement
+→ routing rules
+→ DRC + manual review
+→ Gerber
+→ bring-up
+```
+
+项目资产：
+
+- [STM32F407 mainline](projects/stm32f407-mainline/README.md)
+- [Hardware Constraints](projects/stm32f407-mainline/v1/hardware-constraints.md)
+- [Design Decisions](projects/stm32f407-mainline/v1/design-decisions.md)
+- [Design Review Checklist](projects/stm32f407-mainline/review/design-review-checklist.md)
+- [Fault Lab](projects/stm32f407-mainline/fault-lab/README.md)
+
+---
+
+## 整本教材路线
+
+| Part | 主题 | 主线产出 |
+|---|---|---|
+| 0 | 二层 → 多层认知跃迁 | 能分析 reference / return / edge rate |
+| 1 | STM32F407 四层 V1 | 第一块可 Review 的四层 MCU 板 |
+| 2 | Signal Integrity | V1 → V2：传输线/反射/端接/回流/串扰/差分 |
+| 3 | Power Integrity | 去耦/PDN/ESL/安装电感/Ground Bounce/Buck |
+| 4 | EMI / EMC | 回路面积/共模/接口/ESD/电缆/预兼容测试 |
+| 5 | 四层综合 | STM32F407 V2：USB/CAN/SDIO |
+| 6 | 四层 → 六层 | Stackup / reference / 多电源域 |
+| 7 | 六层高速 | STM32H7 + Ethernet + SDRAM |
+| 8 | FPGA 专项 | Bank / BGA fanout / clock / DDR / pin planning |
+| 9 | 工程交付 | DFM / 测量 / 调试 / Gerber / BOM / 量产 |
+
+---
+
+## 主线不是六块互不相干的 Demo
+
+新版课程使用一个产品家族持续升级：
+
+```text
+STM32F407 V1 — 四层基本功
+      ↓
+STM32F407 V2 — USB / CAN / SDIO + SI/PI/EMC
+      ↓
+STM32H7 V3 — 六层 + Ethernet / SDRAM
+```
+
+另有 FPGA 板级设计专项。
+
+这样每学一个理论，你都会立刻回到“正在画的那块板”验证。
+
+---
+
+## Fault Lab：故意画错，然后亲手修
+
+课程会保留第二条暗线：**故障板实验**。
+
+不是只展示正确答案，而是让你分析：
+
+```text
+What is the symptom?
+→ DRC 为什么可能看不见？
+→ signal/power current 怎么走？
+→ reference / return 在哪里断？
+→ root cause
+→ Before / After
+→ 新增 Checklist
+```
+
+当前已定义：
+
+- 去耦电容排队但离 MCU 太远；
+- VCAP 长线；
+- HSE 跨板；
+- 拿 L2 GND 当救火布线层；
+- Bottom 跨 L3 Power split；
+- LDO 热预算错误；
+- SWD 物理不可访问；
+- Gerber 最终输出与编辑器预期不一致。
+
+---
+
+## 教材可视化约定
+
+技术图优先使用 SVG：可缩放、可审阅、可版本控制。
+
+统一视觉语言：
+
+- **红色**：signal / outgoing current；
+- **蓝色**：return current；
+- **深灰**：GND reference；
+- **铜色**：signal/power copper；
+- **紫色**：field / sensitive electromagnetic relationship；
+- **红色警示**：错误结构；
+- **绿色**：改进结构。
+
+静态图不够时使用 HTML/JS 互动实验；KiCad 操作使用真实软件流程；外部图片优先使用官方/明确开放许可来源。
+
+---
+
+## 数字与规则的写作纪律
+
+本课程会区分：
+
+1. **物理原理**；
+2. **工程经验**；
+3. **器件厂家要求**；
+4. **接口标准要求**；
+5. **板厂制造限制**。
+
+例如不会再把：
+
+```text
+高速 = 超过 50 MHz
+换层地孔必须 ≤1 mm
+去耦必须 ≤2 mm
+板边每 10 mm 一个地孔
+```
+
+写成无条件“铁律”。
+
+关键数字尽量就近给出一手资料来源和适用条件。
+
+---
+
+## 当前一手资料基线
+
+- KiCad 9 PCB Editor：https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
+- STM32F407VG：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
+- STM32F407 Datasheet：https://www.st.com/resource/en/datasheet/stm32f407vg.pdf
+- ST AN4488：https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf
+- JLCPCB controlled-impedance stackup：https://jlcpcb.com/impedance
+- AP2112：https://www.diodes.com/part/view/AP2112
+
+板厂和软件参数可能变化，课程会记录查询日期；实际下单/使用前重新核对。
+
+---
+
+## 关于旧版目录
+
+仓库中的 `01_零基础入门`、`03_二层板实战`、`04_多层板理论`、`05_KiCad多层板操作`、`06_实战项目` 等是本次重构前的内容来源。
+
+**不会长期保留两套平行教材。**
+
+迁移原则：
+
+- 好的解释 → 合并到新主线；
+- 好的案例 → 重写并保留；
+- 重复内容 → 合并；
+- 过度绝对/误导规则 → 修正；
+- 已完成迁移的旧章节 → 在对应 Part 完成后逐步删除。
+
+Git 历史本身会保存旧版本，因此最终仓库只保留一条清晰学习路径。
+
+---
+
+## 学习目标
+
+最终毕业作品不是“一块看起来很复杂的六层板”，而是：
+
+> **一块你能解释每个重要设计决策的六层板。**
+
+别人问你为什么这样叠层、为什么这个电容放这里、为什么这根线换层、为什么这个接口需要这样做，你能从电流路径、电磁场、器件要求和制造约束解释，而不是回答“网上都这么画”。
