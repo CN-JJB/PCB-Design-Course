@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef5ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#102a43" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title{font:700 34px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#102a43}
+      .sub{font:500 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#486581}
+      .h{font:700 20px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#163a63}
+      .t{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#334e68}
+      .small{font:500 13px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#526d82}
+      .mono{font:600 14px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#243b53}
+      .card{fill:#fff;stroke:#cbd5e1;stroke-width:1.2;rx:18;filter:url(#shadow)}
+    </style>
+  </defs>
+
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <rect x="44" y="36" width="1112" height="92" rx="22" fill="#0b5bd3"/>
+  <text x="76" y="78" class="title" fill="#fff">Part 5 · STM32F407 V2 四层综合板</text>
+  <text x="76" y="108" class="sub" fill="#dbeafe">把 SI + PI + EMC 压回同一块真实 PCB，完成第一次工程闭环</text>
+
+  <g transform="translate(44 154)">
+    <rect class="card" width="346" height="228"/>
+    <text x="24" y="36" class="h">系统范围</text>
+    <text x="24" y="70" class="t">MCU  · STM32F407VGT6 / LQFP100</text>
+    <text x="24" y="98" class="t">USB  · Full-Speed / USB-C device</text>
+    <text x="24" y="126" class="t">CAN  · CAN 2.0B</text>
+    <text x="24" y="154" class="t">SDIO · microSD / 4-bit</text>
+    <text x="24" y="182" class="t">Debug · SWD</text>
+    <text x="24" y="210" class="t">PCB  · 4 Layers / KiCad 9</text>
+  </g>
+
+  <g transform="translate(418 154)">
+    <rect class="card" width="350" height="228"/>
+    <text x="24" y="36" class="h">四层叠层思维</text>
+    <rect x="36" y="64" width="278" height="22" rx="4" fill="#c98b2e"/>
+    <rect x="36" y="94" width="278" height="22" rx="4" fill="#334155"/>
+    <rect x="36" y="124" width="278" height="22" rx="4" fill="#d6a84b"/>
+    <rect x="36" y="154" width="278" height="22" rx="4" fill="#c98b2e"/>
+    <text x="48" y="80" class="small" fill="#fff">L1 · Signal / Components</text>
+    <text x="48" y="110" class="small" fill="#fff">L2 · Continuous GND Reference</text>
+    <text x="48" y="140" class="small">L3 · Power Distribution</text>
+    <text x="48" y="170" class="small" fill="#fff">L4 · Secondary Signal</text>
+    <text x="36" y="204" class="small">原则：先保护 reference / return，再谈“走得下”。</text>
+  </g>
+
+  <g transform="translate(796 154)">
+    <rect class="card" width="360" height="228"/>
+    <text x="24" y="36" class="h">三个同时成立的目标</text>
+    <circle cx="58" cy="82" r="22" fill="#fee2e2" stroke="#ef4444"/>
+    <text x="51" y="88" class="mono" fill="#b91c1c">SI</text>
+    <text x="98" y="86" class="t">阻抗、反射、回流、串扰</text>
+    <circle cx="58" cy="132" r="22" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="51" y="138" class="mono" fill="#1d4ed8">PI</text>
+    <text x="98" y="136" class="t">去耦、PDN、地弹、热环路</text>
+    <circle cx="58" cy="182" r="22" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="45" y="188" class="mono" fill="#6d28d9">EMC</text>
+    <text x="98" y="186" class="t">接口、ESD、共模、电缆</text>
+  </g>
+
+  <g transform="translate(44 414)">
+    <rect class="card" width="1112" height="238"/>
+    <text x="24" y="38" class="h">工程闭环</text>
+    <g transform="translate(28 68)">
+      <g>
+        <rect x="0" y="0" width="130" height="68" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+        <text x="65" y="28" text-anchor="middle" class="t">System Spec</text>
+        <text x="65" y="50" text-anchor="middle" class="small">需求冻结</text>
+      </g>
+      <path d="M138 34h32" stroke="#64748b" stroke-width="2" marker-end="url(#none)"/>
+      <g transform="translate(170)"><rect width="130" height="68" rx="12" fill="#f0fdf4" stroke="#86efac"/><text x="65" y="28" text-anchor="middle" class="t">Schematic</text><text x="65" y="50" text-anchor="middle" class="small">Review</text></g>
+      <g transform="translate(340)"><rect width="130" height="68" rx="12" fill="#fff7ed" stroke="#fdba74"/><text x="65" y="28" text-anchor="middle" class="t">Placement</text><text x="65" y="50" text-anchor="middle" class="small">Board Zoning</text></g>
+      <g transform="translate(510)"><rect width="130" height="68" rx="12" fill="#fefce8" stroke="#fde047"/><text x="65" y="28" text-anchor="middle" class="t">Rules</text><text x="65" y="50" text-anchor="middle" class="small">Stackup / Net Class</text></g>
+      <g transform="translate(680)"><rect width="130" height="68" rx="12" fill="#fdf4ff" stroke="#e879f9"/><text x="65" y="28" text-anchor="middle" class="t">Routing</text><text x="65" y="50" text-anchor="middle" class="small">Priority</text></g>
+      <g transform="translate(850)"><rect width="130" height="68" rx="12" fill="#eef2ff" stroke="#a5b4fc"/><text x="65" y="28" text-anchor="middle" class="t">Joint Review</text><text x="65" y="50" text-anchor="middle" class="small">SI / PI / EMC</text></g>
+      <path d="M130 34H170M300 34H340M470 34H510M640 34H680M810 34H850" stroke="#64748b" stroke-width="2"/>
+    </g>
+    <g transform="translate(200 160)">
+      <rect width="170" height="52" rx="12" fill="#ecfeff" stroke="#67e8f9"/><text x="85" y="22" text-anchor="middle" class="t">DFM / BOM</text><text x="85" y="41" text-anchor="middle" class="small">Testability</text>
+      <rect x="250" width="170" height="52" rx="12" fill="#f0fdf4" stroke="#86efac"/><text x="335" y="22" text-anchor="middle" class="t">Release Gate</text><text x="335" y="41" text-anchor="middle" class="small">Gerber / Assembly</text>
+      <rect x="500" width="170" height="52" rx="12" fill="#fff7ed" stroke="#fdba74"/><text x="585" y="22" text-anchor="middle" class="t">Bring-up</text><text x="585" y="41" text-anchor="middle" class="small">Validation</text>
+      <path d="M170 26H250M420 26H500" stroke="#64748b" stroke-width="2"/>
+    </g>
+  </g>
+
+  <text x="600" y="692" text-anchor="middle" class="small">毕业标准：不是“DRC 通过”，而是每个关键设计决策都能解释、能 Review、能验证。</text>
+</svg>
