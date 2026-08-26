@@ -71,6 +71,60 @@
 - [Design Review Checklist](projects/stm32f407-mainline/review/design-review-checklist.md)
 - [Fault Lab](projects/stm32f407-mainline/fault-lab/README.md)
 
+### ✅ Part 2｜Signal Integrity：STM32F407 V1 → V2
+
+从这里开始：
+
+**[12_Part2_信号完整性/00_本Part导读.md](12_Part2_信号完整性/00_本Part导读.md)**
+
+这部分不把 SI 写成“高速玄学”，而是围绕同一块 V2 PCB 依次解决：
+
+```text
+传播
+→ transmission line / Z0
+→ reflection / termination
+→ return path / layer transition
+→ crosstalk
+→ differential pair / USB FS
+→ TDR / eye / oscilloscope
+→ KiCad SI Review
+```
+
+核心章节：
+
+- [波在 PCB 上怎么传播](12_Part2_信号完整性/01_波在PCB上怎么传播.md)
+- [传输线与特性阻抗](12_Part2_信号完整性/02_传输线与特性阻抗.md)
+- [反射与终端匹配](12_Part2_信号完整性/03_反射与终端匹配.md)
+- [回流路径与换层](12_Part2_信号完整性/04_回流路径与换层.md)
+- [串扰与几何隔离](12_Part2_信号完整性/05_串扰与几何隔离.md)
+- [差分对与 USB 实战](12_Part2_信号完整性/06_差分对与USB实战.md)
+- [TDR、眼图与示波器判读](12_Part2_信号完整性/07_TDR眼图与示波器判读.md)
+- [KiCad 中的 SI 落地与 Review](12_Part2_信号完整性/08_KiCad中的SI落地与Review.md)
+
+互动实验：
+
+- [Reflection Lab](interactive/reflection-lab.html)
+- [Return Path Lab](interactive/return-path-lab.html)
+- [Crosstalk Lab](interactive/crosstalk-lab.html)
+- [Edge Rate Lab](interactive/edge-rate-lab.html)
+
+V2 工程资产：
+
+- [SI Upgrade Plan](projects/stm32f407-mainline/v2/si-upgrade-plan.md)
+- [SI Net Inventory](projects/stm32f407-mainline/v2/si-net-inventory.md)
+- [SI Routing Constraints](projects/stm32f407-mainline/v2/si-routing-constraints.md)
+- [SI Review](projects/stm32f407-mainline/v2/si-review.md)
+- [Part 2 Fault Lab](projects/stm32f407-mainline/fault-lab/part2-si-faults.md)
+
+Part 2 已明确修正旧稿中的几类问题：
+
+- 不再用固定 MHz 作为“高速”的物理分界；
+- 修正旧稿 `1 ns × 15 cm/ns = 1.5 cm` 的数量级错误；
+- 不把 `22/33 Ω` source resistor 写成固定答案；
+- 不把 `3W/3H/5H/1 mm` 跨场景写成铁律；
+- 不把“差分等长”当成差分设计全部；
+- 不假设“两根单端线”自动等于正确 differential impedance。
+
 ---
 
 ## 整本教材路线
@@ -124,16 +178,18 @@ What is the symptom?
 → 新增 Checklist
 ```
 
-当前已定义：
+Part 1 已定义基础布局/电源/制造错误；Part 2 继续加入：
 
-- 去耦电容排队但离 MCU 太远；
-- VCAP 长线；
-- HSE 跨板；
-- 拿 L2 GND 当救火布线层；
-- Bottom 跨 L3 Power split；
-- LDO 热预算错误；
-- SWD 物理不可访问；
-- Gerber 最终输出与编辑器预期不一致。
+- 同频率不同 edge-rate 风险；
+- impedance discontinuity；
+- source resistor 放错位置；
+- 跨 reference slot；
+- layer transition 缺少回流分析；
+- 长距离平行串扰；
+- differential geometry 不对称；
+- 过度 meander；
+- USB ESD 位置错误；
+- 示波器长地线制造伪振铃。
 
 ---
 
@@ -186,10 +242,13 @@ What is the symptom?
 - STM32F407VG：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
 - STM32F407 Datasheet：https://www.st.com/resource/en/datasheet/stm32f407vg.pdf
 - ST AN4488：https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf
+- ST AN4879 USB hardware guide：https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
+- USB-IF USB 2.0 documents：https://www.usb.org/documents?search=usb%202.0
+- TI transmission-line / high-speed design application reports：https://www.ti.com/
 - JLCPCB controlled-impedance stackup：https://jlcpcb.com/impedance
 - AP2112：https://www.diodes.com/part/view/AP2112
 
-板厂和软件参数可能变化，课程会记录查询日期；实际下单/使用前重新核对。
+板厂、接口规范和软件参数可能变化，课程会记录查询日期；实际下单/使用前重新核对。
 
 ---
 
