@@ -187,3 +187,69 @@ V3 要记录：
 ## 本章产出
 
 **ethernet-interface-review.md**
+
+
+# 增补｜Ethernet 隔离边界的完整 Review
+
+## A. Exact Magnetics / RJ45
+
+最终项目必须冻结 exact MPN，并逐脚核对：
+
+- PHY-side pair；
+- cable-side pair；
+- center taps；
+- termination / bias；
+- shield pins；
+- chassis contacts；
+- LED pins（若集成）；
+- isolation rating / safety requirement。
+
+“RJ45 带网变”不是足够的原理图说明。
+
+## B. Center Tap / Bob Smith 不抄模板
+
+是否需要、如何连接 center tap / common-mode termination，必须依据：
+
+- PHY vendor reference design；
+- magnetics datasheet；
+- PoE 是否存在；
+- shield / chassis strategy；
+- applicable compliance requirement。
+
+不同以太网代际和 magnetics 结构不能互抄。
+
+## C. Creepage / Clearance
+
+隔离器件存在时，PCB 还要检查：
+
+- magnetics isolation barrier；
+- connector / shield；
+- copper / stitching 是否跨越不该跨的区域；
+- 产品安全标准对 creepage / clearance 的要求（若适用）。
+
+课程不提供跨产品通用的固定毫米值。
+
+## D. ESD Current Path
+
+对 RJ45 每个可受击区域画：
+
+```text
+strike
+→ shield/cable side
+→ protection
+→ chassis/reference
+→ parasitic return
+```
+
+目标是尽量避免 ESD 电流穿过 PHY/MCU core ground 区域。
+
+## E. Validation
+
+至少准备：
+
+- link 10/100 A/B；
+- different cable length；
+- packet stress；
+- shield connection A/B（教学验证时）；
+- near-field / cable-current observation；
+- ESD pre-check logging。

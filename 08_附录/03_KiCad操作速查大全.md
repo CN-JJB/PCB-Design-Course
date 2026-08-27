@@ -1,6 +1,6 @@
 # 附录三 KiCad 操作与快捷键速查大全
 
-> 全书操作知识的浓缩索引卡。打印贴墙版。基于 KiCad 9.x，中英对照。
+> 全书操作知识的浓缩索引卡。打印贴墙版。基于 KiCad 10.x，中英对照。
 
 ---
 
@@ -154,3 +154,31 @@ File → Board Setup
 ---
 
 > 本表配合各章节首次出现的详细讲解使用；纯背表无意义，用三天自然内化。
+
+
+---
+
+## 七、KiCad 10 工程交付增量
+
+### Design Variants
+
+用于同一 PCB 的不同装配配置。Variant / DNP 必须同步 BOM、position 与 assembly output。
+
+### Jobsets
+
+将 ERC/DRC、制造输出等任务固化为可重复 release pipeline。正式项目建议保存 `release.kicad_jobset`。
+
+### kicad-cli
+
+课程 Hardware CI 使用 CLI 执行 ERC/DRC；具体参数随版本核对官方文档。
+
+### 工程输出
+
+除 Gerber / drill 外，理解以下格式在不同制造流程中的作用：
+
+- IPC-D-356
+- ODB++
+- IPC-2581
+- STEP
+
+> 不是每家工厂都要求所有格式；以供应商流程为准。

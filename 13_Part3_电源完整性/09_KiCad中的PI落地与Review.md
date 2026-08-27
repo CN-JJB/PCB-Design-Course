@@ -113,7 +113,7 @@ PI Review 不只数 via 数量。
 
 ## 9.6 Custom Rules 能做什么，不能做什么
 
-KiCad 9 Custom Rules 可以针对：
+KiCad 10 Custom Rules 可以针对：
 
 - 特定 net / net class；
 - 特定 footprint；

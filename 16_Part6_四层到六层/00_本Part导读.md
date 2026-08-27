@@ -44,7 +44,7 @@ STM32F407 V2 的四层结构已经可以完成 USB FS、CAN、SDIO 和常规 MCU
 → 04 换层时 Return Current 怎样跨参考层
 → 05 Power Domain / Plane Split 怎样规划
 → 06 Routing Density、Escape 与层数关系
-→ 07 KiCad 9 中建立真实六层 stackup
+→ 07 KiCad 10 中建立真实六层 stackup
 → 08 板厂阻抗、制造参数与 Stackup Freeze
 → 09 STM32H7 V3 Transition Review
 → 10 参考资料与数据纪律
@@ -94,7 +94,7 @@ STM32F407 V2 的四层结构已经可以完成 USB FS、CAN、SDIO 和常规 MCU
 - ST AN4938：STM32H74x/H75x hardware development；
 - JLCPCB 当前 6-layer controlled-impedance stackup 页面；
 - JLCPCB Impedance Calculator 使用说明；
-- KiCad 9 PCB Editor 官方文档。
+- KiCad 10 PCB Editor 官方文档。
 
 查询日期：**2026-08-26**。
 

@@ -112,3 +112,65 @@ Fault Check：
 - 地址线先绕大圈再等长；
 - DQ 分裂到多个不连续 reference；
 - VDDQ 去耦只集中放一端。
+
+
+# 增补｜把 SDRAM 组织结构真正映射到 FMC
+
+## A. Geometry → Address Mapping
+
+对 exact memory 建立：
+
+```text
+row bits
+column bits
+bank bits
+data width
+capacity
+```
+
+然后映射到 FMC configuration。必须用总容量反算一次，确保 row/column/bank/data-width 没有少一位或多一位。
+
+## B. Mode Register / Initialization
+
+Bring-up 文档必须记录完整初始化链，而不是“调用 HAL 初始化”：
+
+```text
+power stable
+→ clock enable
+→ required delay
+→ precharge all
+→ auto refresh sequence
+→ mode register
+→ refresh rate
+```
+
+具体次数和时序来自 memory datasheet + MCU controller documentation。
+
+## C. Refresh Budget
+
+Refresh 不能只记一个 magic register。
+
+保存：
+
+- memory refresh requirement；
+- temperature condition；
+- row count；
+- controller clock；
+- calculation；
+- controller encoding；
+- margin；
+- final programmed value。
+
+## D. Part Selection 还要看供应链
+
+除 speed grade 外增加：
+
+- exact suffix；
+- temperature grade；
+- package；
+- lifecycle；
+- alternates；
+- second source pin compatibility；
+- procurement risk。
+
+选到“电气能用但买不到”的 SDRAM，不算完成选型。

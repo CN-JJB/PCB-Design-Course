@@ -1,8 +1,8 @@
-# 05｜KiCad 9 多层板必备复习：把“规则”变成工程约束
+# 05｜KiCad 10 多层板必备复习：把“规则”变成工程约束
 
 > 🎯 **本章目标**：不做 KiCad 菜单百科，只复习 Part 1 立即会用到的多层板功能，并明确“软件设置”和“真实板厂叠层”之间的关系。
 
-本文按 **KiCad 9.0 官方文档（文档基于 9.0.9）** 编写。界面小版本可能变化，请以官方手册为准：
+本文按 **KiCad 10.0 官方文档（文档基于 9.0.9）** 编写。界面小版本可能变化，请以官方手册为准：
 
 https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
 
@@ -38,7 +38,7 @@ PCB Editor → File / Board Setup
 
 ## 2. Physical Stackup：先把“虚拟 PCB”变成真实结构
 
-KiCad 9 官方手册说明，Physical Stackup 用来配置：
+KiCad 10 官方手册说明，Physical Stackup 用来配置：
 
 - copper layer count；
 - dielectric layer；
@@ -158,7 +158,7 @@ Manual electromagnetic review
 
 ## 6. Import Settings：以后可以建立自己的板级模板
 
-KiCad 9 官方文档支持从另一个 board 导入设置，包括：
+KiCad 10 官方文档支持从另一个 board 导入设置，包括：
 
 - board layers / physical stackup；
 - design constraints；
@@ -266,7 +266,7 @@ SDIO
 - [ ] 不再用固定 MHz 定义高速；
 - [ ] 会估算 flight time 与 edge time 的关系；
 - [ ] 会从 ST 一手资料提取硬件约束；
-- [ ] 会在 KiCad 9 设置 layer count 和 Physical Stackup；
+- [ ] 会在 KiCad 10 设置 layer count 和 Physical Stackup；
 - [ ] 知道 Net Class 数值必须有来源；
 - [ ] 知道 DRC 无法替代 return-path review。
 

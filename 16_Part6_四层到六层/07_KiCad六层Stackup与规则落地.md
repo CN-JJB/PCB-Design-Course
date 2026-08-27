@@ -1,4 +1,4 @@
-# 07｜KiCad 9 六层 Stackup 与规则落地：让软件表达你的工程决策
+# 07｜KiCad 10 六层 Stackup 与规则落地：让软件表达你的工程决策
 
 > KiCad 不会替你决定哪层该做 GND、哪条线该参考谁。正确顺序是：**工程决策 → Physical Stackup → Layer Role → Net Class / Custom Rules → Layout → Review。**
 
@@ -6,7 +6,7 @@
 
 # 1. 先设置 Physical Stackup
 
-在 KiCad 9：
+在 KiCad 10：
 
 `Board Setup → Board Stackup / Physical Stackup`
 

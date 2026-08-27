@@ -156,3 +156,87 @@ PHY ID 都读不到时，不先调 LwIP。
 | rail noise | max load | within target | TBD | scope |
 
 本章产出 bringup-test-plan.md 和 validation-matrix.md。
+
+
+# 增补｜SDRAM 与 Ethernet 的系统化测试套件
+
+## A. SDRAM 最小测试顺序
+
+### Stage 1｜Data Bus
+
+- walking 1；
+- walking 0；
+- fixed patterns；
+- inverse patterns。
+
+目标：先抓 DQ stuck/open/swap 类问题。
+
+### Stage 2｜Address Bus
+
+- address walking；
+- alias detection；
+- bank / row / column boundary。
+
+目标：区分 address mapping 与数据问题。
+
+### Stage 3｜Memory Range
+
+- full-range fill/verify；
+- pseudo-random patterns；
+- repeated loops。
+
+### Stage 4｜Timing Stress
+
+- lower clock baseline；
+- target clock；
+- timing parameter A/B；
+- GPIO slew A/B；
+- temperature / voltage A/B（条件允许）。
+
+### Stage 5｜System Interaction
+
+- cache OFF/ON；
+- MPU configuration；
+- DMA；
+- Ethernet + SDRAM concurrent stress。
+
+每一步保存：
+
+```text
+firmware commit
+clock
+FMC timing
+cache/MPU
+error address
+expected/actual
+temperature
+power condition
+```
+
+## B. Ethernet Bring-up Ladder
+
+```text
+PHY power
+→ reset
+→ MDIO ID
+→ strap/status
+→ REF_CLK
+→ link pulse
+→ autonegotiation
+→ ping / packet
+→ sustained traffic
+→ error counters
+```
+
+故障必须先定位在哪一层。
+
+## C. Evidence 归档
+
+`projects/stm32h7-mainline/v3/test/` 最终保存：
+
+- bring-up log；
+- memory test result；
+- Ethernet traffic result；
+- scope captures；
+- thermal / stress notes；
+- issue ↔ fix ↔ retest 记录。

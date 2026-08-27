@@ -165,3 +165,60 @@ CAM confirmation required?:
 ## 本章一句话
 
 > **只要 stackup 还会变，受控阻抗的线宽就还没有真正确定。**
+
+# 增补｜阻抗验收不是“板厂说会控”
+
+## A. Fabrication Tolerance Budget
+
+冻结 controlled impedance 时同时记录：
+
+- target impedance；
+- allowed tolerance；
+- trace width / spacing；
+- copper thickness；
+- finished copper assumption；
+- dielectric thickness；
+- Dk / material family；
+- soldermask inclusion；
+- etch compensation responsibility；
+- coupon requirement。
+
+如果板厂允许调整线宽，必须明确：
+
+> **允许板厂在哪个范围内调整、调整后是否需要回传确认。**
+
+## B. Coupon / TDR
+
+对需要阻抗验收的项目，release note 至少说明：
+
+- 是否要求 impedance coupon；
+- coupon 对应哪些 layer / structure；
+- TDR 报告是否作为 lot evidence；
+- acceptance 是按目标值、容差还是厂内标准流程。
+
+课程不假设“有阻抗单就是整板所有走线都被逐条 TDR 测过”。
+
+## C. Stackup Change Control
+
+下面任何变化都触发 reopen：
+
+```text
+fab
+stackup ID
+material family
+dielectric thickness
+copper weight
+controlled-impedance layer
+trace geometry
+soldermask assumption
+```
+
+必须重新：
+
+```text
+solver
+→ KiCad rule
+→ fab note
+→ review
+→ release
+```

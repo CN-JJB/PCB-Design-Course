@@ -204,3 +204,80 @@ DDR3 会涉及：
 - [ ] ODT/VTT/termination 有来源
 - [ ] XDC 与 schematic pin map 一致
 - [ ] PCB route group 与 MIG group 一致
+
+
+# 增补｜MIG → XDC → KiCad 的真实闭环
+
+## A. MIG 不是最后的校验工具
+
+顺序应为：
+
+```text
+Memory exact MPN
+→ MIG/device rule
+→ bank / byte lane
+→ provisional pin map
+→ BGA escape feasibility
+→ PCB floorplan
+→ iterate pin map
+→ freeze MIG project
+→ XDC
+→ schematic
+→ KiCad
+```
+
+不能 PCB 都画完后才发现 DQS / byte group 不合法。
+
+## B. 必须冻结的 DDR3 对象
+
+- CK / CK#；
+- DQS / DQS#；
+- DQ；
+- DM；
+- Address / Command / Control；
+- BA；
+- RESET#（器件/拓扑适用时）；
+- VREF；
+- VTT（拓扑要求时）；
+- ODT；
+- ZQ；
+- power / decoupling。
+
+## C. VREF / VTT 不是“普通 0.75 V”
+
+它们需要按 memory interface architecture 检查：
+
+- source；
+- load；
+- noise；
+- decoupling；
+- routing exposure；
+- termination topology；
+- test access。
+
+## D. Routing Constraint Source Matrix
+
+| Constraint | Source | KiCad expression | Actual evidence |
+|---|---|---|---|
+| byte membership | MIG | net group | TBD |
+| DQS relation | MIG | rule / review | TBD |
+| CK geometry | device/MIG | diff rule | TBD |
+| A/C topology | MIG / UG | placement/routing | TBD |
+| impedance | fab/solver | width/gap | TBD |
+| max skew | MIG timing | length/skew | TBD |
+
+## E. Sign-off
+
+DDR3 不能以“KiCad length tuning 全绿”结束。
+
+最终证据：
+
+```text
+Vivado DRC
++ MIG generated reports
++ XDC/package consistency
++ PCB routing report
++ power evidence
++ MIG calibration
++ memory stress
+```

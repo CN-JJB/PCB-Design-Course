@@ -245,4 +245,4 @@ Z_0=\frac{V^+}{I^+}\approx\sqrt{\frac{L'}{C'}}
 
 - Analog Devices, *Interfacing High-Speed Signals*: https://www.analog.com/en/resources/technical-articles/interfacing-highspeed-signals.html
 - Analog Devices, *Introduction to Common Printed Circuit Transmission Lines*: https://www.analog.com/en/resources/technical-articles/introduction-to-common-printed-circuit-transmission-lines.html
-- KiCad 9 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html

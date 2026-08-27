@@ -116,6 +116,6 @@ System Specification
 - Alliance AS4C4M16SA: https://www.alliancememory.com/as4c4m16sa/
 - LAN8742A: https://www.microchip.com/en-us/product/lan8742a
 - NUCLEO-H743ZI2 schematic: https://www.st.com/resource/en/schematic_pack/mb1364-h743zi-c01_schematic.pdf
-- KiCad 9 PCB Editor: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
 
 **实际生产冻结前重新核对所有 revision、PCN、errata 和板厂 stackup。**

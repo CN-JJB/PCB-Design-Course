@@ -111,13 +111,13 @@
 2. [电流回路、参考平面与回流路径](02_电流回路与参考平面.md)
 3. [边沿速度、传播延迟与“高速”的定义](03_边沿速度与传播延迟.md)
 4. [如何读 Datasheet / Hardware Design Guide](04_从手册提取PCB规则.md)
-5. [KiCad 9 多层板必备复习](05_KiCad9多层必备复习.md)
+5. [KiCad 10 多层板必备复习](05_KiCad10多层必备复习.md)
 
 ---
 
 ## 参考资料
 
-- KiCad 9.0 PCB Editor 官方文档：https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
+- KiCad 10.0 PCB Editor 官方文档：https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
 - ST AN4488, *Getting started with STM32F4xxxx MCU hardware development*：https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf
 - STM32F407VG 产品页：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
 

@@ -276,3 +276,7 @@ CANH/CANL 可以在 connector / dedicated test pads 测。
 选 5 个关键器件，打开 datasheet 的 recommended land pattern，和 KiCad footprint 一项项核对。
 
 不要只检查 pad 数量，要检查机械 envelope 和插拔空间。
+
+## 增补｜Library Provenance Gate
+
+进入 DFM/BOM Review 前，critical footprint 必须完成 Part 1 的 [Library Provenance、封装验证与 MPN Traceability](../11_Part1_STM32F407四层板/08_库封装与MPN可信度.md)。尤其检查 USB-C、microSD、CAN connector、MCU package 与保护器件 exact MPN。

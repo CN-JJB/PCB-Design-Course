@@ -83,7 +83,7 @@ USB FS、USB HS、HDMI、PCIe、LVDS、MIPI 的 budget 完全不同。
 - 两边对称；
 - 不为了追求“全程固定 gap”做荒谬绕线。
 
-KiCad 9 提供 `diff_pair_uncoupled` 约束，可对过长的 uncoupled section 做 DRC 检查。
+KiCad 10 提供 `diff_pair_uncoupled` 约束，可对过长的 uncoupled section 做 DRC 检查。
 
 ---
 
@@ -185,7 +185,7 @@ VBUS 也不应与 DP/DM 长距离贴近并行；ST AN4879 明确建议 VBUS 远�
 
 ---
 
-## 6.10 KiCad 9：真正用 Differential Pair Router
+## 6.10 KiCad 10：真正用 Differential Pair Router
 
 ### 命名
 
@@ -206,7 +206,7 @@ KiCad 会根据成对命名识别差分：
 
 ### Routing
 
-KiCad 9：
+KiCad 10：
 
 - Differential Pair Router：hotkey `6`；
 - Pair Length Tuning：`8`；
@@ -286,4 +286,4 @@ pair 本身对称，reference structure 不对称。
 
 - ST AN4879, *USB hardware design guidelines for STM32 microcontrollers*: https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
 - USB-IF Document Library / USB 2.0 Specification: https://www.usb.org/documents?search=usb%202.0
-- KiCad 9 PCB Editor — differential routing and length tuning: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor — differential routing and length tuning: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html

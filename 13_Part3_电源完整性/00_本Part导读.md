@@ -121,7 +121,7 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 - TI Power Delivery Network Analysis；
 - TI Good Buck Converter Layout Practices / Buck Converter Layout Considerations for Radiated EMI；
 - Murata / TDK MLCC DC Bias 与元件模型资料；
-- KiCad 9 PCB Editor 官方文档。
+- KiCad 10 PCB Editor 官方文档。
 
 > 数字分三类：**器件要求、设计目标、教学示例**。正文会明确它们的身份，不混在一起。
 
@@ -143,3 +143,10 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 10. 在 KiCad 中你会如何把这些知识转成 placement、zone、via 与 Review 动作？
 
 如果只能回答“每个 VDD 放一颗 100 nF”，还没有学会 PI。
+
+
+## 补充：DC Power Integrity
+
+11. [DC Power Integrity：IR Drop、电流密度与热](11_DC_Power_Integrity_IRDrop与电流密度.md)
+
+PI 不只等于去耦和 Ztarget。毕业 Review 必须同时覆盖 DC drop、瞬态、频域阻抗、热与测量。

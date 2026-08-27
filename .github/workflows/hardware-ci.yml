@@ -1,0 +1,32 @@
+name: Hardware CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  kicad-erc-drc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Markdown relative links
+        run: python3 tools/check_markdown_links.py
+
+      - name: Check formal-course consistency
+        run: python3 tools/check_course_consistency.py
+
+      - name: Run KiCad 10.0.5 ERC/DRC
+        run: |
+          mkdir -p ci-reports
+          docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/work" -w /work --entrypoint bash kicad/kicad:10.0.5 tools/hardware-ci.sh
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicad-ci-reports
+          path: ci-reports
+          if-no-files-found: ignore
