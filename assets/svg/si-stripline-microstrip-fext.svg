@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="650" viewBox="0 0 1180 650">
+<rect width="1180" height="650" rx="22" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="27" font-weight="700" fill="#0f172a">为什么理想 Stripline 的 FEXT 可近似抵消，而 Microstrip 往往不能</text>
+
+<rect x="60" y="95" width="510" height="440" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="95" y="133" font-family="sans-serif" font-size="22" font-weight="700" fill="#166534">Ideal homogeneous stripline</text>
+<rect x="105" y="175" width="420" height="20" fill="#475569"/>
+<rect x="105" y="395" width="420" height="20" fill="#475569"/>
+<rect x="105" y="195" width="420" height="200" fill="#dbeafe"/>
+<rect x="205" y="282" width="95" height="16" rx="5" fill="#dc2626"/>
+<rect x="335" y="282" width="95" height="16" rx="5" fill="#2563eb"/>
+<text x="150" y="230" font-family="sans-serif" font-size="16" fill="#334155">same dielectric environment above / below</text>
+<text x="110" y="455" font-family="sans-serif" font-size="17" fill="#334155">In the ideal TEM, uniform, symmetric case:</text>
+<text x="110" y="485" font-family="sans-serif" font-size="19" font-weight="700" fill="#166534">capacitive FEXT ≈ − inductive FEXT</text>
+<text x="110" y="515" font-family="sans-serif" font-size="17" fill="#166534">→ net FEXT ≈ 0</text>
+
+<rect x="610" y="95" width="510" height="440" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="645" y="133" font-family="sans-serif" font-size="22" font-weight="700" fill="#9a3412">Microstrip / inhomogeneous medium</text>
+<rect x="655" y="175" width="420" height="105" fill="#f8fafc"/>
+<text x="820" y="210" font-family="sans-serif" font-size="17" fill="#64748b">air</text>
+<rect x="655" y="280" width="420" height="150" fill="#dbeafe"/>
+<text x="810" y="408" font-family="sans-serif" font-size="17" fill="#1e3a8a">dielectric</text>
+<rect x="755" y="270" width="95" height="16" rx="5" fill="#dc2626"/>
+<rect x="885" y="270" width="95" height="16" rx="5" fill="#2563eb"/>
+<rect x="655" y="430" width="420" height="20" fill="#475569"/>
+<text x="660" y="485" font-family="sans-serif" font-size="17" fill="#334155">E-field samples air + dielectric; H-field responds differently.</text>
+<text x="660" y="515" font-family="sans-serif" font-size="19" font-weight="700" fill="#9a3412">capacitive coupling ≠ inductive coupling</text>
+<text x="660" y="545" font-family="sans-serif" font-size="17" fill="#9a3412">→ incomplete cancellation → finite FEXT</text>
+
+<rect x="60" y="570" width="1060" height="58" rx="14" fill="#fff7ed"/>
+<text x="82" y="596" font-family="sans-serif" font-size="16" fill="#92400e">“FEXT = 0” is an idealized stripline result, not a universal guarantee. Real asymmetry, discontinuities, losses, dielectric differences,</text>
+<text x="82" y="618" font-family="sans-serif" font-size="16" fill="#92400e">launches and nonuniform geometry can reintroduce far-end crosstalk.</text>
+</svg>

@@ -1,1 +1,81 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crosstalk Lab</title><style>body{font-family:system-ui,sans-serif;max-width:980px;margin:30px auto;padding:0 20px;color:#1f2937}.card{border:1px solid #cbd5e1;border-radius:14px;padding:18px;margin:16px 0}.row{display:grid;grid-template-columns:220px 1fr 110px;gap:12px;align-items:center;margin:12px 0}.big{font-size:34px;font-weight:700}.bar{height:24px;background:#e2e8f0;border-radius:12px;overflow:hidden}.fill{height:100%;width:50%;background:linear-gradient(90deg,#22c55e,#f59e0b,#ef4444);transition:width .2s}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px}</style><body><h1>Crosstalk Lab：几何趋势实验</h1><p>调整 S、H、平行长度和边沿时间。输出是<strong>教学风险指数</strong>，不是 NEXT/FEXT 的真实 dB 结果。</p><div class="card"><div class="row"><label>Spacing S (mm)</label><input id="s" type="range" min="0.1" max="2" step="0.05" value="0.4"><span id="sv"></span></div><div class="row"><label>Reference height H (mm)</label><input id="h" type="range" min="0.05" max="0.5" step="0.01" value="0.1"><span id="hv"></span></div><div class="row"><label>Parallel length (mm)</label><input id="l" type="range" min="1" max="120" step="1" value="30"><span id="lv"></span></div><div class="row"><label>Rise time tr (ns)</label><input id="tr" type="range" min="0.2" max="20" step="0.1" value="2"><span id="trv"></span></div></div><div class="card"><div>教学风险指数</div><div id="score" class="big"></div><div class="bar"><div id="fill" class="fill"></div></div><p id="msg"></p></div><div class="note">趋势模型：风险随平行长度增加、参考面变远、边沿变快而上升；随 spacing 增大而下降。真实串扰必须用耦合传输线/场求解/测量分析。</div><script>const ids=['s','h','l','tr'];ids.forEach(id=>document.querySelector('#'+id).oninput=update);function update(){let s=+document.querySelector('#s').value,h=+document.querySelector('#h').value,l=+document.querySelector('#l').value,tr=+document.querySelector('#tr').value;document.querySelector('#sv').textContent=s.toFixed(2)+' mm';document.querySelector('#hv').textContent=h.toFixed(2)+' mm';document.querySelector('#lv').textContent=l+' mm';document.querySelector('#trv').textContent=tr.toFixed(1)+' ns';let geom=h/(s+h),len=Math.min(1,l/80),edge=Math.min(1,2/tr);let risk=Math.max(0,Math.min(100,100*geom*len*(0.35+0.65*edge)*2.2));document.querySelector('#score').textContent=risk.toFixed(0)+'/100';document.querySelector('#fill').style.width=risk+'%';document.querySelector('#msg').textContent=risk<25?'低趋势：几何较宽松。':risk<60?'中等趋势：检查 aggressor/victim、parallel run 和接口要求。':'高趋势：优先拉开、缩短并行段或让信号更靠近 reference plane。'}update()</script></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crosstalk Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:310px 1fr;gap:18px}@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+label{display:block;font-weight:700;margin:13px 0 5px}input[type=range],select{width:100%}.metric{font-size:24px;font-weight:800;margin:12px 0}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pill{display:inline-block;background:#e2e8f0;border-radius:999px;padding:5px 9px;margin:3px;font-size:13px}
+.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px;margin-top:14px}.good{background:#ecfdf5;border-left-color:#10b981}
+canvas{width:100%;height:430px;background:#0f172a;border-radius:12px}.legend{font-size:14px;color:#475569;margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:14px}td,th{border-bottom:1px solid #e2e8f0;padding:8px;text-align:left}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Crosstalk Lab：从几何趋势走到 NEXT / FEXT</h1>
+<p class="lead">这是教学模型，不是 2D/3D field solver。它把视频里的动态过程变成可操作直觉：spacing、reference height、coupled length、rise time、stripline/microstrip 与 termination 如何影响“耦合量”和“最终测到的噪声波形”。</p>
+<div class="grid"><div class="card">
+<label>Geometry</label>
+<select id="geom"><option value="micro">Microstrip / inhomogeneous</option><option value="strip">Idealized stripline / homogeneous</option></select>
+<label>Victim termination</label>
+<select id="term"><option value="matched">Matched-ish</option><option value="open">Open-ish / reflective</option></select>
+<label>Spacing S：<span id="sv"></span></label><input id="s" type="range" min="0.1" max="2" step="0.05" value="0.35">
+<label>Reference height H：<span id="hv"></span></label><input id="h" type="range" min="0.05" max="0.5" step="0.01" value="0.12">
+<label>Coupled length Lc：<span id="lv"></span></label><input id="l" type="range" min="2" max="120" step="1" value="40">
+<label>Rise time tr：<span id="trv"></span></label><input id="tr" type="range" min="0.2" max="10" step="0.1" value="1">
+<div class="metric" id="summary"></div>
+<div><span class="pill">E-field → Cₘ·dV/dt</span><span class="pill">H-field → M·dI/dt</span><span class="pill">Lc/tr</span></div>
+<div class="note" id="lesson"></div>
+</div>
+<div class="card">
+<canvas id="c" width="820" height="430"></canvas>
+<div class="legend">绿色：NEXT；橙色：FEXT；灰色虚线：aggressor edge。幅值是归一化教学趋势，不是 %、mV 或 dB。</div>
+<table><tr><th>观察量</th><th>当前趋势</th><th>物理解释</th></tr>
+<tr><td>NEXT</td><td id="nextVal"></td><td id="nextWhy"></td></tr>
+<tr><td>FEXT</td><td id="fextVal"></td><td id="fextWhy"></td></tr>
+<tr><td>Reflection</td><td id="reflVal"></td><td>termination 改的是已产生噪声怎样在 victim 上传播/反射，不是原始 coupling 本身。</td></tr></table>
+<div class="small">理想 stripline 的“FEXT ≈ 0”只用于说明 capacitive / inductive forward coupling 的近似抵消。真实 stackup、launch、loss、asymmetry、nonuniform geometry 会破坏这个理想条件。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id), C=$("c"),ctx=C.getContext("2d");
+["s","h","l","tr","geom","term"].forEach(id=>$(id).oninput=draw);
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function draw(){
+ const S=+$("s").value,H=+$("h").value,L=+$("l").value,tr=+$("tr").value,geom=$("geom").value,term=$("term").value;
+ $("sv").textContent=S.toFixed(2)+" mm";$("hv").textContent=H.toFixed(2)+" mm";$("lv").textContent=L+" mm";$("trv").textContent=tr.toFixed(1)+" ns";
+ const sh=S/H;
+ const coupling=clamp(Math.exp(-0.62*sh),0.01,.9);
+ const edge=clamp(1/tr,0.08,2.5);
+ const electrical=clamp((L/40)*edge,0.05,4);
+ const next=clamp(coupling*(0.55+0.25*edge),0,0.78);
+ const balance=geom==="strip"?0.06:0.56;
+ const fext=clamp(coupling*electrical*balance,0,0.78);
+ const echo=term==="open"?.62:0.08;
+
+ ctx.clearRect(0,0,C.width,C.height);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,C.width,C.height);
+ ctx.strokeStyle="#334155";ctx.lineWidth=1;for(let x=70;x<790;x+=80){ctx.beginPath();ctx.moveTo(x,40);ctx.lineTo(x,390);ctx.stroke()}
+ const base=215,scale=135;
+ ctx.setLineDash([7,6]);ctx.strokeStyle="#94a3b8";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(60,base);ctx.lineTo(215,base);ctx.lineTo(215,base-scale*.95);ctx.lineTo(760,base-scale*.95);ctx.stroke();ctx.setLineDash([]);
+ // NEXT plateau
+ ctx.strokeStyle="#22c55e";ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(60,base);ctx.lineTo(110,base);ctx.lineTo(110,base-next*scale);ctx.lineTo(110+Math.min(390,80+L*2.2),base-next*scale);ctx.lineTo(110+Math.min(390,80+L*2.2),base);ctx.lineTo(760,base);ctx.stroke();
+ // FEXT pulse
+ const x0=545,w=55+Math.min(75,tr*7),fy=base-fext*scale;
+ ctx.strokeStyle="#f59e0b";ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(60,base);ctx.lineTo(x0-w,base);ctx.quadraticCurveTo(x0-w/2,fy,x0,fy);ctx.quadraticCurveTo(x0+w/2,fy,x0+w,base);ctx.lineTo(760,base);ctx.stroke();
+ if(term==="open"){
+   ctx.strokeStyle="#fb7185";ctx.lineWidth=3;ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(x0+100,base);ctx.quadraticCurveTo(x0+150,base-next*scale*echo,x0+205,base-next*scale*echo);ctx.quadraticCurveTo(x0+245,base-next*scale*echo,x0+285,base);ctx.stroke();ctx.setLineDash([]);
+ }
+ ctx.fillStyle="#cbd5e1";ctx.font="16px system-ui";ctx.fillText("time →",700,410);ctx.fillText("normalized victim voltage",22,30);
+ ctx.fillStyle="#22c55e";ctx.fillText("NEXT",120,70);ctx.fillStyle="#f59e0b";ctx.fillText("FEXT",555,70);
+ if(term==="open"){ctx.fillStyle="#fb7185";ctx.fillText("reflection / echo",640,115)}
+ $("nextVal").textContent=(next*100).toFixed(0)+"/100 trend";
+ $("fextVal").textContent=(fext*100).toFixed(0)+"/100 trend";
+ $("reflVal").textContent=term==="open"?"明显":"较小";
+ $("nextWhy").textContent="由 fringe coupling 决定；进入 electrically-long 区域后，增大 Lc 更多表现为 pulse duration 变长，而不是无限抬高平台。";
+ $("fextWhy").textContent=geom==="strip"?"理想 homogeneous stripline 中 forward capacitive / inductive terms 近似抵消。":"microstrip 的 inhomogeneous dielectric 使 forward electric / magnetic coupling 不再完全抵消；Lc/tr 越大，FEXT 趋势越强。";
+ let lesson="";
+ if(sh<1.5) lesson="S/H 很小：aggressor 与 victim 的 fringe field 耦合较强。优先增加 spacing 或把 reference 拉近。";
+ else if(electrical>2) lesson="Lc/tr 很大：即使几何耦合一般，长 coupled region + 快边沿仍会放大 FEXT 风险。";
+ else if(geom==="strip") lesson="当前选择理想 stripline：FEXT 可能很小，但 NEXT 仍然存在；不要把“FEXT≈0”理解成“没有串扰”。";
+ else lesson="当前几何处于中等趋势。若需要回答“是否低于 2% / 5%”，下一步应该用 stackup 对应的 2D field solver / coupled-line simulation。";
+ $("lesson").textContent=lesson;
+ $("summary").textContent="S/H = "+sh.toFixed(1)+"，Lc/tr trend = "+electrical.toFixed(1);
+}
+draw();
+</script></body></html>

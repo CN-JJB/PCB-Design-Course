@@ -221,6 +221,7 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 - `interactive/edge-rate-lab.html`：回顾边沿时间与传播延迟；
 - `interactive/reflection-lab.html`：本 Part 新增，观察负载失配；
 - `interactive/return-path-lab.html`：观察参考面完整性与共享回流；
+- `interactive/crosstalk-lab.html`：观察 S/H、Lc/tr、NEXT/FEXT、microstrip/stripline 与 termination 对串扰波形的影响；
 - `interactive/si-degradation-lab.html`：把 reflection / loss / noise / jitter 放到同一条信号链里比较；
 - `projects/stm32f407-mainline/v2/si-upgrade-plan.md`：V2 SI 改造任务；
 - `projects/stm32f407-mainline/fault-lab/part2-si-faults.md`：故障实验清单。

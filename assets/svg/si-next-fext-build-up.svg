@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#475569"/></marker></defs>
+<rect width="1180" height="700" rx="22" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="27" font-weight="700" fill="#0f172a">NEXT / FEXT：同一段耦合，近端与远端为什么看到不同波形</text>
+
+<text x="70" y="95" font-family="sans-serif" font-size="19" font-weight="700" fill="#0f172a">1. 一个上升沿进入 coupled region</text>
+<rect x="90" y="130" width="960" height="16" rx="6" fill="#dc2626"/>
+<rect x="90" y="200" width="960" height="16" rx="6" fill="#2563eb"/>
+<rect x="360" y="112" width="460" height="125" rx="12" fill="none" stroke="#d97706" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="500" y="260" font-family="sans-serif" font-size="16" fill="#92400e">coupled length Lc</text>
+<text x="90" y="120" font-family="sans-serif" font-size="16" fill="#991b1b">Aggressor source / near end</text>
+<text x="900" y="120" font-family="sans-serif" font-size="16" fill="#991b1b">far end</text>
+<path d="M360 164 H620" stroke="#475569" stroke-width="5" marker-end="url(#arr)"/>
+<text x="430" y="188" font-family="sans-serif" font-size="16" fill="#475569">edge propagates →</text>
+
+<text x="70" y="315" font-family="sans-serif" font-size="19" font-weight="700" fill="#0f172a">2. 每一小段耦合都会同时向 victim 的两端发射一个小扰动</text>
+<text x="85" y="350" font-family="sans-serif" font-size="17" fill="#334155">Capacitive coupling</text>
+<text x="310" y="350" font-family="sans-serif" font-size="17" fill="#334155">near/backward: +</text>
+<text x="520" y="350" font-family="sans-serif" font-size="17" fill="#334155">far/forward: +</text>
+<text x="85" y="385" font-family="sans-serif" font-size="17" fill="#334155">Inductive coupling</text>
+<text x="310" y="385" font-family="sans-serif" font-size="17" fill="#334155">near/backward: +</text>
+<text x="520" y="385" font-family="sans-serif" font-size="17" fill="#334155">far/forward: −</text>
+
+<rect x="70" y="425" width="495" height="205" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="95" y="462" font-family="sans-serif" font-size="20" font-weight="700" fill="#166534">Near end (NEXT)</text>
+<text x="95" y="495" font-family="sans-serif" font-size="16" fill="#334155">Backward-going contributions arrive over time.</text>
+<path d="M105 575 H165 V520 H445 V575 H520" fill="none" stroke="#16a34a" stroke-width="5"/>
+<text x="95" y="608" font-family="sans-serif" font-size="16" fill="#475569">For electrically long coupling, amplitude tends toward a plateau;</text>
+<text x="95" y="628" font-family="sans-serif" font-size="16" fill="#475569">longer Lc mainly makes the pulse last longer.</text>
+
+<rect x="610" y="425" width="500" height="205" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="635" y="462" font-family="sans-serif" font-size="20" font-weight="700" fill="#9a3412">Far end (FEXT)</text>
+<text x="635" y="495" font-family="sans-serif" font-size="16" fill="#334155">Forward-going contributions stay near the aggressor edge and add.</text>
+<path d="M645 575 H840 L840 525 L890 600 L940 575 H1070" fill="none" stroke="#dc2626" stroke-width="5"/>
+<text x="635" y="608" font-family="sans-serif" font-size="16" fill="#475569">Magnitude is sensitive to Lc / tr and to the mismatch between</text>
+<text x="635" y="628" font-family="sans-serif" font-size="16" fill="#475569">capacitive and inductive coupling.</text>
+
+<rect x="70" y="655" width="1040" height="30" rx="9" fill="#e2e8f0"/>
+<text x="88" y="676" font-family="sans-serif" font-size="15" fill="#475569">Signs shown for a rising aggressor edge in the simplified uniform coupled-line picture; terminations/reflections can reshape what you measure.</text>
+</svg>
