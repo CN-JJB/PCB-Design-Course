@@ -104,7 +104,7 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 
 互动实验：
 
-- Decoupling Impedance Lab；
+- Decoupling Impedance Lab：R/L/C slope、phase、SRF 与 mounting inductance；
 - Target Impedance Lab；
 - Buck Hot Loop Lab；
 - Reference Transition Lab：比较 GND→GND / GND→PWR、plane separation、simultaneous switching 与 cavity 风险；

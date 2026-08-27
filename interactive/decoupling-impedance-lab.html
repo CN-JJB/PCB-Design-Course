@@ -1,1 +1,41 @@
-<!doctype html><meta charset="utf-8"><title>Decoupling Impedance Lab</title><style>body{font-family:system-ui;max-width:900px;margin:30px auto;padding:0 18px;color:#222}label{display:block;margin:14px 0}.box{padding:18px;border:1px solid #ddd;border-radius:14px;background:#fafafa}svg{width:100%;height:340px;border:1px solid #eee;background:white}.n{font-variant-numeric:tabular-nums;font-weight:700}</style><h1>Decoupling Impedance Lab</h1><p>教学用一阶模型：<code>Z = ESR + jω(L_ESL+L_mount) + 1/(jωC)</code>。它用于建立趋势直觉，不等于具体 MLCC 厂商模型。</p><div class="box"><label>C: <span id="cv" class="n"></span> nF <input id="c" type="range" min="10" max="10000" value="100" step="10"></label><label>ESR: <span id="rv" class="n"></span> mΩ <input id="r" type="range" min="2" max="200" value="20"></label><label>Component ESL: <span id="lv" class="n"></span> nH <input id="l" type="range" min="0.1" max="5" value="0.8" step="0.1"></label><label>Mounting L: <span id="mv" class="n"></span> nH <input id="m" type="range" min="0" max="10" value="1.5" step="0.1"></label><p>Estimated SRF: <span id="srf" class="n"></span> MHz</p></div><svg id="g" viewBox="0 0 800 340"></svg><script>const $=x=>document.getElementById(x),ids=['c','r','l','m'];function draw(){let C=+$('c').value*1e-9,R=+$('r').value/1000,L=(+$('l').value + +$('m').value)*1e-9;$('cv').textContent=$('c').value;$('rv').textContent=$('r').value;$('lv').textContent=$('l').value;$('mv').textContent=$('m').value;$('srf').textContent=(1/(2*Math.PI*Math.sqrt(L*C))/1e6).toFixed(2);let pts=[];for(let i=0;i<240;i++){let f=10**(3+i/239*7),w=2*Math.PI*f,x=w*L-1/(w*C),z=Math.sqrt(R*R+x*x),X=60+i/239*700,Y=300-(Math.log10(z)+4)/6*250;pts.push(X+','+Y)}$('g').innerHTML='<line x1="55" y1="300" x2="770" y2="300" stroke="#333"/><line x1="55" y1="40" x2="55" y2="300" stroke="#333"/><polyline points="'+pts.join(' ')+'" fill="none" stroke="#6f42c1" stroke-width="4"/><text x="60" y="25">|Z| trend</text><text x="680" y="325">1 kHz → 10 GHz</text>'}ids.forEach(i=>$(i).oninput=draw);draw()</script>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Decoupling Impedance Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1120px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}@media(max-width:850px){.grid{grid-template-columns:1fr}}.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px}
+label{display:block;font-weight:700;margin:14px 0 5px}input{width:100%}.v{float:right;font-weight:800}.metric{font-size:24px;font-weight:800}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px;border-radius:8px}
+canvas{width:100%;height:460px;background:#0f172a;border-radius:12px}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Decoupling Impedance Lab：什么时候“电容”已经变成电感</h1>
+<p>一阶 series-RLC 教学模型：同时看 ideal C / ideal L / real capacitor 的 |Z| 与 phase。真实 MLCC 还会有 DC bias、distributed parasitics 和 secondary resonances。</p>
+<div class="grid"><div class="card">
+<label>C <span class="v" id="cv"></span></label><input id="c" type="range" min="10" max="10000" step="10" value="100">
+<label>ESR <span class="v" id="rv"></span></label><input id="r" type="range" min="2" max="300" step="2" value="20">
+<label>Component ESL <span class="v" id="lv"></span></label><input id="l" type="range" min="0.1" max="5" step="0.1" value="0.8">
+<label>Mounting L <span class="v" id="mv"></span></label><input id="m" type="range" min="0" max="10" step="0.1" value="1.5">
+<div class="metric">SRF ≈ <span id="srf"></span></div>
+<div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="800" height="460"></canvas>
+<div class="small">紫色：real series-RLC |Z|；红色：ideal C；蓝色：ideal total L；绿色：phase。SRF 附近 C 与 L 的 reactive parts 抵消，|Z| minimum 主要由 ESR 决定。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");["c","r","l","m"].forEach(id=>$(id).oninput=draw);
+function draw(){
+ const C=+$("c").value*1e-9,R=+$("r").value/1000,L=(+$("l").value + +$("m").value)*1e-9;
+ $("cv").textContent=(C*1e9).toFixed(0)+" nF";$("rv").textContent=(R*1000).toFixed(0)+" mΩ";$("lv").textContent=$("l").value+" nH";$("mv").textContent=$("m").value+" nH";
+ const fs=1/(2*Math.PI*Math.sqrt(L*C));$("srf").textContent=(fs/1e6).toFixed(2)+" MHz";
+ $("lesson").textContent="SRF 以下主要呈 capacitive；SRF 附近 reactance 抵消；SRF 以上 total ESL 主导，元件从“电容”变成“电感”。";
+ ctx.clearRect(0,0,800,460);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,800,460);
+ const x0=60,x1=750,y0=330,y1=55;ctx.strokeStyle="#475569";ctx.lineWidth=1;for(let i=0;i<6;i++){let y=y0-i*(y0-y1)/5;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke()}
+ function X(f){return x0+(Math.log10(f)-3)/7*(x1-x0)} function Y(z){return y0-(Math.log10(Math.max(1e-4,Math.min(1e3,z)))+4)/7*(y0-y1)}
+ function curve(fn,color,w=4){ctx.strokeStyle=color;ctx.lineWidth=w;ctx.beginPath();for(let i=0;i<260;i++){let f=10**(3+i/259*7),x=X(f),y=Y(fn(f));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
+ curve(f=>1/(2*Math.PI*f*C),"#ef4444",2.5);curve(f=>2*Math.PI*f*L,"#38bdf8",2.5);
+ curve(f=>{let w=2*Math.PI*f,x=w*L-1/(w*C);return Math.sqrt(R*R+x*x)},"#a78bfa",5);
+ const sfx=X(fs);ctx.strokeStyle="#f59e0b";ctx.setLineDash([8,6]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sfx,y1);ctx.lineTo(sfx,y0);ctx.stroke();ctx.setLineDash([]);
+ // phase on lower band
+ const pyTop=360,pyBot=430;ctx.strokeStyle="#64748b";ctx.beginPath();ctx.moveTo(x0,(pyTop+pyBot)/2);ctx.lineTo(x1,(pyTop+pyBot)/2);ctx.stroke();
+ ctx.strokeStyle="#22c55e";ctx.lineWidth=4;ctx.beginPath();for(let i=0;i<260;i++){let f=10**(3+i/259*7),w=2*Math.PI*f,phase=Math.atan2(w*L-1/(w*C),R)*180/Math.PI,x=X(f),y=pyBot-(phase+90)/180*(pyBot-pyTop);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
+ ctx.fillStyle="#cbd5e1";ctx.font="14px system-ui";ctx.fillText("|Z|",15,60);ctx.fillText("1 kHz",55,350);ctx.fillText("10 GHz",700,350);ctx.fillStyle="#a78bfa";ctx.fillText("real |Z|",610,80);ctx.fillStyle="#ef4444";ctx.fillText("ideal C",610,105);ctx.fillStyle="#38bdf8";ctx.fillText("ideal L",610,130);ctx.fillStyle="#22c55e";ctx.fillText("phase -90° → +90°",560,450);
+}
+draw();
+</script></body></html>

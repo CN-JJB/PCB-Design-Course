@@ -49,6 +49,247 @@ Z ≈ ESR + jωESL + 1/(jωC)
 
 ---
 
+## 2.2.1 先学会读阻抗图：R、L、C 在 log-log 图上各是什么形状
+
+Part 2 视频的标题就是 **Understanding Impedance**，真正要学会的不是背一条 SRF 公式，而是看到曲线就知道哪种物理量正在主导。
+
+<p align="center"><img src="../assets/svg/pi-rlc-impedance-slopes.svg" width="940" alt="resistor capacitor inductor impedance slopes on log log plot"></p>
+
+### 理想电阻
+
+\[
+Z_R=R
+\]
+
+所以 magnitude 不随频率变化：
+
+~~~text
+log |Z|
+   ─────────
+           log f →
+~~~
+
+phase 约为：
+
+\[
+0^\circ
+\]
+
+### 理想电感
+
+\[
+Z_L=j\omega L
+\]
+
+所以：
+
+\[
+|Z_L|=2\pi fL
+\]
+
+在 log-log 图上是上升直线，斜率约：
+
+> **+20 dB/decade**
+
+phase 约：
+
+\[
++90^\circ
+\]
+
+### 理想电容
+
+\[
+Z_C=\frac{1}{j\omega C}
+\]
+
+所以：
+
+\[
+|Z_C|=\frac{1}{2\pi fC}
+\]
+
+在 log-log 图上是下降直线：
+
+> **−20 dB/decade**
+
+phase 约：
+
+\[
+-90^\circ
+\]
+
+因此只要看 slope，就能快速判断当前频段主要是 C 还是 L 在控制阻抗。
+
+---
+
+## 2.2.2 为什么“Impedance 不是 Resistance”
+
+Resistance 只描述 real part；完整 impedance 是：
+
+\[
+Z=R+jX
+\]
+
+其中：
+
+- R：real / dissipative；
+- X：reactive；
+- X > 0：偏 inductive；
+- X < 0：偏 capacitive。
+
+所以一条 PDN curve 出现 1 Ω，并不等价于“电源线上串了一个 1 Ω 发热电阻”。
+
+它可能主要来自 capacitive reactance、inductive reactance、resonance / anti-resonance 或 ESR / ferrite loss。
+
+这也是为什么 Part 1 中“高 impedance = 更高 loss”的教学比喻必须进一步修正为：
+
+> **高 |Z| 首先意味着同样的 dynamic current 会产生更大的 voltage disturbance。**
+
+---
+
+## 2.3.1 Series RLC：为什么谐振点反而是阻抗最低点
+
+真实 capacitor 的第一阶模型其实就是 series RLC。
+
+其 reactance：
+
+\[
+X=\omega L-\frac{1}{\omega C}
+\]
+
+当：
+
+\[
+\omega L=\frac{1}{\omega C}
+\]
+
+电感与电容的 reactive part 互相抵消，因此：
+
+\[
+f_0=\frac{1}{2\pi\sqrt{LC}}
+\]
+
+在理想 series RLC 里，谐振点：
+
+> **总阻抗降到主要由 R / ESR 决定的 minimum。**
+
+<p align="center"><img src="../assets/svg/pi-capacitor-srf-phase.svg" width="940" alt="real capacitor impedance magnitude and phase across self resonance"></p>
+
+这就是 capacitor datasheet impedance curve 中那个“V 字形”的物理来源。
+
+---
+
+## 2.3.2 “When capacitor is an inductor”到底是什么意思
+
+Part 2 的公开视频描述直接写：
+
+> *When capacitor is an inductor …*
+
+它不是文字游戏。
+
+在 SRF 以上：
+
+\[
+\omega L > \frac{1}{\omega C}
+\]
+
+所以 series ESL 主导：
+
+\[
+Z\approx j\omega L
+\]
+
+于是同一颗元件：
+
+~~~text
+low f      → capacitor
+near SRF   → mostly ESR / minimum |Z|
+high f     → inductor
+~~~
+
+这就是为什么不能问“100 nF 能滤到多少 MHz？”而不说明 package、mounting、exact part、DC bias 与 target impedance。
+
+---
+
+## 2.3.3 Phase 比 magnitude 多告诉你一件事
+
+只有 magnitude 时，你看到“这里是 0.1 Ω”。
+
+加入 phase 后，你还能知道它主要像 capacitor、resistor 还是 inductor。
+
+典型趋势：
+
+~~~text
+below SRF     phase ≈ -90°
+near SRF      phase → 0°
+above SRF     phase ≈ +90°
+~~~
+
+真实器件因为 ESR、distributed parasitics 和多重 resonance 不会这么理想，但这个模型非常适合快速读图。
+
+---
+
+## 2.4.1 Q：为什么“最低 ESR”也可能制造尖锐问题
+
+Series RLC 常用：
+
+\[
+Q\approx\frac{1}{R}\sqrt{\frac{L}{C}}
+\]
+
+R 越小，Q 越高，谐振越尖锐。
+
+单颗 capacitor 的低 ESR 常常有利于降低 minimum impedance，但放进完整 PDN 后：
+
+> **过低 damping 可能让 capacitor + interconnect + 其他 capacitor / ferrite 的 parallel resonance 形成很尖的 anti-resonance peak。**
+
+因此必须把 component SRF 与 system anti-resonance 分开理解。
+
+---
+
+## 2.10.1 从公式到曲线：不要只算一个 SRF 数字
+
+手算：
+
+\[
+f_{SRF}=\frac{1}{2\pi\sqrt{LC}}
+\]
+
+只能告诉你一阶模型的中心位置。
+
+正式设计还要看完整 curve：
+
+- minimum |Z|；
+- phase；
+- ESR；
+- high-frequency slope；
+- secondary resonance；
+- DC bias 后 C 的变化。
+
+因此一个具体 MLCC 最好的输入是 vendor impedance / S-parameter model，而不是只输入 datasheet 上的 nominal C。
+
+---
+
+## 2.11.1 升级后的 Decoupling Impedance Lab
+
+新版：
+
+**interactive/decoupling-impedance-lab.html**
+
+现在同时画：
+
+- ideal C trend；
+- ideal L trend；
+- real series-RLC magnitude；
+- phase；
+- SRF marker。
+
+调整 C / ESR / component ESL / mounting L 后，可以直接看到：
+
+> **为什么加一点安装电感，就会让同一颗“100 nF”更早进入 inductive region。**
+
+
 ## 2.3 Self-Resonant Frequency（SRF）
 
 忽略 ESR 时：
@@ -345,3 +586,8 @@ f ≈ 9.5 MHz
 ## 2.15 本章结论
 
 > **PI 里真正有用的不是元件丝印上的 C，而是“该元件 + 安装结构”在目标频率和实际偏置下呈现的阻抗。**
+
+
+## 补充来源
+
+- Robert Feranec, *PCB Layout & Decoupling - Understanding Impedance (Part 2)*: https://www.youtube.com/watch?v=Tt8X6_maj6c
