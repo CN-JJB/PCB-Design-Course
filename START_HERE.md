@@ -78,14 +78,15 @@ Part 9：工程交付
 
 ## 你要做什么
 
-按顺序完成 Part 0 的 5 章，建立：
+按顺序完成 Part 0 的 6 章，建立：
 
 - reference plane；
 - return path；
 - edge rate；
 - propagation delay；
 - datasheet → PCB constraint；
-- KiCad 10 多层规则意识。
+- KiCad 10 多层规则意识；
+- GND via / shared return impedance / magnetic loop coupling 的实测直觉。
 
 ## 通过标准
 
@@ -96,6 +97,8 @@ Part 9：工程交付
 3. 换层为什么可能改变 reference？
 4. 为什么 L2 solid GND 有价值？
 5. 如何从 datasheet 找到 PCB requirement？
+6. 为什么两个都叫 GND 的支路仍可能通过共享地颈互相耦合？
+7. 为什么同一颗 GND via 在二层和邻近 L2 GND 的四层 stackup 中，高频表现会不同？
 
 全部能回答，才进入下一关。
 
