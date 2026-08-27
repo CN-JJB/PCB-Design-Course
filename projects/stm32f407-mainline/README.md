@@ -1,33 +1,49 @@
-# STM32F407 Mainline｜课程主线工程
+# STM32F407 Mainline｜MCU 主线工程
 
-这个目录不是“示例代码附件”，而是整套课程的工程主线。
+> 如果你是第一次做本课程工程，**不要从本目录随便点文件**。
 
-```text
-STM32F407 V1 (4L basics)
+## 唯一开始方式
+
+1. [STM32F407 V1 START HERE](v1/START_HERE.md) — 第一块四层板
+2. [STM32F407 V2 START HERE](v2/START_HERE.md) — USB/CAN/SDIO + SI/PI/EMC
+3. [STM32H743 V3 START HERE](../stm32h7-mainline/v3/START_HERE.md) — 六层 + SDRAM + Ethernet
+
+主线关系：
+
+~~~text
+STM32F407 V1
       ↓
-STM32F407 V2 (USB/CAN/SDIO + SI/PI/EMC)
+STM32F407 V2
       ↓
-STM32H7 V3 (6L + Ethernet/SDRAM)
-```
+STM32H743 V3
+~~~
 
-## 当前阶段：V1
+## V1 当前目标
 
-目标：完成第一块可解释的四层 MCU 板。
+完成第一块**可解释、可制造、可调试**的四层 MCU 板。
 
-### V1 资产
+不是先画 PCB，而是：
 
-- `v1/hardware-constraints.md`：一手资料转成的硬件约束；
-- `v1/design-decisions.md`：为什么这样选器件/叠层/布局；
-- `review/design-review-checklist.md`：项目级 Review；
-- `fault-lab/README.md`：故意错误案例。
+~~~text
+System Spec
+→ Source Freeze
+→ Power / Clock
+→ Schematic
+→ Stackup / Rules
+→ Placement
+→ Routing
+→ Release Gate
+→ Bring-up
+→ Final Review
+~~~
 
-## 关于 KiCad 工程文件
+具体每一步的任务和通过标准都在 [v1/START_HERE.md](v1/START_HERE.md)。
 
-本仓库最终会维护可打开的 KiCad 工程，而不是只有截图。
+## KiCad 工程状态
 
-当前环境无法运行 KiCad 做文件格式/DRC 验证，因此本次重构**不伪造 `.kicad_sch/.kicad_pcb` 文件**。工程文件只有在可以验证其可打开、规则正确、DRC 可复现时才作为“课程成品”提交。
+仓库已经具备 KiCad 10 Docker Hardware CI，可以在真实 KiCad 源文件提交后运行 ERC / DRC / schematic parity。
 
-在此之前，所有项目约束、网络表、布局意图和 Review 标准都先以可审计文本维护，避免出现“仓库里有个文件，但学生打不开”的假交付。
+当前主线仍**没有真实完成的 V1/V2/V3 CAD 成品**，因此项目保持 Engineering Draft。这里不会用人工拼出来的空壳 .kicad_sch/.kicad_pcb 冒充“已完成项目”。
 
 ## V1 基线器件
 
@@ -39,6 +55,6 @@ STM32H7 V3 (6L + Ethernet/SDRAM)
 
 ## 真实制造案例
 
-课程四层 stackup 使用 JLCPCB `JLC04161H-3313` 当前公开数据作为案例（查询 2026-08-26）。
+课程四层 stackup 使用 JLCPCB JLC04161H-3313 的公开数据作为教学案例（基线查询 2026-08-26）。
 
-这不是绑定厂商：换 PCB manufacturer 时，必须重新导入该厂实际 stackup 和 impedance model。
+换 PCB manufacturer / stackup 时，必须重新核对介质、铜厚、规则和 impedance model。

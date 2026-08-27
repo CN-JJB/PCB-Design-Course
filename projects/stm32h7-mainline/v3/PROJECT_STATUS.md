@@ -2,7 +2,13 @@
 
 Current state: **🧩 Engineering Draft**
 
-现有 SDRAM / Ethernet / stackup / timing 工程文档仍需要实际 stackup、实际走线长度、实板内存与网络测试证据回填。
+SDRAM / Ethernet / stackup / timing 工程文档已具备，但实际 stackup、实际走线长度和实板验证仍未完成。
+
+## ▶ 当前下一步
+
+**Gate 1：完成 system-spec.md + source-freeze.md，先消除会阻塞 layer/timing 的系统 TBD。**
+
+开工顺序请看：[START_HERE.md](START_HERE.md)
 
 ## Promotion Gates
 

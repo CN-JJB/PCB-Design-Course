@@ -10,7 +10,7 @@
 | PHY | LAN8742A datasheet | TBD | 2026-08-26 | RMII/MDI | release |
 | Reference board | NUCLEO-H743ZI2 schematic | current | 2026-08-26 | RMII baseline | optional |
 | PCB fab | six-layer stackup | TBD | TBD | impedance | order |
-| KiCad | PCB Editor docs | 9.x | 2026-08-26 | rules | release |
+| KiCad | PCB Editor docs | 10.0.x | 2026-08-26 baseline | rules | release |
 
 ## Critical Frozen Numbers
 
