@@ -38,6 +38,7 @@
 6. **USB / CAN 接口 EMC**：把知识落到 V2
 7. **预兼容测试**：近场探头、电缆实验、频谱归因
 8. **KiCad EMC Review**：把问题变成可检查的工程流程
+9. **混合信号接地、功能分区与屏蔽边界**：什么时候保持 solid GND，什么时候 split 才有证据，以及 shield/chassis 如何接
 
 ---
 
@@ -113,3 +114,8 @@ return path
 11. [ESD、EFT、Surge](11_ESD_EFT_Surge与接口抗扰度.md)
 12. [EMC 预兼容测试体系](12_EMC预兼容测试体系.md)
 13. [参考资料与数据纪律](13_参考资料与数据纪律.md)
+
+
+## 本 Part 新增互动实验
+
+- [Mixed Ground & Shield Lab](../interactive/mixed-ground-shield-lab.html)：比较 solid/split ground、区域间距/H、跨区边沿与 360°/pigtail shield termination 的风险趋势。

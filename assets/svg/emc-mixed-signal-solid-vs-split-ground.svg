@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720">
+<rect width="1180" height="720" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Mixed-signal PCB: separate the functions before you split the ground</text>
+<g font-family="sans-serif">
+<rect x="55" y="90" width="515" height="520" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="85" y="130" font-size="22" font-weight="700" fill="#166534">Preferred starting point: solid GND</text>
+<rect x="100" y="195" width="425" height="38" fill="#475569"/>
+<text x="105" y="185" font-size="16" fill="#334155">continuous reference plane</text>
+<rect x="105" y="285" width="165" height="170" rx="14" fill="#ecfdf5" stroke="#86efac"/>
+<text x="135" y="323" font-size="19" font-weight="700" fill="#166534">Analog zone</text>
+<text x="125" y="355" font-size="15" fill="#334155">ADC input</text><text x="125" y="380" font-size="15" fill="#334155">reference</text><text x="125" y="405" font-size="15" fill="#334155">sensor front end</text>
+<rect x="355" y="285" width="165" height="170" rx="14" fill="#dbeafe" stroke="#93c5fd"/>
+<text x="385" y="323" font-size="19" font-weight="700" fill="#1d4ed8">Digital zone</text>
+<text x="375" y="355" font-size="15" fill="#334155">MCU / FPGA</text><text x="375" y="380" font-size="15" fill="#334155">clock / bus</text><text x="375" y="405" font-size="15" fill="#334155">fast IO</text>
+<path d="M205 250 C205 235 205 230 205 220" stroke="#16a34a" stroke-width="5" fill="none"/>
+<path d="M435 250 C435 235 435 230 435 220" stroke="#2563eb" stroke-width="5" fill="none"/>
+<text x="118" y="500" font-size="16" fill="#334155">Keep signals inside their region.</text>
+<text x="118" y="528" font-size="16" fill="#334155">Return current stays local because geometry is local.</text>
+<text x="118" y="556" font-size="16" font-weight="700" fill="#166534">Partition placement, not the reference plane.</text>
+
+<rect x="610" y="90" width="515" height="520" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="640" y="130" font-size="22" font-weight="700" fill="#991b1b">Risky default: split ground first</text>
+<rect x="655" y="195" width="185" height="38" fill="#475569"/><rect x="900" y="195" width="180" height="38" fill="#475569"/>
+<text x="655" y="185" font-size="15" fill="#334155">AGND</text><text x="1015" y="185" font-size="15" fill="#334155">DGND</text>
+<rect x="670" y="285" width="160" height="170" rx="14" fill="#ecfdf5" stroke="#86efac"/>
+<text x="700" y="323" font-size="19" font-weight="700" fill="#166534">Analog</text>
+<rect x="910" y="285" width="160" height="170" rx="14" fill="#dbeafe" stroke="#93c5fd"/>
+<text x="942" y="323" font-size="19" font-weight="700" fill="#1d4ed8">Digital</text>
+<path d="M995 350 C900 350 850 350 750 350" stroke="#dc2626" stroke-width="7" fill="none"/>
+<text x="735" y="337" font-size="15" fill="#991b1b">control signal crosses split</text>
+<path d="M760 240 C820 270 860 290 920 240" stroke="#f59e0b" stroke-width="5" fill="none" stroke-dasharray="8 6"/>
+<text x="670" y="500" font-size="16" fill="#92400e">Return detours to a bridge / parasitic path.</text>
+<text x="670" y="528" font-size="16" fill="#92400e">Loop area and common-mode conversion can grow.</text>
+<text x="670" y="556" font-size="16" font-weight="700" fill="#991b1b">A split creates a new EMC structure to manage.</text>
+
+<rect x="55" y="645" width="1070" height="40" rx="10" fill="#e2e8f0"/>
+<text x="78" y="671" font-size="16" fill="#334155">Solid ground does not mean “all return current spreads everywhere”; high-frequency return follows the local signal-reference field geometry.</text>
+</g></svg>

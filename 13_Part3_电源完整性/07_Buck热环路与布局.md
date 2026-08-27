@@ -168,6 +168,32 @@ SW node 铺得过大可能增加电场耦合面积。
 
 ---
 
+## 7.6.1 不要把“PGND / AGND”自动翻译成“切整块 Ground Plane”
+
+器件 pin 名区分 PGND / AGND / SGND，常常是在提醒：
+
+- 哪些 pins 承担 high-current switching return；
+- 哪些 pins 属于 quiet sensing / control reference；
+- 内部电路如何组织。
+
+它**不自动等于**：
+
+> PCB 必须把整块 ground plane 切成两半。
+
+更稳健的顺序是：
+
+1. 先按 datasheet / reference layout 连接器件要求；
+2. 画出 CIN / switch pair / PGND 的真实 high-di/dt loop；
+3. 让 quiet FB / compensation return 远离 noisy loop；
+4. 保持 solid reference unless there is quantified evidence to split；
+5. 原型上做 ripple / EMI / near-field 验证。
+
+<p align="center"><img src="../assets/svg/pi-switcher-ground-no-split.svg" width="900" alt="switcher over solid ground with compact hot loop"></p>
+
+相关 mixed-ground 讨论见：
+[Part 4｜09 混合信号接地：不分地、功能分区与屏蔽边界](../14_Part4_EMI_EMC/09_混合信号接地_分区与屏蔽边界.md)。
+
+
 ## 7.7 Feedback 为什么要安静
 
 FB pin 测的是输出电压的一小部分。

@@ -1,0 +1,102 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mixed Ground & Shield Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:350px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+label{display:block;font-weight:700;margin:13px 0 5px}select,input[type=range]{width:100%}.metric{font-size:24px;font-weight:800;margin:12px 0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#e2e8f0;margin:3px;font-size:13px}
+.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px;margin-top:14px}canvas{width:100%;height:430px;border-radius:12px;background:#0f172a}
+table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Mixed Ground & Shield Lab：分地、分区与屏蔽边界</h1>
+<p class="lead">把 mixed-signal grounding 和 cable shield 放到同一个系统模型中比较。输出是定性趋势，不是 EMC/full-wave solver，也不替代安全/隔离规范。</p>
+<div class="grid"><div class="card">
+<label>Ground strategy</label>
+<select id="g"><option value="solid">Solid GND plane</option><option value="split">Split AGND / DGND</option></select>
+<label>Analog ↔ Digital separation：<span id="sepv"></span></label><input id="sep" type="range" min="2" max="30" step="1" value="12">
+<label>Reference height H：<span id="hv"></span></label><input id="h" type="range" min="0.08" max="0.6" step="0.01" value="0.15">
+<label>Boundary-control edge：<span id="ev"></span></label><input id="edge" type="range" min="0.2" max="20" step="0.2" value="1">
+<label>Cross-boundary route</label>
+<select id="cross"><option value="no">No fast route crossing</option><option value="slow">Slow / damped control only</option><option value="fast">Fast edge crosses boundary</option></select>
+<label>Shield termination</label>
+<select id="shield"><option value="none">No shield / no chassis</option><option value="360">360° chassis bond</option><option value="strap">Short wide strap</option><option value="pigtail">Long pigtail / thin trace</option></select>
+<label>Cable length：<span id="cv"></span></label><input id="cable" type="range" min="0.1" max="5" step="0.1" value="1">
+<div class="metric" id="overall"></div>
+<div><span class="pill">field overlap</span><span class="pill">return continuity</span><span class="pill">shield impedance</span></div>
+<div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="820" height="430"></canvas>
+<table>
+<tr><th>风险项</th><th>趋势</th><th>当前解释</th></tr>
+<tr><td>Analog coupling</td><td id="ar"></td><td id="aw"></td></tr>
+<tr><td>Return / EMI</td><td id="rr"></td><td id="rw"></td></tr>
+<tr><td>Shield boundary</td><td id="sr"></td><td id="sw"></td></tr>
+<tr><td>First action</td><td colspan="2" id="act"></td></tr>
+</table>
+<div class="small">20H 只作为保守区域隔离提示；本页不会把 20H、20 kHz 或 300 MHz 当成硬边界。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");
+["g","sep","h","edge","cross","shield","cable"].forEach(id=>$(id).oninput=draw);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function draw(){
+ const g=$("g").value,sep=+$("sep").value,h=+$("h").value,edge=+$("edge").value,cross=$("cross").value,shield=$("shield").value,cable=+$("cable").value;
+ $("sepv").textContent=sep+" mm";$("hv").textContent=h.toFixed(2)+" mm";$("ev").textContent=edge.toFixed(1)+" ns";$("cv").textContent=cable.toFixed(1)+" m";
+ const sepH=sep/h;
+ let analog=clamp(1.15/(1+sepH/7),0,1);
+ if(cross==="fast") analog+=clamp(.35/(edge+.2),.05,.45);
+ if(cross==="slow") analog+=.05;
+ analog=clamp(analog,0,1);
+
+ let ret=(g==="split"?.35:.05);
+ if(g==="split"&&cross==="fast") ret+=.5;
+ else if(g==="split"&&cross==="slow") ret+=.2;
+ if(g==="solid"&&cross==="fast") ret+=.12;
+ ret=clamp(ret,0,1);
+
+ let sh=0;
+ if(shield==="none") sh=.25*(cable>1?1:.6);
+ if(shield==="360") sh=.08;
+ if(shield==="strap") sh=.28;
+ if(shield==="pigtail") sh=.72;
+ sh=clamp(sh*(.7+.3*Math.min(1,cable/2)),0,1);
+
+ const total=Math.round(100*(.38*analog+.37*ret+.25*sh));
+ $("overall").textContent="Combined teaching risk: "+total+"/100";
+ const txt=x=>x<.25?"低":x<.55?"中":"高";
+ $("ar").textContent=txt(analog);$("rr").textContent=txt(ret);$("sr").textContent=txt(sh);
+ $("aw").textContent=sepH>20?"区域相对 H 已很远；direct field overlap 倾向较低。":"功能区仍较近；敏感 analog 应继续看 noise budget 与 edge。";
+ $("rw").textContent=g==="split"?(cross==="fast"?"fast route 跨 split，return discontinuity 明显。":"split 本身需要证明 bridge 与所有 boundary crossing。"):"solid plane 连续；重点转为 placement / routing partition。";
+ $("sw").textContent=shield==="360"?"有 chassis 时，360° bond 提供更连续的高频边界。":shield==="pigtail"?"长 pigtail 虽 DC 导通，但 RF inductive impedance 可能很高。":shield==="strap"?"短宽 strap 比 pigtail 好，但仍不等价于 circumferential bond。":"无 chassis/shield 时，需依 interface / enclosure 重新定义边界。";
+ let act="";
+ if(g==="split"&&cross==="fast") act="先消除跨 split 的 fast route；优先回到 solid GND + 功能分区。";
+ else if(analog>.5) act="先增加功能区隔离或降低跨区边沿，再谈 split ground。";
+ else if(sh>.5) act="先修 shield/chassis bond；不要用 DC continuity 判断 RF 屏蔽。";
+ else if(cross==="fast") act="若 timing 允许，给跨区 control 做 source damping / edge slowing。";
+ else act="结构趋势可解释；下一步用实际 noise budget、近场/频谱和原型测量验证。";
+ $("act").textContent=act;
+ $("lesson").textContent=g==="solid"?"Solid ground + placement partition 是默认起点；完整 plane 不等于高频回流平均铺满整板。":"Split ground 不是“更专业”，它会创建新的 slot / bridge / return-transition 约束，必须逐项证明。";
+
+ ctx.clearRect(0,0,820,430);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,820,430);
+ // plane
+ ctx.fillStyle="#475569";
+ if(g==="solid") ctx.fillRect(60,325,700,28); else {ctx.fillRect(60,325,300,28);ctx.fillRect(460,325,300,28);}
+ // analog/digital blocks
+ ctx.fillStyle="#22c55e";ctx.fillRect(95,155,145,90);
+ ctx.fillStyle="#3b82f6";ctx.fillRect(580,155,145,90);
+ ctx.fillStyle="#cbd5e1";ctx.font="16px system-ui";ctx.fillText("ANALOG",125,145);ctx.fillText("DIGITAL",610,145);
+ // cross route
+ if(cross!=="no"){
+   ctx.strokeStyle=cross==="fast"?"#ef4444":"#f59e0b";ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(650,200);ctx.lineTo(170,200);ctx.stroke();
+ }
+ // field arcs
+ ctx.strokeStyle="#22c55e";ctx.lineWidth=3;ctx.globalAlpha=.55;ctx.beginPath();ctx.arc(170,245,95,Math.PI,0);ctx.stroke();
+ ctx.strokeStyle="#3b82f6";ctx.beginPath();ctx.arc(650,245,95,Math.PI,0);ctx.stroke();ctx.globalAlpha=1;
+ // split detour
+ if(g==="split"&&cross!=="no"){ctx.strokeStyle="#f59e0b";ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(400,315);ctx.quadraticCurveTo(410,380,460,335);ctx.stroke();ctx.setLineDash([]);}
+ // shield icon
+ ctx.strokeStyle=shield==="360"?"#22c55e":shield==="pigtail"?"#ef4444":"#94a3b8";ctx.lineWidth=7;ctx.strokeRect(65,50,130,45);ctx.beginPath();ctx.moveTo(195,72);ctx.lineTo(310,72);ctx.stroke();
+ ctx.fillStyle="#cbd5e1";ctx.font="14px system-ui";ctx.fillText("shield/chassis boundary",65,35);
+}
+draw();
+</script></body></html>

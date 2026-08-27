@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="690" viewBox="0 0 1180 690">
+<rect width="1180" height="690" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Crossing a split: the signal remains connected, the return path does not</text>
+<g font-family="sans-serif">
+<rect x="80" y="120" width="1020" height="34" fill="#475569"/>
+<rect x="80" y="430" width="425" height="50" fill="#475569"/>
+<rect x="675" y="430" width="425" height="50" fill="#475569"/>
+<text x="90" y="105" font-size="17" fill="#334155">signal layer</text>
+<text x="90" y="515" font-size="17" fill="#334155">reference plane split</text>
+<path d="M130 137 H1050" stroke="#dc2626" stroke-width="9"/>
+<circle cx="570" cy="137" r="10" fill="#dc2626"/>
+<path d="M550 205 C430 250 420 335 485 420" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="10 7"/>
+<path d="M590 205 C720 250 730 335 690 420" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="10 7"/>
+<text x="385" y="250" font-size="18" font-weight="700" fill="#92400e">return current must detour</text>
+<text x="385" y="278" font-size="16" fill="#92400e">to a bridge or parasitic coupling path</text>
+<path d="M505 455 C555 395 625 395 675 455" fill="none" stroke="#7c3aed" stroke-width="5"/>
+<text x="522" y="390" font-size="16" fill="#6d28d9">slot / bridge excitation</text>
+<rect x="160" y="555" width="860" height="72" rx="14" fill="#fff7ed"/>
+<text x="190" y="585" font-size="18" font-weight="700" fill="#92400e">EMC consequence</text>
+<text x="190" y="612" font-size="16" fill="#334155">Larger loop + slot voltage can convert local signal energy into common-mode current and excite cables / chassis.</text>
+</g></svg>

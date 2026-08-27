@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Cable shield termination: boundary continuity matters more than DC continuity</text>
+<g font-family="sans-serif">
+<rect x="55" y="90" width="515" height="500" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="85" y="130" font-size="22" font-weight="700" fill="#166534">360° bond to chassis</text>
+<rect x="110" y="190" width="180" height="210" rx="16" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+<text x="145" y="225" font-size="18" font-weight="700" fill="#334155">Metal enclosure</text>
+<circle cx="290" cy="295" r="48" fill="#d1d5db" stroke="#475569" stroke-width="12"/>
+<rect x="330" y="265" width="180" height="60" rx="30" fill="#cbd5e1" stroke="#475569" stroke-width="8"/>
+<text x="350" y="355" font-size="17" fill="#334155">shield continues around connector shell</text>
+<path d="M305 250 C360 210 430 210 500 250" fill="none" stroke="#16a34a" stroke-width="5"/>
+<path d="M305 340 C360 380 430 380 500 340" fill="none" stroke="#16a34a" stroke-width="5"/>
+<text x="110" y="470" font-size="17" fill="#166534">Low-inductance electromagnetic boundary</text>
+<text x="110" y="500" font-size="16" fill="#475569">Faraday cage continues into cable shield.</text>
+
+<rect x="610" y="90" width="515" height="500" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="640" y="130" font-size="22" font-weight="700" fill="#991b1b">Long pigtail / thin trace</text>
+<rect x="665" y="190" width="180" height="210" rx="16" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+<text x="700" y="225" font-size="18" font-weight="700" fill="#334155">Metal enclosure</text>
+<rect x="875" y="255" width="180" height="70" rx="30" fill="#cbd5e1" stroke="#475569" stroke-width="6"/>
+<path d="M895 325 C850 365 815 420 760 465" fill="none" stroke="#dc2626" stroke-width="6"/>
+<circle cx="750" cy="475" r="12" fill="#dc2626"/>
+<text x="665" y="515" font-size="17" fill="#991b1b">Ohmmeter may read ≈0 Ω at DC</text>
+<text x="665" y="543" font-size="16" fill="#92400e">but L·ω makes the RF bond high impedance.</text>
+
+<rect x="55" y="625" width="1070" height="40" rx="10" fill="#fff7ed"/>
+<text x="80" y="651" font-size="16" fill="#92400e">Where a conductive chassis exists, analyze shield termination as an enclosure-boundary problem; safety / PE / isolation / DC ground loops are separate constraints.</text>
+</g></svg>

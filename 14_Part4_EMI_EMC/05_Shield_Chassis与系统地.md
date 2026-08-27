@@ -96,6 +96,37 @@
 
 ---
 
+## 5.1 Cable Shield 的优先模型：它是 enclosure 的延续，不是一根“地线”
+
+<p align="center"><img src="../assets/svg/emc-shield-360-vs-pigtail.svg" width="900" alt="360 degree shield bond versus pigtail"></p>
+
+如果产品有导电 enclosure / chassis，shield connection 的第一问题不是：
+
+> “接 signal GND 还是接 PE？”
+
+而是：
+
+> **能不能让 cable shield 在 connector 入口处以很低的高频阻抗延续 enclosure boundary？**
+
+理想结构通常倾向：
+
+- connector shell 与 chassis 直接接触；
+- 尽量 circumferential / 360° bond；
+- 避免 drain wire → thin trace → remote screw 这种长 pigtail。
+
+因为一条 DC 上接近 0 Ω 的细长连接，在 RF 上会因为 inductance 变成明显阻抗。
+
+但具体 shield/system/PE 策略仍必须结合：
+
+- safety；
+- isolation；
+- low-frequency ground loop；
+- product standard；
+- connector construction。
+
+完整决策见：[09｜混合信号接地：不分地、功能分区与屏蔽边界](09_混合信号接地_分区与屏蔽边界.md)。
+
+
 ## 6. 以以太网经验理解 chassis boundary
 
 TI Ethernet EMI guidance 强调 RJ45 shield、chassis plane、transformer/common-mode 结构的协同，说明 connector 区域实际上就是 chassis/system boundary 的典型案例。
@@ -139,5 +170,7 @@ PE   (仅有真实保护地时)
 - [ ] 能说明 system GND / chassis / shield 的不同角色
 - [ ] 不用 DC 等电位思维替代 RF current path
 - [ ] shield current 尽量不穿过敏感数字区
+- [ ] 有 chassis 时已评估 360° shield bond，而不是只看 DC continuity
+- [ ] low-frequency ground loop 与 high-frequency shielding 分开审查
 - [ ] chassis-system coupling 策略有产品结构依据
 - [ ] KiCad net naming 能表达真实边界，而不是制造概念
