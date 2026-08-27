@@ -1,5 +1,7 @@
 # Part 8｜FPGA 板级设计专项：从 Bank、电源、BGA 到 DDR3 与高速差分
 
+> 🎮 **真正动手请进入 [Artix-7 START HERE](../projects/artix7-mainline/v1/START_HERE.md)**。不要从 DDR3/GTP 中间切入；按 Device/Package → Bank → Power → BGA → DDR3 → GTP 顺序过 Gate。
+
 > 这一 Part 只讲 **FPGA board-level engineering**。不会把课程变成 Verilog / VHDL 教程。
 
 <p align="center"><img src="../assets/svg/part8-fpga-system-overview.svg" width="980" alt="Part 8 FPGA board-level system overview"></p>

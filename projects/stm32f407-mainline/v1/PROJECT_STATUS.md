@@ -2,7 +2,13 @@
 
 Current state: **🧩 Engineering Draft**
 
-现有资料已覆盖 design decisions / hardware constraints；真实 KiCad 源、BOM、实测和 release 包尚未在仓库中形成。
+工作表已齐全；真实 KiCad 源、BOM、实测和 release 包尚未形成。
+
+## ▶ 当前下一步
+
+**Gate 1：打开 system-spec.md 和 source-freeze.md，先冻结需求与资料，不要先打开 PCB Editor。**
+
+开工顺序请看：[START_HERE.md](START_HERE.md)
 
 ## Promotion Gates
 

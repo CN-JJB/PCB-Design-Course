@@ -2,7 +2,13 @@
 
 Current state: **🧩 Engineering Draft**
 
-现有 system spec、SI/PI/EMC、DFM、bring-up 与 release gate 文档中仍存在明确 TBD，因此不得标记为 production frozen。
+现有 system spec、SI/PI/EMC、DFM、bring-up 与 release gate 文档中仍存在明确 TBD。
+
+## ▶ 当前下一步
+
+**Gate 1：完成 system-spec.md 的 mechanical freeze 与 power budget，再进入 Pin/Clock。**
+
+开工顺序请看：[START_HERE.md](START_HERE.md)
 
 ## Promotion Gates
 

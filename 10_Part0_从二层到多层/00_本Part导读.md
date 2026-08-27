@@ -1,5 +1,7 @@
 # Part 0：从二层板到多层板——先完成认知升级
 
+> 🚀 整套课程的闯关入口见：[START_HERE](../START_HERE.md)。完成本 Part 的通过标准后，下一步是 STM32F407 V1，而不是继续随机阅读。
+
 > 这一 Part 不重新教你“电阻是什么”。默认你已经会画二层板、会基本布局布线、会跑 ERC/DRC，也知道怎么导出 Gerber。我们的任务是把你从“能把线连起来”升级到“知道电流和电磁场为什么允许你这样连”。
 
 ![二层到四层的认知跃迁](../assets/svg/part0-two-vs-four-layer.svg)
@@ -117,7 +119,7 @@
 
 ## 参考资料
 
-- KiCad 10.0 PCB Editor 官方文档：https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
+- KiCad 10.0 PCB Editor 官方文档：https://docs.kicad.org/10.0/zh/pcbnew/pcbnew.html
 - ST AN4488, *Getting started with STM32F4xxxx MCU hardware development*：https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf
 - STM32F407VG 产品页：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
 

@@ -1,5 +1,7 @@
 # Part 7｜STM32H743 V3 六层高速综合板
 
+> 🎮 **真正动手请进入 [V3 START HERE](../projects/stm32h7-mainline/v3/START_HERE.md)**。不要从 SDRAM 或 Ethernet 中途开画；按 Gate 从 System/Source Freeze 开始。
+
 > Part 6 解决的是“为什么六层、怎样定义层角色”；Part 7 开始真正把 **STM32H743 + SDRAM + Ethernet + USB + 多电源域** 压到同一块六层板上。
 
 <p align="center">

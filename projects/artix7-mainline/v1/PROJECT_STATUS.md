@@ -2,7 +2,13 @@
 
 Current state: **🧩 Engineering Draft**
 
-现有 Bank / BGA / DDR3 / GTP 规划仍需要真实 MIG/XDC、KiCad CAD、MIG calibration、IBERT/BER 和 power/thermal evidence。
+Bank / BGA / DDR3 / GTP 规划已具备，但真实 MIG/XDC、KiCad CAD、MIG calibration、IBERT/BER 和 power/thermal evidence 尚未形成。
+
+## ▶ 当前下一步
+
+**Gate 1：冻结 exact device/package、Vivado/MIG/KiCad 版本、DDR3/GTP 目标，再进入 Bank Planning。**
+
+开工顺序请看：[START_HERE.md](START_HERE.md)
 
 ## Promotion Gates
 
