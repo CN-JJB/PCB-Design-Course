@@ -38,6 +38,26 @@ ESD source
 
 ---
 
+## 2.1 ESD 只是产品 Protection Architecture 的一层
+
+TVS 解决的是 fast transient / ESD current steering，不应该和以下功能混为一谈：
+
+- input fuse / current limit；
+- reverse-polarity protection；
+- sustained OVP cutoff；
+- inrush control；
+- brownout supervisor；
+- watchdog。
+
+<p align="center"><img src="../assets/svg/protection-esd-current-steering.svg" width="900" alt="ESD current steering at connector boundary"></p>
+
+所以 connector review 同时要问：
+
+> 这是 power-path fault、signal-port transient，还是 control-health fault？
+
+完整产品保护框架见：[Part 1｜09 产品级保护电路](../11_Part1_STM32F407四层板/09_产品级保护电路_从接口到SafeState.md)。
+
+
 ## 3. 先经过 TVS，再进入芯片区域
 
 布局常见错误：

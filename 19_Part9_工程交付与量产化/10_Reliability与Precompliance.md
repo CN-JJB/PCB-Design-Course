@@ -48,6 +48,31 @@
 - latch-up / reset；
 - flash corruption。
 
+## 10.4.1 Protection Validation：从“器件存在”升级成“故障可恢复”
+
+量产 release 前，保护器件不能只在 BOM 里“存在”。
+
+至少形成：
+
+| Threat | Trigger | Expected protection | Safe state | Recovery | Evidence |
+|---|---|---|---|---|---|
+| overload | controlled current fault | fuse/eFuse/current limit | no thermal damage | defined | test log |
+| hot-plug | repeated plug-in | inrush control | source remains stable | automatic | scope |
+| brownout | rail ramp/droop | reset/BOR/supervisor | outputs safe | reboot | log |
+| firmware lockup | forced hang | watchdog | outputs safe | reboot | log |
+| external ESD | pre-compliance | TVS/current steering | no permanent damage | defined criterion | report |
+
+保护验证的毕业标准不是：
+
+> “故障后还能重新上电。”
+
+而是：
+
+> **fault detection、safe state、recovery 和 evidence 都被定义。**
+
+基础架构见：[Part 1｜09 产品级保护电路](../11_Part1_STM32F407四层板/09_产品级保护电路_从接口到SafeState.md)。
+
+
 ## 10.5 EMC Pre-compliance
 
 复用 Part 4：

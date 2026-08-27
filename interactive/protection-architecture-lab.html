@@ -1,0 +1,57 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protection Architecture Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px}.row{margin:13px 0}label{font-weight:700}.v{float:right;font-weight:800}select,input[type=range]{width:100%}
+canvas{width:100%;height:430px;background:#0f172a;border-radius:12px}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px}
+table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.small{font-size:13px;color:#64748b}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#e2e8f0;margin:3px;font-size:13px}.metric{font-size:24px;font-weight:800}
+</style></head><body>
+<h1>Protection Architecture Lab：从 Threat Model 生成保护层</h1>
+<p class="lead">选择系统条件，页面给出教学级 protection layers、placement boundary 和 validation actions。它不是安全认证工具，也不会自动选 fuse / TVS 料号。</p>
+<div class="grid"><div class="card">
+<div class="row"><label>Power source</label><select id="power"><option value="usb">USB / regulated 5 V</option><option value="adapter">External DC adapter</option><option value="battery">Battery pack</option><option value="industrial">Long-cable / industrial DC</option></select></div>
+<div class="row"><label>User-accessible data connector</label><select id="port"><option value="none">None</option><option value="usb">USB</option><option value="can">CAN / long cable</option><option value="generic">Generic GPIO / sensor cable</option></select></div>
+<div class="row"><label>Downstream capacitance <span class="v" id="cv"></span></label><input id="cap" type="range" min="1" max="2000" step="10" value="100"></div>
+<div class="row"><label>Fault-source strength <span class="v" id="sv"></span></label><input id="source" type="range" min="1" max="10" step="1" value="4"></div>
+<div class="row"><label>Actuator consequence</label><select id="actuator"><option value="low">LED / logic only</option><option value="medium">relay / moderate load</option><option value="high">motor / heater / hazardous motion</option></select></div>
+<div class="row"><label>Reliability target</label><select id="rel"><option value="prototype">prototype / lab</option><option value="product">commercial product</option><option value="critical">high-consequence / unattended</option></select></div>
+<div class="metric" id="count"></div>
+<div id="pills"></div><div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="820" height="430"></canvas>
+<table><tr><th>Threat</th><th>Recommended layer</th><th>Validation</th></tr><tbody id="rows"></tbody></table>
+<div class="small">最终 requirement 必须来自产品 mission profile、适用标准、source energy、器件 datasheet 与测试实验室方案。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");
+["power","port","cap","source","actuator","rel"].forEach(id=>$(id).oninput=draw);
+function draw(){
+ const power=$("power").value,port=$("port").value,cap=+$("cap").value,src=+$("source").value,act=$("actuator").value,rel=$("rel").value;
+ $("cv").textContent=cap+" µF";$("sv").textContent=src+"/10";
+ const items=[];
+ const add=(threat,layer,test)=>items.push({threat,layer,test});
+ if(power!=="usb"||src>=5)add("Short / overload","Fuse, PTC or eFuse near energy entry","Current-limit / controlled short test");
+ if(power==="adapter"||power==="industrial"||power==="battery")add("Reverse polarity / reverse current","Diode or MOSFET / ideal-diode strategy","Reverse-input / backfeed test");
+ if(power==="adapter"||power==="industrial")add("Sustained overvoltage","OVP cutoff / eFuse load disconnect","Wrong-adapter / programmable-supply test");
+ if(power==="industrial")add("Power-port transient","TVS / surge network + coordinated return","EFT / surge pre-compliance");
+ if(cap>250)add("Inrush / hot plug","Soft-start, hot-swap or slew-rate control","Startup current + hot-plug scope capture");
+ if(port!=="none")add("External-port ESD","TVS array at connector boundary","ESD pre-compliance / fault classification");
+ if(rel!=="prototype")add("Brownout / rail droop","BOR or voltage supervisor","Slow rail ramp + load-step droop");
+ if(rel==="critical"||act!=="low")add("Firmware lockup","Watchdog + reset path","Forced software hang");
+ if(act==="high")add("Unsafe reset output","Hardware default safe state / enable interlock","Reset / power-loss actuator-state test");
+
+ $("count").textContent=items.length+" protection checks";
+ $("pills").innerHTML=items.map(x=>'<span class="pill">'+x.threat+'</span>').join("");
+ $("rows").innerHTML=items.map(x=>'<tr><td>'+x.threat+'</td><td>'+x.layer+'</td><td>'+x.test+'</td></tr>').join("");
+ $("lesson").textContent=items.length<4?"当前威胁较少，但仍要记录为什么某层保护不需要。":"保护不是堆器件：每一层都必须对应一个明确 threat、safe state 与验证动作。";
+
+ ctx.clearRect(0,0,820,430);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,820,430);
+ const zones=[["EXTERNAL",80],["PROTECTION",300],["CORE",590]];
+ zones.forEach((z,i)=>{ctx.fillStyle=i===1?"#f59e0b":i===2?"#22c55e":"#94a3b8";ctx.fillRect(z[1],85,i===1?210:160,250);ctx.fillStyle="#0f172a";ctx.font="bold 17px system-ui";ctx.fillText(z[0],z[1]+20,120)});
+ ctx.fillStyle="#cbd5e1";ctx.font="15px system-ui";ctx.fillText("source / cable / touch",95,165);ctx.fillText("fuse / OVP / TVS",320,165);ctx.fillText("inrush / reverse",320,200);ctx.fillText("MCU / transceiver",610,165);ctx.fillText("supervisor / watchdog",610,200);ctx.fillText("safe outputs",610,235);
+ ctx.strokeStyle="#ef4444";ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(240,210);ctx.lineTo(300,210);ctx.stroke();ctx.strokeStyle="#22c55e";ctx.beginPath();ctx.moveTo(510,210);ctx.lineTo(590,210);ctx.stroke();
+ ctx.fillStyle="#f8fafc";ctx.font="14px system-ui";ctx.fillText("fault energy enters here",80,365);ctx.fillText("stop / clamp / limit here",300,365);ctx.fillText("core should see bounded stress",585,365);
+}
+draw();
+</script></body></html>

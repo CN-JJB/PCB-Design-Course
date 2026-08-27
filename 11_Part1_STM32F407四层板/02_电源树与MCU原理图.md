@@ -90,6 +90,35 @@ AN4488 给出：
 
 ---
 
+## 3.1 Power Tree 前面还有一层：Protection Boundary
+
+不要把电源树只画成：
+
+~~~text
+5V_IN → LDO → 3V3
+~~~
+
+产品级版本应该先问：
+
+~~~text
+External source
+→ overcurrent / reverse / overvoltage / inrush protection
+→ regulator
+→ rail
+→ load
+~~~
+
+其中：
+
+- fuse / eFuse 处理 source energy / overload；
+- reverse-polarity circuit 处理错误输入方向；
+- OVP cutoff 与 TVS clamp 解决不同时间尺度的过压；
+- soft-start / eFuse slew-rate 处理大输入电容 hot-plug；
+- regulator 自己的 abs-max 不能替代 upstream protection。
+
+具体器件是否需要取决于产品 threat model，不在 V1 机械堆满。完整框架见：[09｜产品级保护电路](09_产品级保护电路_从接口到SafeState.md)。
+
+
 ## 4. LDO：不要把最大电流和热能力混为一谈
 
 V1 教学参考器件：`AP2112K-3.3`。

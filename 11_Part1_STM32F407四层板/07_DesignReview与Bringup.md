@@ -252,6 +252,34 @@ Checklist: debug connector must include adjacent solid GND return
 
 ---
 
+## 10.1 Bring-up 之后：Protection Fault Injection
+
+“正常启动一次”不能验证保护。
+
+在具备安全实验条件时，把保护功能逐项故意触发：
+
+- current-limit / controlled short；
+- hot-plug；
+- rail slow-ramp / brownout；
+- forced firmware hang / watchdog；
+- 后续 V2 再做 ESD pre-compliance。
+
+每次记录：
+
+~~~text
+Trigger
+→ detection
+→ protection action
+→ safe state
+→ recovery
+→ unexpected side effects
+~~~
+
+不要为了测试反接/短路而直接使用高能量电源做破坏性尝试；先用 current-limited bench setup，并按器件/实验室安全边界执行。
+
+保护框架见：[09｜产品级保护电路](09_产品级保护电路_从接口到SafeState.md)。
+
+
 ## 11. V1 Final Design Review
 
 ### Architecture
@@ -264,7 +292,8 @@ Checklist: debug connector must include adjacent solid GND return
 - [ ] regulator thermal budget；
 - [ ] VDD/VDDA/VCAP/VBAT；
 - [ ] decoupling current loops；
-- [ ] test points。
+- [ ] test points；
+- [ ] protection requirements 已 review，deferred 项有明确 rationale。
 
 ### Stackup
 

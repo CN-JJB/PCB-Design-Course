@@ -38,7 +38,8 @@
 2. 填完 [system-spec.md](system-spec.md)；
 3. 核对 [hardware-constraints.md](hardware-constraints.md)；
 4. 把真正使用的一手资料写入 [source-freeze.md](source-freeze.md)；
-5. 更新 [design-decisions.md](design-decisions.md)。
+5. 更新 [design-decisions.md](design-decisions.md)；
+6. 阅读 [产品级保护电路](../../../11_Part1_STM32F407四层板/09_产品级保护电路_从接口到SafeState.md)，在 `system-spec.md` 增加 Protection Requirement Table。
 
 ### 产出
 
@@ -53,6 +54,7 @@
 - [ ] V1 必做/不做功能明确；
 - [ ] board size / connector edge / mounting-hole 方案不再是“以后再说”；
 - [ ] power input、SWD、UART、HSE strategy 有明确方案；
+- [ ] reverse input / overload / inrush / brownout / watchdog 已完成 threat inventory，未实现项有 deferred rationale；
 - [ ] critical source 都有文档名/revision或明确 recheck 规则；
 - [ ] 不存在会阻止原理图开始的 Blocker TBD。
 
@@ -206,6 +208,7 @@ Power-off resistance
 → LED / UART
 → HSE
 → GPIO / user function
+→ Protection fault injection
 ```
 
 ### 通过标准
@@ -213,7 +216,8 @@ Power-off resistance
 - [ ] 没有跳过 power-off 检查；
 - [ ] 每一步只有一个新增变量；
 - [ ] 3V3、current、reset、SWD、UART、HSE 有 evidence；
-- [ ] 失败有 issue → hypothesis → fix → retest 记录。
+- [ ] 失败有 issue → hypothesis → fix → retest 记录；
+- [ ] 在安全 bench 条件下至少验证 brownout / watchdog；已实现的 current-limit / inrush protection 也完成 fault injection。
 
 **通过 → Gate 9。**
 
