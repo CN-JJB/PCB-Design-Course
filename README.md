@@ -17,7 +17,7 @@
 | 6 | 四层 → 六层 | 📘 Complete | 🧩 H7 Transition Draft |
 | 7 | STM32H743 六层高速综合 | 📘 Complete+ | 🧩 Engineering Draft |
 | 8 | Artix-7 FPGA 板级设计 | 📘 Complete+ | 🧩 Engineering Draft |
-| 9 | 工程交付与量产化 | 📘 In Progress | 🧩 Release Infrastructure |
+| 9 | 工程交付与量产化 | 📘 Complete | 🧩 Release Infrastructure |
 
 状态含义：
 

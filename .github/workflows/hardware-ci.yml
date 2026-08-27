@@ -1,0 +1,25 @@
+name: Hardware CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  kicad-erc-drc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run KiCad 10.0.5 ERC/DRC
+        run: |
+          docker run --rm             -v "$PWD:/work"             -w /work             --entrypoint bash             kicad/kicad:10.0.5             tools/hardware-ci.sh
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicad-ci-reports
+          path: ci-reports
+          if-no-files-found: ignore

@@ -1,0 +1,15 @@
+hardware_revision: TBD
+git_commit: TBD
+kicad_version: "10.0.x"
+stackup_id: TBD
+bom_revision: TBD
+variant: TBD
+firmware: TBD
+bitstream: null
+fixture_revision: TBD
+test_procedure: TBD
+fab_package_hash: TBD
+assembly_package_hash: TBD
+release_date: TBD
+approvers: []
+open_risks: []
