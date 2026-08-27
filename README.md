@@ -24,7 +24,7 @@
 | 6 | ✅ | 四层 → 六层 | Layer-count / stackup / reference / 多电源域 / H7 transition |
 | 7 | ✅ | 六层高速 | STM32H743 V3 + SDRAM + Ethernet 工程闭环 |
 | 8 | ✅ | FPGA 专项 | Artix-7：Bank / BGA / DDR3 / GTP / 配置与板级闭环 |
-| 9 | ⏭️ | 工程交付 | DFM / 测量 / 调试 / BOM / 量产 |
+| 9 | ✅ | 工程交付 | Design Freeze / DFX / BOM / Pilot / ECO / Production Release |
 
 ---
 
@@ -292,25 +292,67 @@ Part 8 的毕业标准不是“能下载 bitstream”，而是你能把 **Bank�
 
 ---
 
-# 下一阶段：Part 9｜工程交付与量产化
+# ✅ Part 9｜工程交付与量产化
 
-Part 9 将把前面所有板子统一推进到工程交付：
+**[开始 Part 9](19_Part9_工程交付与量产/00_本Part导读.md)**
+
+<p align="center"><img src="assets/svg/part9-release-flow.svg" width="980" alt="Part 9 engineering release flow"></p>
+
+Part 9 把前三条硬件案例统一收束成 Production Release 工程系统：
 
 ```text
 Design Freeze
 → DFM / DFA / DFT
-→ BOM lifecycle / alternates
-→ fabrication / assembly package
-→ programming / calibration
-→ test fixture
-→ bring-up evidence
-→ ECO / revision control
-→ pre-compliance / reliability
-→ pilot build
-→ production release
+→ BOM / AVL / lifecycle
+→ Fabrication / Assembly Package
+→ Programming / Serial / Calibration
+→ ICT / FCT / Fixture
+→ Pilot Build / FAI
+→ FPY / Yield / Pareto / CAPA
+→ ECO / Revision / Traceability
+→ Reliability / Pre-compliance
+→ Supplier Handoff
+→ Production Release Gate
 ```
 
-目标是把“能工作的样板”变成**可制造、可测试、可复现、可维护的工程产品**。
+核心章节：
+
+- [Design Freeze / Configuration Management](19_Part9_工程交付与量产/01_DesignFreeze与ConfigurationManagement.md)
+- [DFM / DFA / DFT 与 IPC 等级](19_Part9_工程交付与量产/02_DFM_DFA_DFT与IPC等级.md)
+- [BOM / AVL / Lifecycle / 替代料](19_Part9_工程交付与量产/03_BOM_AVL_Lifecycle与替代料.md)
+- [制造资料包：Gerber / IPC-2581 / ODB++](19_Part9_工程交付与量产/04_制造资料包_Gerber_IPC2581_ODB.md)
+- [Assembly Package / 拼板 / Fiducial / 钢网](19_Part9_工程交付与量产/05_AssemblyPackage_拼板_Fiducial_钢网.md)
+- [Programming / Calibration / Serial](19_Part9_工程交付与量产/06_Programming_校准_序列号与生产固件.md)
+- [DFT / ICT / FCT / Fixture](19_Part9_工程交付与量产/07_DFT_测试策略_ICT_FCT与夹具.md)
+- [Pilot Build / FAI](19_Part9_工程交付与量产/08_PilotBuild_FAI_首件与试产.md)
+- [Yield / Pareto / Root Cause](19_Part9_工程交付与量产/09_Yield_Pareto与根因闭环.md)
+- [ECO / Revision / Traceability](19_Part9_工程交付与量产/10_ECO_Revision与Traceability.md)
+- [Reliability / Pre-compliance](19_Part9_工程交付与量产/11_Reliability_PreCompliance与量产验证.md)
+- [Supplier Handoff / IQC / OQC](19_Part9_工程交付与量产/12_SupplierHandoff_IQC_OQC与GoldenSample.md)
+- [Production Release Gate / 全书毕业](19_Part9_工程交付与量产/13_ProductionReleaseGate与全书毕业.md)
+- [参考资料与版本纪律](19_Part9_工程交付与量产/14_参考资料与版本纪律.md)
+
+互动：
+
+- [Release Package Lab](interactive/release-package-lab.html)
+- [Yield Pareto Lab](interactive/yield-pareto-lab.html)
+- [ECO Impact Lab](interactive/eco-impact-lab.html)
+
+工程模板：[`projects/production-release/`](projects/production-release/)
+
+Fault Lab：[50 个 Production Release Faults](projects/production-release/fault-lab/part9-production-release-faults.md)
+
+**Part 9 毕业标准：**不是“会下单”，而是你能让一个陌生供应商依据冻结资料包制造、编程和测试产品；出现问题后还能从 Serial/Lot 追到 HW/BOM/FW/Test revision，并通过 ECO/CAPA 闭环。
+
+---
+
+# 🎓 主线课程 Part 0–9 已完成
+
+现在整套课程已经从二层板基础一路走到：
+
+> **可解释的多层高速设计 → 可验证的硬件 → 可制造、可测试、可追溯的 Production Release。**
+
+后续新增内容应以“进阶专题 / 新项目 / 工具自动化”形式扩展，而不是再建立一套与 Part 0–9 冲突的平行规则。
 
 ---
 
