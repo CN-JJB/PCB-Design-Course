@@ -1,172 +1,115 @@
-# 第五章 多层板 DRC 与 Gerber 出货
+# 第五章｜多层板 DRC 与制造输出（更新说明）
 
-> 目标：掌握多层板特有的 DRC 检查项与修复手法，导出六层 Gerber 包，完成带阻抗控制的下单。这是把设计变成实物的最后一公里。
+> 本章旧版的“Gerber 出货”流程已由主线课程中的 Release Package 方法取代。  
+> KiCad 9 当前制造输出与正式交付请优先阅读：
+>
+> **[Part 9｜制造资料包：Gerber / IPC-2581 / ODB++](../19_Part9_工程交付与量产/04_制造资料包_Gerber_IPC2581_ODB.md)**
 
 ---
 
-## 5.1 多层板 DRC 的增量检查项
+# 仍然有效的基本工作流
 
-在二层板 DRC 基础上（间距/线宽/悬空/丝印等不再重复），多层板新增关注：
-
-### 内层相关
-
-| 检查项 | 含义 | 典型修复 |
-|--------|------|---------|
-| clearance(内层) | In 层走线到铜 | 内层线宽通常细，注意规则按类生效 |
-| zone to zone | 分割缝宽度 | 缝 <0.5mm 时报警，调整 Zone 边界 |
-| hole to hole | 过孔密集区 | 移孔或加大反焊盘 |
-
-### 平面连接类
-
-```
-KiCad 的 DRC 能抓：
-- Zone 未填充(stale)：提示重新 B
-- 孤立铜岛：min width 以下自动不生成，
-  但"孤岛过孔"(缝合孔被隔离)需要目检+U键抽查
-
-KiCad 抓不到、必须人工的：
-- 回流路径断裂(跨分割/无伴飞孔)——理论篇方法论
-- 电源域接错(Zone net 名选错)
-- 等长组内某根漏调——靠 Net Inspector 报告核对
-```
-
-### 分层抽查工作流
-
-```
-① 单层显示模式逐层巡检：
-   In1(GND)：确认整层连续，无数条走线穿过
-   In3(PWR)：四域分割边界清晰
-② U 键随机抽 10 个网络验证连通性
-③ Net Inspector 全表扫一遍长度异常值
-④ 3D 视图终检
+```text
+ERC / DRC
+→ manual SI / PI / EMC review
+→ stackup / impedance freeze
+→ generate manufacturing outputs
+→ independent CAM/output review
+→ release manifest
+→ supplier handoff
 ```
 
 ---
 
-## 5.2 阻抗控制下单流程
+# KiCad 9 当前主要制造输出
 
-嘉立创（2026 流程）多层板关键选项：
+KiCad 9 PCB Editor 可生成：
 
-```
-层数：6
-叠层方案：从下拉选择与你 Stackup 匹配的标准层压结构
-        （JLC06161H-1708 等编号，对照官网层压表）
-板厚：1.6mm
-阻抗控制：勾选 → 弹出阻抗需求表：
-┌──────────┬─────────┬────────────┐
-│ 层        │ 线型     │ 目标阻抗    │
-│ L1 微带   │ 50Ω单端 │ ±10%       │
-│ L1 微带   │ USB90差 │ ±10%       │
-│ L3 带状   │ 50Ω单端 │ ±10%       │
-│ L1 微带   │ ETH100差│ ±10%       │
-└──────────┴─────────┴────────────┘
-提交后工程师会复核你的线宽是否能在该叠层实现，
-若算出来是 0.347mm 这类非整值会建议你微调后重传。
-```
+- Gerber；
+- Excellon / Gerber drill；
+- component placement；
+- IPC-D-356；
+- IPC-2581；
+- ODB++。
 
-> 【经验】先在嘉立创阻抗计算器里用他们的标准叠层反算出线宽，再回头改 KiCad 规则和布线——顺序对了几乎不会来回返工。
+因此现在不再把：
+
+> “Gerber + 一个 drill 文件”
+
+写成唯一正式交付形式。
 
 ---
 
-## 5.3 六层 Gerber 输出的完整层清单
+# 旧版中不再作为通用规则的内容
 
-Plot 对话框勾选（对比二层板的增量）：
+以下内容必须按项目/板厂重新核对：
 
-```
-[x] F.Cu      [x] In1.Cu    [x] In2.Cu
-[x] In3.Cu    [x] In4.Cu    [x] B.Cu
-[x] F.Mask    [x] B.Mask
-[x] F.SilkS   [x] B.SilkS(如有)
-[x] Edge.Cuts
-[ ] F.Paste/B.Paste 仅 SMT 贴片时需要(单独输出)
+- PTH / NPTH 是否合并输出；
+- 固定阻抗公差；
+- “换层伴飞地孔 100%”；
+- 固定板厂 stackup 编号；
+- 固定下单价格与周期；
+- 固定内层“应该零走线”；
+- “X2 默认就能完整表达 stackup”。
 
-钻孔：Excellon 合并 PTH/NPTH
-贴片坐标 .pos：使用 SMT 服务时输出
-
-Check zone fills before plotting ★必勾
-X2 格式保留默认(含叠层元数据)
-```
-
-Gerber Viewer 里逐层过一遍：
-
-```
-In1/In4：应是大片实心绿(或你的配色)，零走线
-In3：分割地图清晰
-各信号层：走线密度合理，无明显 DRC 遗漏图形
-Edge.Cuts：闭合圆角正常
-```
+这些都不是跨供应商、跨工程的永久规则。
 
 ---
 
-## 5.4 出货前总 Checklist（多层板版）
+# Release 前应该检查什么
 
-```
-电气
-[ ] ERC/DRC 双清零，报告存档
-[ ] Net Inspector 长度报告符合等长预算
-[ ] 电源树核对表逐项打勾
-回流
-[ ] 高速网络投影审查通过
-[ ] 换层伴飞地孔 100% 覆盖
-[ ] 板边/接口缝合墙完成
-制造
-[ ] 叠层参数与所选厂家方案一致
-[ ] 阻抗表填写并与计算器结果闭环
-[ ] Gerber Viewer 六层全检
-[ ] 工程快照 zip 归档(vX.Y)
-文档
-[ ] README 记录版本变更
-[ ] 阻抗目标表存档(收板对报告用)
-```
+## Electrical / PCB
 
----
+- DRC；
+- open exclusions；
+- length/skew；
+- reference / return；
+- stackup / impedance；
+- plane split；
+- current loop。
 
-## 5.5 收板验收（多层板增量）
+## Manufacturing Output
 
-二层板验收流程 + 多层板特有项：
+- copper layers；
+- outline；
+- mask；
+- silkscreen；
+- drill / slot；
+- drill map；
+- special fab notes；
+- impedance table。
 
-```
-① 断面看层数：板边断面数铜层=6 ✓
-② 阻抗报告核对：
-   逐行比对实测 vs 目标(±10%内 PASS)
-   有 FAIL 行立即联系客服(重做或让步接收评估)
-③ 横切面照片查看：层压均匀、孔铜饱满
-④ 高压/绝缘抽查：相邻电源域 Zone 间万用表量阻值
-   应为 MΩ 级开路
-⑤ 通断抽测：重点抽内层换层的长网络
-```
+## Assembly
 
----
+- BOM；
+- placement；
+- drawing；
+- DNP/variant；
+- paste/stencil；
+- polarity。
 
-## 5.6 打样成本与周期参考（2026）
+## Version
 
-| 项目 | 价格区间 |
-|------|---------|
-| 四层 10×10cm×5片 | ¥40~80 |
-| 六层同规格 | ¥120~250 |
-| 阻抗控制加价 | 四层+¥30~50 / 六层常已含 |
-| 加急 | +50%~100%，赶进度才用 |
-| 周期 | 生产 3~4 天+快递 |
-
-学生项目节奏建议：**不加急**。把等待期用于写测试计划/准备物料/预习下一个项目，流水线化你的学习。
+- hardware revision；
+- source commit；
+- output hash；
+- release manifest。
 
 ---
 
-## 5.7 自检与实践
+# 收板验收
 
-自检：
+不能通过裸眼断面“数铜层”替代正式质量证据。
 
-1. 哪些问题 DRC 抓不到？对应的替代手段？
-2. 分层巡检的顺序和每层看点？
-3. 阻控下单的正确工作顺序（先什么后什么）？
-4. 收板时如何验证阻抗达标？FAIL 了怎么办？
-5. 复述出货前总清单的五大板块。
+根据产品/供应商要求使用：
 
-实践作业：
+- supplier inspection report；
+- electrical test；
+- impedance coupon/report；
+- dimension/finish inspection；
+- incoming sampling；
+- IPC/customer acceptance criteria。
 
-1. 完成 eth_board_6layer 的全套 DRC+人工巡检并归档报告
-2. 完整走一次六层 Gerber 导出与 Gerber Viewer 检查
-3. 在嘉立创模拟下单（不用付款），截图阻抗配置页
-4. 把 5.4 清单复制为模板文件 `template_checklist_multilayer.md` 放进课程工具箱文件夹
+---
 
-第五部分毕业。下一部分进入六个实战项目——所有知识接受真实检验。
+当前课程正式规则以 **Part 9** 和实际供应商 Source Freeze 为准。
