@@ -7,6 +7,49 @@
 
 ---
 
+## 7.0 先把“仿真、示波器、VNA”放到同一张地图
+
+<p align="center"><img src="../assets/svg/si-measurement-map.svg" width="980" alt="Simulation oscilloscope VNA and eye diagram measurement map"></p>
+
+Signal Integrity 的验证有两条互补主线：
+
+### 设计前：Simulation
+
+目标是回答：
+
+- 哪个 topology 风险更低？
+- source termination 大概应该在哪个范围？
+- 某个 discontinuity 会不会明显反射？
+- channel loss / crosstalk 是否可能吃掉 margin？
+
+Simulation 的价值不是“算出唯一真相”，而是：
+
+> **在打板前减少设计空间、降低试错成本。**
+
+### 做出硬件后：Test & Measurement
+
+常见工具可以这样建立第一层直觉：
+
+| 工具 | 最擅长的问题 | 常见输出 |
+|---|---|---|
+| Oscilloscope | “真实 waveform 在时间上长什么样？” | rise/fall、overshoot、jitter、eye |
+| VNA | “channel 在频率上怎样传输/反射/耦合？” | S-parameter、insertion/return loss、crosstalk |
+| TDR | “阻抗 discontinuity 在哪里？” | impedance vs time / position |
+
+VNA 的高动态范围尤其适合看较小的耦合或较大的衰减，例如某些 far-end crosstalk / channel isolation 问题。
+
+现代仪器的边界已经有很多重叠。例如：
+
+- VNA 可以由频域数据变换出 TDR；
+- 频域 channel model 可以进一步生成 eye；
+- scope 也可以通过高级分析做 jitter decomposition。
+
+所以不要按仪器名字背功能，应该先问：
+
+> **我现在要测 waveform，还是要 characterize channel？**
+
+---
+
 ## 7.1 示波器上的一个方波，能告诉你什么
 
 看一个数字边沿时，至少观察：
@@ -131,6 +174,51 @@ TDR = Time Domain Reflectometry。
 > **眼睛越开，一般代表接收判决余量越大；但是否合规必须看具体协议 mask/test method。**
 
 ---
+
+### 眼图为什么适合把很多 SI 问题压缩成一张图
+
+数字 receiver 最终是在某个 sampling window 里判断 0 / 1。
+
+因此眼图可以把两类 margin 同时可视化：
+
+- **vertical opening**：amplitude / noise margin；
+- **horizontal opening**：timing / jitter margin。
+
+常见映射：
+
+| 退化 | 更直接影响 |
+|---|---|
+| attenuation / noise / crosstalk | vertical opening |
+| jitter / ISI / reflection-induced timing shift | horizontal opening |
+| severe reflection / mode conversion | 两者都可能受影响 |
+
+### Mask 不是“看起来漂亮”的主观标准
+
+协议 compliance 常会定义 mask / keep-out region：
+
+- 波形不能进入指定区域；
+- mask hit 可作为 fail 条件；
+- mask 几何和测试方法必须来自具体标准。
+
+因此：
+
+> **眼图是可视化工具，mask 才把“好不好看”升级成“是否满足定义好的测试条件”。**
+
+### Jitter 不是一个单一来源
+
+Jitter 的共同表现是：
+
+> **同一个逻辑 edge 并不总在理想时间点到达。**
+
+工程上常见的分类包括：
+
+- **data-dependent jitter (DDJ)**：与前后 bit pattern、ISI 等相关；
+- **periodic jitter (PJ)**：由周期性干扰 / modulation 等造成；
+- **random jitter (RJ)**：具有随机统计特征；
+- 更广义的 deterministic jitter 还可以包含 duty-cycle distortion、bounded uncorrelated 等类别。
+
+本章先要求你建立“horizontal timing uncertainty”的直觉；严格 jitter decomposition、BER 外推和 compliance 方法属于更深入的测量专题。
+
 
 ## 7.7 什么会把眼图“关上”
 
@@ -298,3 +386,4 @@ eye horizontal opening 变窄，但 amplitude 尚可。
 - Keysight, *How to Analyze PCB Signal Integrity*: https://www.keysight.com/us/en/use-cases/analyze-pcb-signal-integrity.html
 - Tektronix, *TDR Test*: https://www.tek.com/en/documents/primer/tdr-test
 - Tektronix, *The Basics of Serial Data Compliance and Validation Measurements*: https://www.tek.com/en/documents/primer/basics-serial-data-compliance-and-validation-measurements
+- Rohde & Schwarz, *Understanding Signal Integrity*: https://www.youtube.com/watch?v=anX8QZMhVjI

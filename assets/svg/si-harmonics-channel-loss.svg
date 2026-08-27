@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="610" viewBox="0 0 1180 610">
+<rect width="1180" height="610" rx="22" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="27" font-weight="700" fill="#0f172a">数字方波为什么怕高频损耗：边沿是许多频率成分共同“拼”出来的</text>
+
+<text x="70" y="102" font-family="sans-serif" font-size="20" font-weight="700" fill="#0f172a">A. 频谱直觉：奇次谐波逐步补出更陡的边沿</text>
+<line x1="90" y1="310" x2="515" y2="310" stroke="#94a3b8" stroke-width="2"/>
+<line x1="90" y1="125" x2="90" y2="310" stroke="#94a3b8" stroke-width="2"/>
+<g stroke="#2563eb" stroke-width="9">
+<line x1="155" y1="310" x2="155" y2="155"/>
+<line x1="250" y1="310" x2="250" y2="225"/>
+<line x1="345" y1="310" x2="345" y2="258"/>
+<line x1="440" y1="310" x2="440" y2="276"/>
+</g>
+<text x="143" y="335" font-family="sans-serif" font-size="15" fill="#475569">f</text>
+<text x="235" y="335" font-family="sans-serif" font-size="15" fill="#475569">3f</text>
+<text x="330" y="335" font-family="sans-serif" font-size="15" fill="#475569">5f</text>
+<text x="425" y="335" font-family="sans-serif" font-size="15" fill="#475569">7f</text>
+<text x="100" y="145" font-family="sans-serif" font-size="15" fill="#475569">amplitude</text>
+
+<text x="620" y="102" font-family="sans-serif" font-size="20" font-weight="700" fill="#0f172a">B. 真实通道：高频成分通常衰减更多</text>
+<line x1="645" y1="310" x2="1080" y2="310" stroke="#94a3b8" stroke-width="2"/>
+<line x1="645" y1="125" x2="645" y2="310" stroke="#94a3b8" stroke-width="2"/>
+<path d="M665 150 C760 160 830 185 900 220 C970 250 1030 270 1070 285" fill="none" stroke="#dc2626" stroke-width="6"/>
+<text x="815" y="175" font-family="sans-serif" font-size="17" fill="#991b1b">|S21| / channel gain ↓ with frequency</text>
+<text x="650" y="335" font-family="sans-serif" font-size="15" fill="#475569">low f</text>
+<text x="1030" y="335" font-family="sans-serif" font-size="15" fill="#475569">high f</text>
+
+<text x="70" y="392" font-family="sans-serif" font-size="20" font-weight="700" fill="#0f172a">C. 时间域结果</text>
+<polyline points="90,520 160,520 160,430 280,430 280,520 400,520 400,430 520,430" fill="none" stroke="#16a34a" stroke-width="5"/>
+<text x="90" y="555" font-family="sans-serif" font-size="16" fill="#166534">理想：高频成分保留 → 边沿陡</text>
+<path d="M650 520 C680 520 700 515 720 475 C740 435 760 430 800 430 L860 430 C900 430 920 450 940 485 C958 516 980 520 1040 520" fill="none" stroke="#d97706" stroke-width="5"/>
+<text x="650" y="555" font-family="sans-serif" font-size="16" fill="#92400e">高频损耗更大 → 边沿变缓 / 脉冲展宽 / ISI 风险上升</text>
+</svg>

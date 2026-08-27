@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="570" viewBox="0 0 1180 570">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#475569"/></marker></defs>
+<rect width="1180" height="570" rx="22" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="27" font-weight="700" fill="#0f172a">SI 验证不是“只看示波器”：Simulation + Scope + VNA 各回答不同问题</text>
+
+<rect x="70" y="105" width="280" height="145" rx="18" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="118" y="148" font-family="sans-serif" font-size="23" font-weight="700" fill="#1e3a8a">Simulation</text>
+<text x="95" y="185" font-family="sans-serif" font-size="17" fill="#334155">IBIS / channel / field solver</text>
+<text x="95" y="215" font-family="sans-serif" font-size="17" fill="#334155">设计前预测趋势与 margin</text>
+
+<rect x="450" y="105" width="280" height="145" rx="18" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="515" y="148" font-family="sans-serif" font-size="23" font-weight="700" fill="#166534">Oscilloscope</text>
+<text x="475" y="185" font-family="sans-serif" font-size="17" fill="#334155">time-domain waveform</text>
+<text x="475" y="215" font-family="sans-serif" font-size="17" fill="#334155">rise time / jitter / eye</text>
+
+<rect x="830" y="105" width="280" height="145" rx="18" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="915" y="148" font-family="sans-serif" font-size="23" font-weight="700" fill="#92400e">VNA</text>
+<text x="855" y="185" font-family="sans-serif" font-size="17" fill="#334155">frequency-domain channel</text>
+<text x="855" y="215" font-family="sans-serif" font-size="17" fill="#334155">S-parameters / high dynamic range</text>
+
+<line x1="350" y1="177" x2="440" y2="177" stroke="#475569" stroke-width="4" marker-end="url(#a)"/>
+<line x1="730" y1="177" x2="820" y2="177" stroke="#475569" stroke-width="4" marker-end="url(#a)"/>
+
+<text x="70" y="320" font-family="sans-serif" font-size="21" font-weight="700" fill="#0f172a">Eye diagram：把大量 bit interval 叠加成接收裕量视图</text>
+<rect x="70" y="350" width="1040" height="150" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<path d="M105 425 C210 360 315 360 420 425 C525 490 630 490 735 425 C840 360 945 360 1075 425" fill="none" stroke="#2563eb" stroke-width="4" opacity=".65"/>
+<path d="M105 425 C210 490 315 490 420 425 C525 360 630 360 735 425 C840 490 945 490 1075 425" fill="none" stroke="#dc2626" stroke-width="4" opacity=".65"/>
+<rect x="465" y="390" width="250" height="70" rx="8" fill="none" stroke="#d97706" stroke-width="3" stroke-dasharray="8 7"/>
+<text x="487" y="382" font-family="sans-serif" font-size="16" fill="#92400e">mask / keep-out region</text>
+<text x="87" y="530" font-family="sans-serif" font-size="16" fill="#64748b">Scope / VNA boundaries overlap in modern instruments; choose the tool by the question you need answered.</text>
+</svg>

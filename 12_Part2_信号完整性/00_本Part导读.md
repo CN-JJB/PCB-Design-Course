@@ -4,6 +4,116 @@
 
 ---
 
+## 先建立一张总图：SI 关心的是“接收端还能不能可靠重建信息”
+
+<p align="center"><img src="../assets/svg/si-system-degradation-map.svg" width="980" alt="Signal integrity system chain and degradation map"></p>
+
+数字系统最终处理的是 0 / 1，但 PCB 上真实存在的仍然是连续变化的**模拟电压和电流**。
+
+一个最小 signal chain 可以写成：
+
+~~~text
+Transmitter / Driver
+        ↓
+Channel / Interconnect
+        ↓
+Receiver
+~~~
+
+其中 channel 不只是一段 PCB trace，也可以继续包含：
+
+- package；
+- via；
+- connector；
+- cable；
+- backplane；
+- board-to-board transition。
+
+因此本课程采用一个更实用的 SI 定义：
+
+> **Signal Integrity = 在给定噪声、损耗、时序和通道条件下，接收端仍能以足够 margin 恢复发送信息的能力。**
+
+这比“波形越方越好”更准确。真实系统允许一定：
+
+- attenuation；
+- delay；
+- overshoot / ringing；
+- jitter；
+- noise；
+
+只要它们没有把接收端的 amplitude / timing margin 吃光。
+
+### 四类最常见的 channel degradation
+
+这套 Part 2 可以压缩成四类问题：
+
+| 类别 | 物理来源 | 常见症状 | 主要章节 |
+|---|---|---|---|
+| Impedance mismatch | geometry / via / stub / termination / return discontinuity | reflection、ringing、overshoot | 02 / 03 / 04 |
+| Frequency response | conductor / dielectric / roughness / skin effect | edge 变慢、pulse spreading、ISI | 09 |
+| Crosstalk / noise | mutual C/L、shared return、PI/EMI coupling | vertical margin 下降、误触发 | 04 / 05 / Part 3 / Part 4 |
+| Timing / jitter | edge timing variation、ISI、clock/data uncertainty | horizontal margin 下降 | 07 |
+
+这四类并不是互相独立。例如：
+
+~~~text
+via discontinuity
+→ reflection
+→ edge crossing time 改变
+→ deterministic jitter
+→ eye width 下降
+~~~
+
+真实 Design Review 要追因果链，而不是看到一个症状就只贴一个标签。
+
+---
+
+## 方波为什么把“高频”带进数字设计
+
+<p align="center"><img src="../assets/svg/si-harmonics-channel-loss.svg" width="980" alt="Square-wave harmonics and frequency-dependent channel loss"></p>
+
+数字方波可以理解成多个频率成分共同组成。理想方波的傅里叶展开包含基波以及一系列奇次谐波；参与的高频成分越丰富，边沿越陡。
+
+因此，真正决定互连难度的不是只有 bit rate / clock frequency，还包括：
+
+- rise / fall time；
+- channel 对不同频率的 attenuation；
+- channel 对不同频率的 phase / delay；
+- receiver 的 timing / voltage margin。
+
+如果通道对所有频率成分只施加完全相同的增益和延迟，波形形状仍可保持。
+
+真正造成 distortion 的核心是：
+
+> **不同频率成分被不同比例衰减，或经历不同的相位 / 群延迟。**
+
+这正是为什么“我的 clock 才 10 MHz”不能自动推出“这根线是低速”。
+
+---
+
+## 一个互动入口：把四类退化同时拖一遍
+
+打开：
+
+interactive/si-degradation-lab.html
+
+可以分别调节：
+
+- impedance mismatch / reflection；
+- high-frequency loss；
+- crosstalk / noise；
+- jitter。
+
+它输出的是**教学波形趋势**，不是 IBIS / SPICE / channel solver 结果。
+
+练习时不要只说“波形变差了”，而要回答：
+
+1. 当前主要吃掉的是 vertical margin 还是 horizontal margin？
+2. 这更像 source / channel / receiver 哪一段的问题？
+3. 下一步应该用 layout review、simulation、scope 还是 VNA 去验证？
+
+---
+
 ## 你现在已经有什么
 
 Part 0/1 里，我们已经完成一块 STM32F407 四层 V1 的设计方法：
@@ -110,7 +220,8 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 
 - `interactive/edge-rate-lab.html`：回顾边沿时间与传播延迟；
 - `interactive/reflection-lab.html`：本 Part 新增，观察负载失配；
-- `interactive/return-path-lab.html`：本 Part 新增，观察参考面完整性；
+- `interactive/return-path-lab.html`：观察参考面完整性与共享回流；
+- `interactive/si-degradation-lab.html`：把 reflection / loss / noise / jitter 放到同一条信号链里比较；
 - `projects/stm32f407-mainline/v2/si-upgrade-plan.md`：V2 SI 改造任务；
 - `projects/stm32f407-mainline/fault-lab/part2-si-faults.md`：故障实验清单。
 
@@ -125,6 +236,7 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 - Texas Instruments, *Terminating Transmission Lines*: https://www.ti.com/lit/an/slyt413/slyt413.pdf
 - Texas Instruments, *Solutions to High-Speed Design Issues*: https://www.ti.com/lit/pdf/spraav0
 - Analog Devices, *Interfacing High-Speed Signals*: https://www.analog.com/en/resources/technical-articles/interfacing-highspeed-signals.html
+- Rohde & Schwarz, *Understanding Signal Integrity*: https://www.youtube.com/watch?v=anX8QZMhVjI
 
 > 旧版 `04_多层板理论` 中 SI 相关章节仍保留在分支历史里作为迁移来源；新主线以本 Part 为准。
 

@@ -1,0 +1,29 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SI Degradation Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;background:#f8fafc;color:#0f172a}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:300px 1fr;gap:18px}@media(max-width:850px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+label{display:block;font-weight:700;margin:14px 0 5px}input[type=range]{width:100%}.tag{display:inline-block;padding:5px 9px;border-radius:999px;background:#e2e8f0;margin:3px;font-size:13px}
+.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px;margin-top:14px}.metric{font-size:24px;font-weight:800;margin-top:14px}
+canvas{width:100%;height:420px;border-radius:12px;background:#0f172a}.legend{color:#475569;font-size:14px;margin-top:8px}
+</style></head><body>
+<h1>SI Degradation Lab：同一串 bit，通过不同 channel 会怎样“变形”</h1>
+<p class="lead">拖动四个旋钮，观察波形在时间域中的定性变化。此页面用于建立直觉，不是 SPICE / IBIS / channel solver，也不输出真实 compliance 结论。</p>
+<div class="grid"><div class="card">
+<label>Impedance mismatch / reflection：<span id="rv"></span></label><input id="r" type="range" min="0" max="100" value="15">
+<label>High-frequency loss：<span id="lv"></span></label><input id="l" type="range" min="0" max="100" value="20">
+<label>Crosstalk / noise：<span id="nv"></span></label><input id="n" type="range" min="0" max="100" value="10">
+<label>Jitter：<span id="jv"></span></label><input id="j" type="range" min="0" max="100" value="8">
+<div class="metric" id="risk"></div>
+<div><span class="tag">reflection</span><span class="tag">loss / ISI</span><span class="tag">noise</span><span class="tag">timing</span></div>
+<div class="note" id="lesson"></div>
+</div><div class="card"><canvas id="c" width="820" height="420"></canvas><div class="legend">灰色：理想逻辑波形；亮线：教学用 degraded waveform。横向闭合主要对应 timing/jitter，纵向 margin 主要受 amplitude/noise 影响。</div></div></div>
+<script>
+const C=document.querySelector("#c"),ctx=C.getContext("2d");const ids=["r","l","n","j"];ids.forEach(id=>document.querySelector("#"+id).oninput=draw);
+const bits=[1,0,1,1,0,0,1,0,1,0,0,1,1,0,1,0];const W=C.width,H=C.height,mid=H/2,amp=105;
+function setText(){for(const id of ids)document.querySelector("#"+id+"v").textContent=document.querySelector("#"+id).value+"%";}
+function idealAt(t){let k=Math.max(0,Math.min(bits.length-1,Math.floor(t*bits.length)));return bits[k]?1:-1}
+function degraded(t,R,L,N,J){let tj=t+J*.003*Math.sin(47*t)+J*.0015*Math.sin(113*t);let base=idealAt(Math.max(0,Math.min(.999,tj)));let smooth=0;const taps=14;for(let q=0;q<taps;q++){let tt=Math.max(0,t-q*.0015*(1+L*.04));smooth+=idealAt(tt)}smooth/=taps;let y=(1-L*.0038)*base+(L*.0038)*smooth;let delayed=idealAt(Math.max(0,t-.035));y+=R*.0032*(delayed-base);y+=N*.0025*(Math.sin(91*t)+.55*Math.sin(173*t));return Math.max(-1.5,Math.min(1.5,y))}
+function draw(){setText();const R=+document.querySelector("#r").value,L=+document.querySelector("#l").value,N=+document.querySelector("#n").value,J=+document.querySelector("#j").value;ctx.clearRect(0,0,W,H);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,W,H);ctx.strokeStyle="#334155";ctx.lineWidth=1;for(let x=0;x<W;x+=W/bits.length){ctx.beginPath();ctx.moveTo(x,35);ctx.lineTo(x,H-35);ctx.stroke()}ctx.strokeStyle="#64748b";ctx.lineWidth=3;ctx.beginPath();for(let x=0;x<W;x++){let t=x/W,y=mid-idealAt(t)*amp;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();ctx.strokeStyle="#38bdf8";ctx.lineWidth=4;ctx.beginPath();for(let x=0;x<W;x++){let t=x/W,y=mid-degraded(t,R,L,N,J)*amp;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();const score=Math.round((R+L+N+J)/4);document.querySelector("#risk").textContent="教学退化指数："+score+"/100";let lesson="";if(L>=Math.max(R,N,J))lesson="当前主要由高频损耗主导：边沿变缓，脉冲之间更容易出现 ISI。";else if(R>=Math.max(L,N,J))lesson="当前主要由阻抗不连续主导：注意反射、台阶、ringing 与重复跨阈值。";else if(N>=Math.max(R,L,J))lesson="当前主要由串扰 / 噪声主导：重点看接收端垂直 margin 与 SNR。";else lesson="当前主要由 jitter 主导：重点看采样窗口和水平 timing margin。";document.querySelector("#lesson").textContent=lesson}
+draw();
+</script></body></html>
