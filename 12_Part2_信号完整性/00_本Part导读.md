@@ -120,7 +120,7 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 
 本 Part 优先采用以下一手/厂商工程资料，并在各章就近说明：
 
-- KiCad 9 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
 - ST AN4879, USB hardware and PCB guidelines using STM32 MCUs: https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
 - Texas Instruments, *Terminating Transmission Lines*: https://www.ti.com/lit/an/slyt413/slyt413.pdf
 - Texas Instruments, *Solutions to High-Speed Design Issues*: https://www.ti.com/lit/pdf/spraav0

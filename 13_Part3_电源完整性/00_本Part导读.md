@@ -121,7 +121,7 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 - TI Power Delivery Network Analysis；
 - TI Good Buck Converter Layout Practices / Buck Converter Layout Considerations for Radiated EMI；
 - Murata / TDK MLCC DC Bias 与元件模型资料；
-- KiCad 9 PCB Editor 官方文档。
+- KiCad 10 PCB Editor 官方文档。
 
 > 数字分三类：**器件要求、设计目标、教学示例**。正文会明确它们的身份，不混在一起。
 

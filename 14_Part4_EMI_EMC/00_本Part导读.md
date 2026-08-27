@@ -103,7 +103,7 @@ return path
 - TI SLVA680A：ESD Protection Layout Guide
 - TI SLLA561 / SLA856A：EMC 与差模/共模布局思路
 - TI CAN / Ethernet interface EMC design guides
-- KiCad 9 官方 PCB Editor 文档
+- KiCad 10 官方 PCB Editor 文档
 
 具体标准限值不作为本 Part 的固定“背诵表”，因为认证类别、距离、产品类型和标准版本会改变；真正做认证前必须核对目标产品适用标准。
 

@@ -174,7 +174,7 @@ Fault Lab：[`part5-integration-faults.md`](../projects/stm32f407-mainline/fault
 - ST AN4879 USB Hardware and PCB Guidelines；
 - USB-IF USB Type-C Cable and Connector Specification；
 - CAN transceiver datasheet / protection reference design；
-- KiCad 9 PCB Editor documentation；
+- KiCad 10 PCB Editor documentation；
 - 本课程 Part 1~4 已建立的 SI / PI / EMC 方法。
 
 **标准、器件 datasheet、silicon errata 和板厂工艺都可能更新。设计冻结前重新核对。**

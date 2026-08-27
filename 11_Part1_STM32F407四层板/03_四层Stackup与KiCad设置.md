@@ -106,7 +106,7 @@ JLCPCB 当前 Controlled Impedance 页面公开多种四层叠层。本课程选
 
 ---
 
-## 5. KiCad 9：Physical Stackup 实操
+## 5. KiCad 10：Physical Stackup 实操
 
 KiCad 官方手册：https://docs.kicad.org/9.0/zh/pcbnew/pcbnew.html
 

@@ -87,7 +87,7 @@ Net Class 的作用是帮助 router 保持基本几何，不是替代具体 prot
 
 ## 8.4 Custom Rules：用来表达“条件化约束”
 
-KiCad 9 custom rules 可以表达比 net class 更具体的关系。
+KiCad 10 custom rules 可以表达比 net class 更具体的关系。
 
 示例思想：
 
@@ -117,7 +117,7 @@ KiCad 9 custom rules 可以表达比 net class 更具体的关系。
 
 ## 8.5 KiCad Differential Pair Router 的边界
 
-KiCad 9 能：
+KiCad 10 能：
 
 - 识别 P/N 或 +/- pair；
 - 按规则保持 width/gap；
@@ -139,7 +139,7 @@ KiCad 不能自动替你判断：
 
 ## 8.6 Length Tuning：先搞清楚你调的是什么“长度”
 
-KiCad 9 length tuner 会结合 routing path，并可在配置正确时计入 via 的 layer-to-layer 长度。
+KiCad 10 length tuner 会结合 routing path，并可在配置正确时计入 via 的 layer-to-layer 长度。
 
 但实际时序关心的是：
 
@@ -294,6 +294,6 @@ Part 2 结束时，不要求你已经完成 USB compliance lab，但要求：
 
 ## 参考资料
 
-- KiCad 9 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
 - ST AN4879 USB hardware guide: https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
 - Texas Instruments, *Solutions to High-Speed Design Issues*: https://www.ti.com/lit/pdf/spraav0
