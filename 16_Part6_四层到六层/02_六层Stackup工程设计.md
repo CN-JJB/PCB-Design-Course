@@ -145,6 +145,27 @@ JLCPCB 2026 年更新的 calculator guide 也明确要求输入：layer count、
 
 ---
 
+# 5.1 Adjacent signal layers 还要检查 Broadside Coupling
+
+如果两个 signal layer 彼此很近，而各自 reference plane 较远，那么上下层 co-parallel routing 可能形成明显 broadside coupling。
+
+这时风险不只来自“线与线”的 capacitance，还包括：
+
+- mutual inductance；
+- overlapping return geometry；
+- BGA escape 区域的短距离高密度重叠。
+
+一个常见 risk-reduction strategy 是让相邻 signal layers 的主 routing direction 尽量正交，但它不是跨场景铁律。真正要比较：
+
+> **signal-signal spacing vs signal-reference spacing，以及 co-parallel length。**
+
+## Stackup symmetry 也要进入 Review
+
+严重不对称的 dielectric / copper distribution 可能增加 warpage 风险，尤其在大尺寸板、薄板、高温 lamination / reflow 或上下铜分布差异很大时。
+
+所以 stackup freeze 不只做 SI/PI 计算，也要让 fab 确认机械对称性、copper balance 与标准工艺可制造性。
+
+
 # 6. Plane Pair 也不要神化
 
 把 PWR 与 GND 放得很近可以增加 plane-pair capacitance、改善高频电流路径的一部分，但：

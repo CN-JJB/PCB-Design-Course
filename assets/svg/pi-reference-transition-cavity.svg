@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">Return transition: same-net via vs different-net capacitor path</text>
+
+<rect x="55" y="95" width="515" height="520" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="90" y="135" font-family="sans-serif" font-size="22" font-weight="700" fill="#166534">Same net: GND → GND</text>
+<rect x="100" y="215" width="425" height="18" fill="#475569"/>
+<rect x="100" y="405" width="425" height="18" fill="#475569"/>
+<path d="M260 155 V480" stroke="#7c3aed" stroke-width="9"/>
+<circle cx="260" cy="155" r="9" fill="#7c3aed"/>
+<circle cx="260" cy="480" r="9" fill="#7c3aed"/>
+<line x1="345" y1="220" x2="345" y2="415" stroke="#16a34a" stroke-width="10"/>
+<circle cx="345" cy="220" r="9" fill="#16a34a"/><circle cx="345" cy="415" r="9" fill="#16a34a"/>
+<path d="M285 220 C300 240 320 260 345 275" fill="none" stroke="#f59e0b" stroke-width="4"/>
+<path d="M345 365 C320 380 300 400 285 415" fill="none" stroke="#f59e0b" stroke-width="4"/>
+<text x="115" y="545" font-family="sans-serif" font-size="17" fill="#334155">Short local path:</text>
+<text x="115" y="574" font-family="sans-serif" font-size="20" font-weight="700" fill="#166534">signal via + nearby GND stitching via</text>
+<text x="115" y="602" font-family="sans-serif" font-size="16" fill="#64748b">lower transition loop inductance</text>
+
+<rect x="610" y="95" width="515" height="520" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="645" y="135" font-family="sans-serif" font-size="22" font-weight="700" fill="#92400e">Different net: GND → PWR</text>
+<rect x="655" y="215" width="425" height="18" fill="#475569"/>
+<rect x="655" y="405" width="425" height="18" fill="#d97706"/>
+<path d="M815 155 V480" stroke="#7c3aed" stroke-width="9"/>
+<circle cx="815" cy="155" r="9" fill="#7c3aed"/>
+<circle cx="815" cy="480" r="9" fill="#7c3aed"/>
+<line x1="925" y1="220" x2="925" y2="285" stroke="#16a34a" stroke-width="8"/>
+<line x1="925" y1="352" x2="925" y2="415" stroke="#16a34a" stroke-width="8"/>
+<rect x="890" y="285" width="70" height="67" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+<text x="903" y="326" font-family="sans-serif" font-size="22" font-weight="700" fill="#92400e">C</text>
+<path d="M840 220 C875 240 900 255 925 275" fill="none" stroke="#f59e0b" stroke-width="4"/>
+<path d="M925 365 C900 382 875 398 840 415" fill="none" stroke="#f59e0b" stroke-width="4"/>
+<text x="670" y="545" font-family="sans-serif" font-size="17" fill="#334155">AC transfer path includes:</text>
+<text x="670" y="574" font-family="sans-serif" font-size="18" font-weight="700" fill="#92400e">via + pad + capacitor ESL + via</text>
+<text x="670" y="602" font-family="sans-serif" font-size="16" fill="#64748b">optimize geometry; capacitance value alone is not enough</text>
+
+<rect x="55" y="642" width="1070" height="35" rx="10" fill="#fff7ed"/>
+<text x="78" y="666" font-family="sans-serif" font-size="16" fill="#92400e">DC plane voltage itself is not the key reference criterion; continuity and high-frequency return-transition impedance are.</text>
+</svg>

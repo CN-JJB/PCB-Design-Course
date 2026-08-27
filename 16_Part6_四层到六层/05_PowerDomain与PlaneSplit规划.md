@@ -123,6 +123,27 @@ plane 再大也补不回来 mounting loop 的问题。
 
 ---
 
+# 5.1 Power plane 不是“层数多了就必须分配一层”
+
+决定某个 rail 是否需要独立 plane，先回答：
+
+1. Imax 与 DC drop budget 是多少？
+2. trace / local pour 能否满足温升与压降？
+3. BGA / connector 的 power escape 是否需要大面积分布？
+4. 这块 plane 是否还要承担 signal reference？
+5. signal vias 在它与另一个 reference 之间切换时，return transition 怎么完成？
+
+对于中小电流 MCU 类产品：
+
+> **wide trace / local pour + 保留额外完整 GND plane**
+
+有时是更低风险的方案。
+
+对于 FPGA / CPU / 大电流 rail，power plane 仍可能是完全合理甚至必要的选择。
+
+所以课程不会采用“power plane 永远不要用”或“多层板一定要独立 power plane”中的任何一种绝对规则。
+
+
 # 6. GND plane 优先保持完整
 
 课程默认策略：

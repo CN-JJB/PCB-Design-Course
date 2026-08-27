@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="650" viewBox="0 0 1180 650">
+<rect width="1180" height="650" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">4-layer choice: PWR+GND vs GND+GND</text>
+
+<rect x="55" y="90" width="515" height="480" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="90" y="130" font-family="sans-serif" font-size="23" font-weight="700" fill="#92400e">A. SIG / GND / PWR / SIG</text>
+<rect x="105" y="175" width="410" height="22" fill="#dc2626"/><text x="120" y="169" font-family="sans-serif" font-size="16" fill="#991b1b">L1 signal</text>
+<rect x="105" y="245" width="410" height="22" fill="#475569"/><text x="120" y="239" font-family="sans-serif" font-size="16" fill="#334155">L2 GND</text>
+<rect x="105" y="345" width="410" height="22" fill="#d97706"/><text x="120" y="339" font-family="sans-serif" font-size="16" fill="#92400e">L3 PWR</text>
+<rect x="105" y="435" width="410" height="22" fill="#2563eb"/><text x="120" y="429" font-family="sans-serif" font-size="16" fill="#1d4ed8">L4 signal</text>
+<path d="M330 190 C330 250 365 320 365 445" fill="none" stroke="#7c3aed" stroke-width="6"/>
+<circle cx="330" cy="190" r="8" fill="#7c3aed"/><circle cx="365" cy="445" r="8" fill="#7c3aed"/>
+<text x="155" y="500" font-family="sans-serif" font-size="17" fill="#334155">Signal changes layer:</text>
+<text x="155" y="528" font-family="sans-serif" font-size="18" font-weight="700" fill="#92400e">return must transfer GND ↔ PWR</text>
+<text x="155" y="553" font-family="sans-serif" font-size="16" fill="#64748b">needs a local AC coupling path</text>
+
+<rect x="610" y="90" width="515" height="480" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="645" y="130" font-family="sans-serif" font-size="23" font-weight="700" fill="#166534">B. SIG / GND / GND / SIG</text>
+<rect x="660" y="175" width="410" height="22" fill="#dc2626"/><text x="675" y="169" font-family="sans-serif" font-size="16" fill="#991b1b">L1 signal</text>
+<rect x="660" y="245" width="410" height="22" fill="#475569"/><text x="675" y="239" font-family="sans-serif" font-size="16" fill="#334155">L2 GND</text>
+<rect x="660" y="345" width="410" height="22" fill="#475569"/><text x="675" y="339" font-family="sans-serif" font-size="16" fill="#334155">L3 GND</text>
+<rect x="660" y="435" width="410" height="22" fill="#2563eb"/><text x="675" y="429" font-family="sans-serif" font-size="16" fill="#1d4ed8">L4 signal</text>
+<path d="M885 190 C885 250 920 320 920 445" fill="none" stroke="#7c3aed" stroke-width="6"/>
+<line x1="965" y1="255" x2="965" y2="355" stroke="#16a34a" stroke-width="10"/>
+<circle cx="965" cy="255" r="9" fill="#16a34a"/><circle cx="965" cy="355" r="9" fill="#16a34a"/>
+<text x="710" y="500" font-family="sans-serif" font-size="17" fill="#334155">Signal changes layer:</text>
+<text x="710" y="528" font-family="sans-serif" font-size="18" font-weight="700" fill="#166534">same-net GND stitching via possible</text>
+<text x="710" y="553" font-family="sans-serif" font-size="16" fill="#64748b">low-inductance reference transition</text>
+
+<rect x="55" y="595" width="1070" height="35" rx="10" fill="#e2e8f0"/>
+<text x="78" y="619" font-family="sans-serif" font-size="16" fill="#334155">This is a design tradeoff, not a universal rule. DC current, routing density, thermal needs and reference transitions all matter.</text>
+</svg>

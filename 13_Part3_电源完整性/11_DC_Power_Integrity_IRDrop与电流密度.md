@@ -117,3 +117,22 @@ Measurement
 ## 11.9 进阶：PDN 阻抗测量入口
 
 专业 PI 验证会使用 VNA、注入或 2-port shunt-through 等方法测量低阻抗 PDN。课程此处只建立概念：**如果你声称某条 Z(f) 已被实测验证，就必须同时记录 fixture、校准、端口与频率范围。**
+
+
+## 11.10 不要从“线宽”直接背“能过多少安培”
+
+视频与很多经验资料会出现“6 mil 能过 1 A”“20 mil 能过几安培”一类数字。它们可以帮助纠正“几安培一定需要整层 power plane”的直觉，但不能成为通用 design rule。
+
+导体 sizing 必须至少绑定：
+
+- copper thickness；
+- external / internal layer；
+- allowable temperature rise；
+- trace length / DC drop；
+- 邻近 copper plane 的散热；
+- ambient / airflow；
+- via / connector bottleneck。
+
+IPC-2152 的用途就是在这些热与结构条件下评估 conductor current-carrying capability，而不是提供一个固定 `width → current` 常数。
+
+因此课程策略是：**先做 DC/thermal sizing，再决定 rail 用 trace、pour 还是 plane。**

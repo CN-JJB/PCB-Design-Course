@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680">
+<rect width="1180" height="680" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">Copper amount ≠ return-path quality</text>
+
+<rect x="55" y="90" width="515" height="500" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="90" y="130" font-family="sans-serif" font-size="22" font-weight="700" fill="#991b1b">Fragmented copper pour</text>
+<path d="M90 205 H240 V280 H340 V205 H530" fill="none" stroke="#dc2626" stroke-width="12"/>
+<path d="M90 420 H210 V360 H305 V470 H430 V385 H530" fill="none" stroke="#475569" stroke-width="18"/>
+<circle cx="215" cy="395" r="10" fill="#16a34a"/><circle cx="440" cy="395" r="10" fill="#16a34a"/>
+<path d="M105 250 C170 330 200 355 215 395 C235 455 350 505 440 395 C470 360 500 330 525 280" fill="none" stroke="#f59e0b" stroke-width="5" stroke-dasharray="8 6"/>
+<text x="105" y="525" font-family="sans-serif" font-size="17" fill="#92400e">return detours through necks / remote vias</text>
+<text x="105" y="552" font-family="sans-serif" font-size="17" fill="#92400e">larger loops → stronger local H-field tendency</text>
+
+<rect x="610" y="90" width="515" height="500" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="645" y="130" font-family="sans-serif" font-size="22" font-weight="700" fill="#166534">Solid reference plane</text>
+<path d="M650 205 H1090" fill="none" stroke="#dc2626" stroke-width="12"/>
+<rect x="650" y="365" width="440" height="100" rx="10" fill="#475569"/>
+<path d="M665 248 C775 295 930 295 1075 248" fill="none" stroke="#f59e0b" stroke-width="5"/>
+<path d="M665 325 C795 345 935 345 1075 325" fill="none" stroke="#f59e0b" stroke-width="3" opacity=".7"/>
+<text x="665" y="525" font-family="sans-serif" font-size="17" fill="#166534">return stays directly under the signal</text>
+<text x="665" y="552" font-family="sans-serif" font-size="17" fill="#166534">smaller loop / more controlled field distribution</text>
+
+<rect x="55" y="615" width="1070" height="40" rx="10" fill="#fff7ed"/>
+<text x="76" y="640" font-family="sans-serif" font-size="16" fill="#92400e">A specific teaching board measured ~20× lower near-field pickup with better return-path layout; that is not a universal far-field EMI ratio.</text>
+</svg>

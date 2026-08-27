@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="670" viewBox="0 0 1180 670">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#dc2626"/></marker></defs>
+<rect width="1180" height="670" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">Plane cavity: return-current injection can spread far beyond the signal via</text>
+<rect x="85" y="140" width="1010" height="24" fill="#475569"/>
+<rect x="85" y="470" width="1010" height="24" fill="#475569"/>
+<text x="95" y="128" font-family="sans-serif" font-size="18" fill="#334155">plane A</text>
+<text x="95" y="530" font-family="sans-serif" font-size="18" fill="#334155">plane B</text>
+<path d="M320 85 V545" stroke="#7c3aed" stroke-width="10"/>
+<text x="245" y="82" font-family="sans-serif" font-size="17" fill="#6d28d9">signal via</text>
+<circle cx="320" cy="152" r="11" fill="#dc2626"/>
+<path d="M320 210 C430 235 470 270 560 310" fill="none" stroke="#dc2626" stroke-width="5" marker-end="url(#ar)"/>
+<path d="M320 210 C235 250 200 310 160 370" fill="none" stroke="#dc2626" stroke-width="5" marker-end="url(#ar)"/>
+<path d="M560 310 C735 360 880 330 1010 270" fill="none" stroke="#dc2626" stroke-width="4" opacity=".8" marker-end="url(#ar)"/>
+<path d="M160 370 C320 425 490 430 675 390" fill="none" stroke="#dc2626" stroke-width="4" opacity=".6" marker-end="url(#ar)"/>
+<text x="435" y="250" font-family="sans-serif" font-size="18" fill="#991b1b">return-current wave spreads in plane pair</text>
+<text x="780" y="250" font-family="sans-serif" font-size="17" fill="#991b1b">edge reflection / resonance</text>
+
+<g fill="#16a34a">
+<circle cx="520" cy="305" r="10"/><circle cx="690" cy="305" r="10"/><circle cx="860" cy="305" r="10"/>
+<circle cx="520" cy="390" r="10"/><circle cx="690" cy="390" r="10"/><circle cx="860" cy="390" r="10"/>
+</g>
+<g stroke="#16a34a" stroke-width="7">
+<line x1="520" y1="160" x2="520" y2="480"/><line x1="690" y1="160" x2="690" y2="480"/><line x1="860" y1="160" x2="860" y2="480"/>
+</g>
+<text x="650" y="560" font-family="sans-serif" font-size="18" font-weight="700" fill="#166534">same-net stitching vias change cavity boundary conditions</text>
+<text x="650" y="589" font-family="sans-serif" font-size="16" fill="#475569">smaller electromagnetic regions → higher resonance tendency / lower coupling range</text>
+<rect x="85" y="615" width="1010" height="35" rx="10" fill="#e2e8f0"/>
+<text x="108" y="639" font-family="sans-serif" font-size="16" fill="#334155">Via pitch must be tied to bandwidth, wavelength and geometry; “6 vias per wavelength” is a heuristic, not a universal rule.</text>
+</svg>

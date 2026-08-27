@@ -1,1 +1,70 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reference Transition Lab</title><style>body{font-family:system-ui,sans-serif;background:#f6f9fc;color:#17324d;margin:0}.w{max-width:980px;margin:auto;padding:28px}.c{background:white;border:1px solid #d6e0ea;border-radius:18px;padding:22px;margin:16px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}select,input{width:100%;padding:10px;margin-top:8px}.meter{height:18px;background:#e9eef3;border-radius:12px;overflow:hidden}.bar{height:100%;background:#2f79c5}.risk{font-size:28px;font-weight:800}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style><div class="w"><h1>Reference Transition Lab</h1><p>比较 GND→GND 与 GND→PWR 换层时，local stitching / decoupling 距离对回流转移回路的趋势影响。不是 EM 仿真器。</p><div class="c grid"><label>New reference<select id="ref"><option value="gnd">GND plane</option><option value="pwr">Power plane</option></select></label><label>Support element<select id="sup"><option value="local">Local stitching / decoupling</option><option value="remote">Remote transfer path</option><option value="none">No explicit support</option></select></label><label>Estimated transfer distance (mm)<input id="d" type="range" min="0.5" max="40" step="0.5" value="2"><span id="dv"></span></label><label>Edge severity<input id="e" type="range" min="1" max="10" step="1" value="5"><span id="ev"></span></label></div><div class="c"><div class="risk" id="r"></div><div class="meter"><div class="bar" id="b"></div></div><p id="m"></p><p><b>思考：</b>如果新旧 reference 是不同 net，为什么一颗 GND stitching via 不能替代 GND↔PWR 的局部高频耦合路径？</p></div></div><script>const q=x=>document.getElementById(x);function f(){let ref=q('ref').value,s=q('sup').value,d=+q('d').value,e=+q('e').value;q('dv').textContent=d.toFixed(1)+' mm';q('ev').textContent=e;let x=d*1.5+e*3;if(s==='remote')x+=20;if(s==='none')x+=45;if(ref==='pwr')x+=12;if(ref==='pwr'&&s==='local')x-=8;x=Math.max(0,Math.min(100,Math.round(x)));q('r').textContent='Teaching risk: '+x+'/100';q('b').style.width=x+'%';q('m').textContent=x<35?'回流转移路径相对局部，结构较容易解释。':x<70?'需要检查 transfer loop、decoupling/stitching 与 reference continuity。':'回流可能被迫绕远，common-mode conversion 与 discontinuity 风险显著。'}['ref','sup','d','e'].forEach(x=>q(x).oninput=f);f();</script></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reference Transition Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+label{display:block;font-weight:700;margin:13px 0 5px}select,input[type=range]{width:100%}.metric{font-size:24px;font-weight:800;margin:12px 0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#e2e8f0;margin:3px;font-size:13px}
+.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px;margin-top:14px}canvas{width:100%;height:430px;border-radius:12px;background:#0f172a}
+table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Reference Transition Lab：Signal Via 旁边真正缺的是什么</h1>
+<p class="lead">比较 same-net stitching via、different-net capacitor path、plane separation、simultaneous switching 与 cavity size。输出是定性教学趋势，不是 3D full-wave solver。</p>
+<div class="grid"><div class="card">
+<label>Old → New reference</label>
+<select id="ref"><option value="gg">GND → GND</option><option value="gp">GND → PWR</option></select>
+<label>Transition support</label>
+<select id="sup"><option value="local">Local support</option><option value="remote">Remote support</option><option value="none">No explicit support</option></select>
+<label>Support distance：<span id="dv"></span></label><input id="d" type="range" min="0.5" max="40" step="0.5" value="2">
+<label>Plane separation：<span id="pv"></span></label><input id="p" type="range" min="0.05" max="1.0" step="0.01" value="0.15">
+<label>Simultaneous signal vias N：<span id="nv"></span></label><input id="n" type="range" min="1" max="24" step="1" value="4">
+<label>Edge severity：<span id="ev"></span></label><input id="e" type="range" min="1" max="10" step="1" value="5">
+<label>Plane / cavity size：<span id="cv"></span></label><input id="cav" type="range" min="20" max="250" step="5" value="80">
+<div class="metric" id="risk"></div>
+<div><span class="pill">L·di/dt</span><span class="pill">shared return</span><span class="pill">plane cavity</span></div>
+<div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="820" height="430"></canvas>
+<table><tr><th>观察项</th><th>当前趋势</th><th>主要原因</th></tr>
+<tr><td>Transition impedance</td><td id="ti"></td><td id="tiw"></td></tr>
+<tr><td>Cavity excitation</td><td id="ce"></td><td>同时切换数量、plane separation、support path 与 cavity 尺寸共同影响。</td></tr>
+<tr><td>Recommended next action</td><td colspan="2" id="act"></td></tr></table>
+<div class="small">GND→PWR 的 “local support” 表示局部 GND↔PWR capacitor / AC transfer path；GND→GND 则表示局部 stitching via。两者不等价。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");
+["ref","sup","d","p","n","e","cav"].forEach(id=>$(id).oninput=draw);
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function draw(){
+ const ref=$("ref").value,sup=$("sup").value,d=+$("d").value,p=+$("p").value,n=+$("n").value,e=+$("e").value,cav=+$("cav").value;
+ $("dv").textContent=d.toFixed(1)+" mm";$("pv").textContent=p.toFixed(2)+" mm";$("nv").textContent=n;$("ev").textContent=e;$("cv").textContent=cav+" mm";
+ let path=(d/10)*(1+e*.18);
+ if(sup==="remote") path*=2.2;if(sup==="none") path*=4.5;
+ if(ref==="gp") path*=1.65;
+ if(ref==="gp"&&sup==="local") path*=.78;
+ const shared=(1+n*.18)*(1+e*.12);
+ const cavity=(cav/80)*(p/.15)*(sup==="none"?1.8:sup==="remote"?1.3:.75)*(ref==="gp"?1.15:.9);
+ const risk=clamp(100*(.35*Math.tanh(path/3)+.35*Math.tanh(shared/5)+.30*Math.tanh(cavity/3)),0,100);
+ $("risk").textContent="Teaching risk: "+risk.toFixed(0)+"/100";
+ $("ti").textContent=path<1.5?"低":path<4?"中":"高";
+ $("tiw").textContent=ref==="gg"?"same-net plane 可直接用 GND via，distance 越小越容易获得低 L transition。":"different-net plane 需要 capacitor/AC path，ESL 与 via geometry 进入回流路径。";
+ $("ce").textContent=cavity<1?"低":cavity<2.5?"中":"高";
+ let act="";
+ if(ref==="gg"&&sup!=="local") act="优先把 same-net stitching via 拉近 signal via。";
+ else if(ref==="gp"&&sup==="none") act="需要明确 GND↔PWR 高频 transfer path；不要让 return current 靠远处偶然耦合。";
+ else if(n>12) act="同时切换数量高：把多个 signal-via cluster 的 return support 分散并靠近。";
+ else if(cav>150) act="大 cavity：评估 resonance / stitching pattern，而不是只看局部 via。";
+ else act="结构可解释；下一步用实际 stackup、field/full-wave simulation 或 quiet-net measurement 验证。";
+ $("act").textContent=act;
+ $("lesson").textContent=ref==="gg"?"同网 GND plane 的优势在于可直接用金属 via 提供局部 reference transition；不是因为“GND 更干净”。":"PWR plane 可以成为 AC reference，DC 电压值本身不是关键；关键是连续性，以及换层时 GND↔PWR 的低阻抗高频转移路径。";
+
+ const W=820,H=430,top=95,bot=330;
+ ctx.clearRect(0,0,W,H);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,W,H);
+ ctx.fillStyle="#64748b";ctx.fillRect(70,top,680,15);ctx.fillStyle=ref==="gg"?"#64748b":"#d97706";ctx.fillRect(70,bot,680,15);
+ ctx.strokeStyle="#a78bfa";ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(250,55);ctx.lineTo(250,375);ctx.stroke();
+ const sx=250+Math.min(340,d*8);ctx.strokeStyle=sup==="none"?"#ef4444":"#22c55e";ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(sx,top+7);ctx.lineTo(sx,ref==="gg"?bot+7:top+82);ctx.stroke();
+ if(ref==="gp"&&sup!=="none"){ctx.strokeStyle="#f59e0b";ctx.lineWidth=5;ctx.strokeRect(sx-24,top+82,48,55);ctx.beginPath();ctx.moveTo(sx,top+137);ctx.lineTo(sx,bot+7);ctx.stroke()}
+ ctx.strokeStyle="#f97316";ctx.lineWidth=3;for(let k=0;k<Math.min(10,n);k++){ctx.beginPath();let yy=145+k*14;ctx.moveTo(270,yy);ctx.bezierCurveTo(380,yy-25,510,yy+35,690,yy);ctx.stroke()}
+ ctx.fillStyle="#cbd5e1";ctx.font="16px system-ui";ctx.fillText("plane A",75,top-12);ctx.fillText(ref==="gg"?"plane B: GND":"plane B: PWR",75,bot+45);ctx.fillText("signal via",205,50);ctx.fillText(sup==="none"?"no local support":ref==="gg"?"stitching via":"capacitor path",sx-55,top-18);
+}
+draw();
+</script></body></html>

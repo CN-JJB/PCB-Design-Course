@@ -61,6 +61,34 @@ new PWR reference
 
 ---
 
+# 2.1 Reference plane 的 DC 电压不是“匹不匹配”的关键
+
+一个 3.3 V signal 可以把 12 V power plane 当作高频 reference，只要：
+
+- plane 连续；
+- signal-reference geometry 稳定；
+- 没有跨 split / void；
+- return path 可以局部闭合。
+
+所以“3.3 V signal 必须参考 3.3 V plane”不是正确规则。
+
+真正的问题出现在**换层**：
+
+- old reference = GND；
+- new reference = 12 V / 3V3 / 其他 PWR；
+
+此时 return current 需要跨不同 DC net。
+
+### Same-net vs different-net transition
+
+<p align="center"><img src="../assets/svg/pi-reference-transition-cavity.svg" width="900" alt="same net versus different net return transition"></p>
+
+- GND→GND：可用 nearby stitching via 直接提供低电感 metal path；
+- GND→PWR：需要 nearby GND↔PWR AC coupling / decoupling path。
+
+后者的 high-frequency impedance 由 capacitor + via + pad + spreading geometry 共同决定，不能只看“放了一颗 100 nF”。
+
+
 # 3. 为什么 Reference Transition 会造成 EMI 风险
 
 如果 return current 没有就近转移路径，它会：
@@ -157,7 +185,7 @@ new PWR reference
 - GND→PWR + local decoupling；
 - GND→PWR + remote coupling path。
 
-它只展示**趋势和回路直觉**，不是 field solver。
+它只展示**趋势和回路直觉**，不是 field solver。新版实验还加入 plane separation、simultaneous switching signal-via 数量和 cavity size，用来观察 shared-reference / plane-cavity 风险。
 
 ---
 
