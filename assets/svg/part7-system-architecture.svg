@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640">
+<defs><style>
+.t{font-family:Arial,'Noto Sans SC',sans-serif;fill:#102a43}.h{font-size:30px;font-weight:700}.s{font-size:17px}.b{font-size:20px;font-weight:700}.box{fill:#fff;stroke:#8aa4c8;stroke-width:2}.g{fill:#eef8f1;stroke:#4e9f68;stroke-width:2}.p{fill:#f5efff;stroke:#8267c7;stroke-width:2}.o{fill:#fff7e8;stroke:#d99a2b;stroke-width:2}.r{fill:none;stroke:#d83a3a;stroke-width:5;marker-end:url(#ar)}.bl{fill:none;stroke:#1976d2;stroke-width:4;marker-end:url(#ab)}
+</style><marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d83a3a"/></marker><marker id="ab" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1976d2"/></marker></defs>
+<rect width="1200" height="640" fill="#f7fbff"/><text x="55" y="55" class="t h">STM32H743 V3｜六层高速系统架构</text>
+<rect x="445" y="115" width="310" height="145" rx="18" class="box"/><text x="600" y="160" text-anchor="middle" class="t h">STM32H743</text><text x="600" y="195" text-anchor="middle" class="t s">LQFP144 · FMC · Ethernet MAC · USB</text><text x="600" y="226" text-anchor="middle" class="t s">VDD / VCAP / VDDA / SWD / HSE</text>
+<rect x="80" y="120" width="250" height="135" rx="16" class="p"/><text x="205" y="160" text-anchor="middle" class="t b">8 MiB SDRAM</text><text x="205" y="193" text-anchor="middle" class="t s">AS4C4M16SA · x16</text><text x="205" y="220" text-anchor="middle" class="t s">SDCLK 100 MHz</text>
+<path d="M445 190 H330" class="r"/><path d="M330 215 H445" class="bl"/><text x="385" y="165" text-anchor="middle" class="t s">FMC</text>
+<rect x="870" y="110" width="250" height="145" rx="16" class="g"/><text x="995" y="150" text-anchor="middle" class="t b">LAN8742A PHY</text><text x="995" y="183" text-anchor="middle" class="t s">RMII 50 MHz</text><text x="995" y="212" text-anchor="middle" class="t s">MDI analog differential</text>
+<path d="M755 170 H870" class="r"/><path d="M870 205 H755" class="bl"/><text x="812" y="148" text-anchor="middle" class="t s">RMII</text>
+<rect x="870" y="330" width="250" height="120" rx="16" class="o"/><text x="995" y="370" text-anchor="middle" class="t b">Magnetics + RJ45</text><text x="995" y="402" text-anchor="middle" class="t s">Isolation · Shield · Cable · ESD</text>
+<path d="M995 255 V330" class="r"/><text x="1018" y="295" class="t s">MDI</text>
+<rect x="440" y="345" width="320" height="130" rx="16" class="o"/><text x="600" y="385" text-anchor="middle" class="t b">3V3 Power Architecture</text><text x="600" y="418" text-anchor="middle" class="t s">MCU · SDRAM VDDQ · PHY analog</text><text x="600" y="448" text-anchor="middle" class="t s">local loops + PDN + SSN review</text>
+<path d="M600 345 V260" class="bl"/><path d="M475 380 C350 350 260 310 205 255" class="bl"/><path d="M725 380 C830 350 900 310 950 255" class="bl"/>
+<text x="55" y="570" class="t b">核心：Timing + Reference + Return + Power + Boundary 必须一起 Review</text><text x="55" y="605" class="t s">红色：信号/去程　蓝色：回流/供电闭环　紫色：同步内存　绿色：PHY　橙色：电源/外部边界</text></svg>
