@@ -72,6 +72,21 @@ JLCPCB 当前 Controlled Impedance 页面公开多种四层叠层。本课程选
 - 回流更容易集中在相邻 GND 平面；
 - 微带阻抗由清晰的走线—平面几何关系决定。
 
+### 3.1 L1-L2 距离还会改变“表层器件接地过孔”的有效电感
+
+这里常被忽略的一点是：L2 GND 靠近 L1，不只帮助 microstrip 的阻抗与回流。
+
+对于顶层去耦电容、旁路器件、接口保护等元件，GND pad 通过 through via 接入 L2 时，真正串在“pad → GND plane”高频路径上的主要 barrel 长度，只需要到达 L2。
+
+这与二层板上“顶层 → 底层 GND”接近整板厚度的情况完全不同。
+
+Part 0 的 [实测接地案例](../10_Part0_从二层到多层/06_实测案例_接地过孔与耦合.md) 中，作者测试板把约 1.6 mm 的二层接地路径与邻近 L2 的四层接地路径做了对比，在 800 MHz 附近测得非常明显的抑制度差异。
+
+不要照抄那个测试板的 pH/dB 数字做本项目规格；应该带走的是设计变量：
+
+> **stackup 决定 signal-reference geometry，也决定很多局部 GND connection 的有效高频路径长度。**
+
+
 ### L2 与 L3 相距很远
 
 中间 core 约 1.265 mm。
@@ -188,6 +203,7 @@ Bottom 上一条 SWCLK 从 3V3 区跨到 5V 区，再跨到空隙。
 - [ ] L1 的 reference plane 明确；
 - [ ] L4 的 reference plane 明确；
 - [ ] L2 是否保持连续；
+- [ ] 顶层关键 GND 支路到 L2 的 via 路径是否短而直接；
 - [ ] L3 split 是否会影响 Bottom 关键网络；
 - [ ] 受控阻抗宽度没有凭空猜；
 - [ ] fabrication output 与订单 stackup 一致。
