@@ -127,3 +127,10 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 - Analog Devices, *Interfacing High-Speed Signals*: https://www.analog.com/en/resources/technical-articles/interfacing-highspeed-signals.html
 
 > 旧版 `04_多层板理论` 中 SI 相关章节仍保留在分支历史里作为迁移来源；新主线以本 Part 为准。
+
+## 进阶补充
+
+9. [损耗、S 参数与高速通道](09_损耗_S参数与高速通道.md)
+10. [IBIS 与板级 SI 仿真入门](10_IBIS与板级SI仿真入门.md)
+
+这两章是 Part 8 GTP / SerDes 的前置桥梁：把“阻抗与波形”扩展到完整 channel、S 参数和模型验证。
