@@ -74,6 +74,43 @@ MCU/FPGA IBIS driver
 - edge rate；
 - delay。
 
+## 10.4.1 从 point-to-point 升级到 branched + coupled topology
+
+视频中的完整案例不是只扫一个 Rs，而是同时建模：
+
+~~~text
+IBIS transmitter
+→ coupled trace section
+→ tee
+→ branch A / branch B
+→ two IBIS receivers
+
+adjacent quiet victim
+→ coupled trace section
+→ victim receiver
+~~~
+
+这能同时回答：
+
+- branch imbalance 会怎样改变 reflection timing；
+- Rs 对 repeated bounce 的抑制程度；
+- H / spacing 对 crosstalk 的影响；
+- stackup 变化如何同时改变 Z0 与 field confinement。
+
+建议学生做仿真时也采用 **single-variable ablation**：
+
+1. baseline；
+2. only topology change；
+3. only Rs；
+4. only stackup；
+5. pairwise combinations；
+6. all changes。
+
+这样才能知道“为什么变好”，而不是只保存一张最终漂亮波形。
+
+完整实验参数与教材修正见：[11｜仿真案例：支路、源端串联终端与 Stackup](11_仿真案例_支路终端与Stackup.md)。
+
+
 ## 10.5 仿真输入必须可追溯
 
 保存：
@@ -86,6 +123,7 @@ MCU/FPGA IBIS driver
 | Z0 / delay | field solver / fab |
 | load | receiver / connector / probe |
 | termination | schematic BOM option |
+| topology / branch lengths | layout / extracted geometry |
 | corner | explicit |
 
 ## 10.6 仿真不能替代什么

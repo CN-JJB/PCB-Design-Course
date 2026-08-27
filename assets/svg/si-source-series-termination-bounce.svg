@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="670" viewBox="0 0 1180 670">
+<defs><marker id="a1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#2563eb"/></marker><marker id="a2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+<rect width="1180" height="670" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">Source-series termination with a high-Z receiver</text>
+
+<rect x="70" y="95" width="1040" height="185" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<rect x="105" y="160" width="120" height="65" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+<text x="133" y="198" font-family="sans-serif" font-size="19" font-weight="700" fill="#1d4ed8">Driver Rout</text>
+<rect x="260" y="172" width="85" height="40" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+<text x="282" y="198" font-family="sans-serif" font-size="18" font-weight="700" fill="#92400e">Rs</text>
+<line x1="345" y1="192" x2="885" y2="192" stroke="#dc2626" stroke-width="8"/>
+<rect x="885" y="150" width="145" height="85" rx="10" fill="#ecfdf5" stroke="#16a34a" stroke-width="3"/>
+<text x="915" y="184" font-family="sans-serif" font-size="18" font-weight="700" fill="#166534">High-Z</text>
+<text x="905" y="208" font-family="sans-serif" font-size="16" fill="#166534">receiver</text>
+<text x="475" y="168" font-family="sans-serif" font-size="17" fill="#991b1b">Z0 transmission line</text>
+
+<text x="70" y="330" font-family="sans-serif" font-size="20" font-weight="700" fill="#0f172a">1. Incident wave launches</text>
+<line x1="330" y1="350" x2="765" y2="350" stroke="#2563eb" stroke-width="5" marker-end="url(#a1)"/>
+<text x="350" y="382" font-family="sans-serif" font-size="16" fill="#1d4ed8">Rout + Rs ≈ Z0 → controlled launch</text>
+
+<text x="70" y="430" font-family="sans-serif" font-size="20" font-weight="700" fill="#0f172a">2. High-Z load reflects positively</text>
+<line x1="835" y1="450" x2="390" y2="450" stroke="#f59e0b" stroke-width="5" marker-end="url(#a2)"/>
+<text x="425" y="482" font-family="sans-serif" font-size="16" fill="#92400e">ΓL ≈ +1 in the ideal open-load limit</text>
+
+<text x="70" y="530" font-family="sans-serif" font-size="20" font-weight="700" fill="#0f172a">3. Reflection reaches the matched-ish source</text>
+<rect x="370" y="505" width="470" height="80" rx="14" fill="#ecfdf5"/>
+<text x="395" y="538" font-family="sans-serif" font-size="18" font-weight="700" fill="#166534">Return energy is largely absorbed at the source</text>
+<text x="395" y="566" font-family="sans-serif" font-size="16" fill="#475569">→ avoids repeated end-to-end bouncing</text>
+
+<rect x="70" y="615" width="1040" height="34" rx="10" fill="#e2e8f0"/>
+<text x="92" y="638" font-family="sans-serif" font-size="16" fill="#334155">For branched nets, tees and stubs add more discontinuities; source termination still helps but topology must be modeled.</text>
+</svg>

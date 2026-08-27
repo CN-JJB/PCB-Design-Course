@@ -222,6 +222,7 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 - `interactive/reflection-lab.html`：本 Part 新增，观察负载失配；
 - `interactive/return-path-lab.html`：观察参考面完整性与共享回流；
 - `interactive/crosstalk-lab.html`：观察 S/H、Lc/tr、NEXT/FEXT、microstrip/stripline 与 termination 对串扰波形的影响；
+- `interactive/topology-termination-lab.html`：把 branch topology、source Rs、Z0、H/S 与 td/tr 放到同一个 A/B 实验里；
 - `interactive/si-degradation-lab.html`：把 reflection / loss / noise / jitter 放到同一条信号链里比较；
 - `projects/stm32f407-mainline/v2/si-upgrade-plan.md`：V2 SI 改造任务；
 - `projects/stm32f407-mainline/fault-lab/part2-si-faults.md`：故障实验清单。
@@ -245,5 +246,6 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 
 9. [损耗、S 参数与高速通道](09_损耗_S参数与高速通道.md)
 10. [IBIS 与板级 SI 仿真入门](10_IBIS与板级SI仿真入门.md)
+11. [仿真案例：支路、源端串联终端与 Stackup](11_仿真案例_支路终端与Stackup.md)
 
 这两章是 Part 8 GTP / SerDes 的前置桥梁：把“阻抗与波形”扩展到完整 channel、S 参数和模型验证。

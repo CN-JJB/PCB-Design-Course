@@ -1,0 +1,82 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Topology + Termination Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:330px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+label{display:block;font-weight:700;margin:13px 0 5px}input[type=range]{width:100%}.metric{font-size:24px;font-weight:800;margin:12px 0}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px;margin-top:14px}
+canvas{width:100%;height:430px;background:#0f172a;border-radius:12px}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#e2e8f0;margin:3px;font-size:13px}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Topology + Termination Lab：三个旋钮为什么不能互相替代</h1>
+<p class="lead">拖动 branch mismatch、Rs、Z0、H、S、length 与 rise time。页面分别输出 reflection、crosstalk 与 electrical-length 趋势；不是 IBIS / SPICE / field solver。</p>
+<div class="grid"><div class="card">
+<label>Branch mismatch：<span id="bmv"></span></label><input id="bm" type="range" min="0" max="40" step="1" value="20">
+<label>Source series Rs：<span id="rsv"></span></label><input id="rs" type="range" min="0" max="80" step="1" value="0">
+<label>Driver Rout：<span id="rov"></span></label><input id="ro" type="range" min="5" max="40" step="1" value="15">
+<label>Line Z0：<span id="zv"></span></label><input id="z" type="range" min="30" max="90" step="1" value="50">
+<label>Reference height H：<span id="hv"></span></label><input id="h" type="range" min="0.08" max="1.6" step="0.02" value="1.6">
+<label>Adjacent spacing S：<span id="sv"></span></label><input id="s" type="range" min="0.15" max="2.0" step="0.05" value="0.30">
+<label>Longest electrical path：<span id="lv"></span></label><input id="l" type="range" min="0.5" max="120" step="0.5" value="70">
+<label>Rise time tr：<span id="tv"></span></label><input id="tr" type="range" min="0.2" max="10" step="0.1" value="0.5">
+<div class="metric" id="score"></div>
+<div><span class="pill">topology</span><span class="pill">termination</span><span class="pill">stackup</span><span class="pill">td/tr</span></div>
+<div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="820" height="430"></canvas>
+<table><tr><th>风险项</th><th>趋势</th><th>当前主要原因</th></tr>
+<tr><td>Reflection / ringing</td><td id="rr"></td><td id="rrw"></td></tr>
+<tr><td>Crosstalk</td><td id="cr"></td><td id="crw"></td></tr>
+<tr><td>Electrical length</td><td id="er"></td><td id="erw"></td></tr>
+<tr><td>First action</td><td colspan="2" id="act"></td></tr></table>
+<div class="small">教学模型刻意把三个机制拆开。真实 branched line 的幅值、时序和阈值必须用实际 IBIS + stackup + topology 仿真或测量。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");
+["bm","rs","ro","z","h","s","l","tr"].forEach(id=>$(id).oninput=draw);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function draw(){
+ const bm=+$("bm").value,rs=+$("rs").value,ro=+$("ro").value,z=+$("z").value,h=+$("h").value,s=+$("s").value,l=+$("l").value,tr=+$("tr").value;
+ $("bmv").textContent=bm+" mm";$("rsv").textContent=rs+" Ω";$("rov").textContent=ro+" Ω";$("zv").textContent=z+" Ω";$("hv").textContent=h.toFixed(2)+" mm";$("sv").textContent=s.toFixed(2)+" mm";$("lv").textContent=l.toFixed(1)+" mm";$("tv").textContent=tr.toFixed(1)+" ns";
+ const sourceMismatch=Math.abs((ro+rs)-z)/z;
+ const branch=clamp(bm/40,0,1);
+ const reflect=clamp(.62*sourceMismatch+.38*branch,0,1);
+ const geom=h/(s+h);
+ const edge=clamp(1/tr,0.08,3);
+ const xt=clamp(geom*(.35+.65*Math.min(1,edge))*Math.min(1,l/70)*1.5,0,1);
+ const v=160; // mm/ns teaching estimate
+ const td=l/v, rho=td/tr;
+ const el=clamp(rho/0.6,0,1);
+ const overall=Math.round(100*(.4*reflect+.35*xt+.25*el));
+ $("score").textContent="Combined teaching risk: "+overall+"/100";
+ $("rr").textContent=Math.round(reflect*100)+"/100";
+ $("cr").textContent=Math.round(xt*100)+"/100";
+ $("er").textContent="td/tr ≈ "+rho.toFixed(2);
+ $("rrw").textContent=sourceMismatch>branch?"Rout+Rs 与 Z0 偏差更大。":"branch imbalance 更主导反射时序。";
+ $("crw").textContent=h/s>2?"H 相对 S 很大，fringe field 更容易覆盖邻线。":"几何较受 reference 约束；长度/边沿仍会影响。";
+ $("erw").textContent=rho<.1?"互连相对 edge 很短。":rho<.3?"传播时间开始可见。":"应认真按 transmission line 处理。";
+ let act="";
+ if(sourceMismatch>.35) act="先把 source damping 调到 Rout + Rs 接近 Z0，再看剩余 ringing。";
+ else if(branch>.45) act="先审查 topology；不要只靠增大 Rs 掩盖不合理 branch。";
+ else if(xt>.45) act="优先减小 H / 增大 S / 缩短 parallel run，改善 crosstalk。";
+ else if(rho>.3) act="互连已电气变长：进入 IBIS / transmission-line 仿真。";
+ else act="当前趋势较温和；下一步以 receiver threshold / timing margin 验证。";
+ $("act").textContent=act;
+ $("lesson").textContent="Topology 决定波如何分叉，termination 决定反射是否继续 bounce，stackup 决定 Z0 与场约束；三个旋钮不能互相替代。";
+
+ ctx.clearRect(0,0,820,430);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,820,430);
+ const base=325,amp=170;
+ ctx.strokeStyle="#475569";ctx.lineWidth=1;for(let x=60;x<780;x+=80){ctx.beginPath();ctx.moveTo(x,45);ctx.lineTo(x,375);ctx.stroke()}
+ ctx.strokeStyle="#94a3b8";ctx.setLineDash([7,6]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(55,base);ctx.lineTo(760,base);ctx.stroke();ctx.setLineDash([]);
+ // ideal edge
+ ctx.strokeStyle="#22c55e";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(60,base);ctx.lineTo(190,base);ctx.lineTo(190,base-amp*.75);ctx.lineTo(760,base-amp*.75);ctx.stroke();
+ // degraded response
+ const over=reflect*amp*.55,noise=xt*amp*.35,settle=60+branch*110;
+ ctx.strokeStyle="#f59e0b";ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(60,base);ctx.lineTo(190,base);ctx.quadraticCurveTo(205,base-amp*.82-over,230,base-amp*.72);ctx.quadraticCurveTo(250,base-amp*.72+over*.55,270,base-amp*.75);
+ for(let k=1;k<6;k++){let x=270+k*settle/2,y=base-amp*.75+(k%2?1:-1)*over*Math.exp(-k*.65);ctx.lineTo(x,y)}
+ ctx.lineTo(760,base-amp*.75);ctx.stroke();
+ // victim
+ ctx.strokeStyle="#38bdf8";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(60,base-20);for(let x=60;x<=760;x+=20){let pulse=Math.exp(-Math.pow((x-225)/55,2))*noise*Math.sin((x-180)/15);ctx.lineTo(x,base-20-pulse)}ctx.stroke();
+ ctx.fillStyle="#cbd5e1";ctx.font="15px system-ui";ctx.fillText("green: ideal target",590,55);ctx.fillStyle="#f59e0b";ctx.fillText("orange: ringing trend",590,80);ctx.fillStyle="#38bdf8";ctx.fillText("blue: victim crosstalk trend",590,105);
+}
+draw();
+</script></body></html>

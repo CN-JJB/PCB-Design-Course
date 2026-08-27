@@ -100,6 +100,45 @@ VNA 的高动态范围尤其适合看较小的耦合或较大的衰减，例如�
 
 ---
 
+## 7.2.1 “Scope 看起来很干净”也可能只是测量链太慢
+
+一个仿真里存在 0.5 ns edge、narrow crosstalk spike 或快速 ringing，不代表任何示波器都能把它如实画出来。
+
+测量链至少包含：
+
+~~~text
+test point
+→ probe tip / ground
+→ probe bandwidth
+→ scope analog front-end bandwidth
+→ sample rate
+→ acquisition / interpolation
+~~~
+
+视频强调 sample rate，这个提醒有价值，但课程要再加一层：
+
+> **Analog bandwidth 与 probe connection 是第一阶限制，sample rate 不能替代 bandwidth。**
+
+常见单极点 10–90% 近似：
+
+\[
+BW\approx\frac{0.35}{t_r}
+\]
+
+若要观察约 0.5 ns edge，700 MHz 只是“不要把边沿严重拖慢”的量级起点；若要高保真观察 overshoot / narrow spike，通常需要更高 bandwidth 和足够 sample rate。
+
+因此测 SI 波形时至少记录：
+
+- scope bandwidth；
+- probe bandwidth；
+- sample rate；
+- bandwidth-limit setting；
+- probe tip / ground geometry；
+- acquisition mode。
+
+相关案例见：[11｜仿真案例：支路、源端串联终端与 Stackup](11_仿真案例_支路终端与Stackup.md)。
+
+
 ## 7.3 TDR 是什么
 
 TDR = Time Domain Reflectometry。
