@@ -1,5 +1,7 @@
 # Part 5｜STM32F407 V2 四层综合板：把 SI / PI / EMC 压回同一块 PCB
 
+> 🎮 **真正动手请进入 [V2 START HERE](../projects/stm32f407-mainline/v2/START_HERE.md)**。正文讲方法，START_HERE 规定每一关的产出、通过标准和下一步。
+
 > 到这里，课程第一次不再新增一套“独立理论”。你已经分别学过 SI、PI、EMI/EMC；Part 5 的任务是把它们放到同一张原理图、同一个四层 stackup、同一块有限板框里做取舍。
 
 <p align="center">
