@@ -158,6 +158,30 @@ Z_0=\frac{V^+}{I^+}\approx\sqrt{\frac{L'}{C'}}
 
 ---
 
+## 1.6.1 为什么回流不需要“先到终点再回来”：位移电流视角
+
+<p align="center"><img src="../assets/svg/si-return-wavefront.svg" width="920" alt="传播边沿、位移电流与回流电流"></p>
+
+把传输线想成“去程电流先跑到负载，再从地回来”，只适合建立 DC 闭环直觉。对正在传播的边沿，更有用的物理图景来自 Maxwell 引入的 **displacement current（位移电流）**。
+
+当边沿向前传播时，signal 与 reference 之间的电场正在变化。就在这片“变化中的场”所在区域，存在位移电流密度：
+
+\[
+\mathbf{J}_d=\frac{\partial \mathbf{D}}{\partial t}
+\]
+
+因此，源端不需要等待波跑到负载、再找到一条导线“回来”。传播中的电压波和电流波是同一个电磁过程的两种描述：
+
+- 铜里有 conduction current；
+- signal-reference 之间变化的电场对应 displacement current；
+- reference conductor 上同时形成与传播波匹配的回流分布。
+
+这也是为什么改变 reference plane 的距离、形状或连续性，会立刻改变这条互连的场、回流和阻抗。
+
+> **模型纪律**：分布式 LC 梯形模型很有用，但它是等效模型。理解“场在 signal + reference 结构中传播”通常比把每一小段都想成一颗独立 L/C 更接近真实物理图景。
+
+---
+
 ## 1.7 STM32F407 V2：先挑出哪些线值得 SI 管理
 
 打开你的网络表，把网络分成四类，而不是只按“频率”分：

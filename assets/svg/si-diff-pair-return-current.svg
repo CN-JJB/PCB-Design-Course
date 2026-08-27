@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="600" viewBox="0 0 1100 600">
+<defs><radialGradient id="blue"><stop offset="0" stop-color="#2563eb" stop-opacity=".72"/><stop offset="1" stop-color="#2563eb" stop-opacity="0"/></radialGradient></defs>
+<rect width="1100" height="600" rx="20" fill="#f8fafc"/>
+<text x="55" y="46" font-size="25" font-family="sans-serif" font-weight="700" fill="#0f172a">差分对回流：P↔N coupling 与 pair↔reference coupling 同时存在</text>
+<text x="80" y="92" font-size="20" font-family="sans-serif" font-weight="700" fill="#0f172a">A. Reference 靠近：每根线仍主要“看到”附近 plane</text>
+<rect x="160" y="135" width="150" height="24" rx="6" fill="#dc2626"/><rect x="370" y="135" width="150" height="24" rx="6" fill="#2563eb"/>
+<text x="208" y="128" font-size="17" font-family="sans-serif" fill="#991b1b">P</text><text x="420" y="128" font-size="17" font-family="sans-serif" fill="#1d4ed8">N</text>
+<ellipse cx="235" cy="250" rx="145" ry="78" fill="url(#blue)"/><ellipse cx="445" cy="250" rx="145" ry="78" fill="url(#blue)"/>
+<rect x="80" y="304" width="520" height="24" fill="#475569"/><text x="80" y="350" font-size="16" font-family="sans-serif" fill="#475569">Plane return lobes overlap partly; overlap cancels for ideal differential excitation.</text>
+<text x="650" y="92" font-size="20" font-family="sans-serif" font-weight="700" fill="#0f172a">B. Reference 拉远：return spread / fringe field 更宽</text>
+<rect x="730" y="135" width="110" height="24" rx="6" fill="#dc2626"/><rect x="875" y="135" width="110" height="24" rx="6" fill="#2563eb"/>
+<ellipse cx="785" cy="325" rx="220" ry="125" fill="url(#blue)" opacity=".72"/><ellipse cx="930" cy="325" rx="220" ry="125" fill="url(#blue)" opacity=".72"/>
+<rect x="650" y="470" width="390" height="24" fill="#475569"/>
+<path d="M840 170 C850 235 870 235 875 170" fill="none" stroke="#7c3aed" stroke-width="4" stroke-dasharray="8 6"/><text x="760" y="215" font-size="16" font-family="sans-serif" fill="#6d28d9">relative P↔N coupling grows</text>
+<text x="650" y="525" font-size="16" font-family="sans-serif" fill="#475569">Exact current split is geometry-dependent → use a 2D/3D field solver for numbers.</text>
+<text x="80" y="575" font-size="16" font-family="sans-serif" fill="#64748b">A tightly coupled differential pair is not automatically independent of its reference plane.</text>
+</svg>

@@ -107,6 +107,47 @@ KiCad 10 提供 `diff_pair_uncoupled` 约束，可对过长的 uncoupled section
 
 ---
 
+## 6.5.1 差分对的 return current 到底走 plane 还是走另一根线？答案：看几何
+
+<p align="center"><img src="../assets/svg/si-diff-pair-return-current.svg" width="940" alt="差分对在近参考面与远参考面时的回流分布"></p>
+
+最容易背错的一句话是：
+
+> “差分对 P 的回流天然都走 N，所以不需要 reference plane。”
+
+真实情况由 **P↔N coupling** 与 **每根线↔reference coupling** 共同决定。
+
+在访谈展示的一组特定 HFSS microstrip 例子里，即使 P/N 已经排得很紧、目标约为 100 Ω differential，而且 plane 很近，**大部分 conduction return 仍分别集中在各自走线下方的 plane**；只有两条 return-current distribution 重叠的部分互相抵消。该例子报告的重叠或抵消量级约为一成。
+
+这组比例只能说明一个概念：
+
+> **“紧耦合差分对”不等于“回流完全脱离参考面”。**
+
+不要把 90% / 10% 当成所有差分对的固定分配。改变以下任一项，结果都会变：
+
+- pair gap；
+- trace width；
+- H（到 plane 的距离）；
+- stripline / microstrip；
+- dielectric；
+- frequency；
+- surrounding conductors。
+
+### 把 plane 拉远会怎样？
+
+当 plane 变远：
+
+- 每根线在 plane 上的 return distribution 变宽；
+- P/N 之间相对耦合占比可能提高；
+- fringe field 更广；
+- 对外部结构或邻线的敏感度也提高；
+- differential impedance 随几何改变。
+
+这解释了为什么 unshielded twisted pair 可以在没有 PCB plane 的情况下工作：两根导体本身形成主要传输结构。但这**不能反推**“PCB differential pair 删除 reference plane 会更好”。
+
+PCB 上保留邻近、连续 reference 的价值，是让 impedance、common mode、crosstalk 和 transition 更可预测。
+
+
 ## 6.6 STM32F407 的 USB：先搞清楚你设计的是哪种模式
 
 STM32F407 具有 USB OTG_FS，以及 OTG_HS 控制器；F407 的 HS 控制器要实现 USB High-Speed 480 Mbit/s 通常需要外部 ULPI HS PHY，但控制器也有 embedded FS PHY 可做 Full-Speed 工作。
@@ -267,6 +308,8 @@ pair 本身对称，reference structure 不对称。
 - [ ] layer transition 对称并审查 return structure
 - [ ] skew target 来自需求，不追求无意义的绝对 0
 - [ ] meander 不密集自耦合
+- [ ] 没有使用“差分对不需要参考面”的错误前提
+- [ ] 能解释当前 pair 的 P↔N coupling 与 pair↔reference coupling 哪一个更强，必要时用 field solver 验证
 
 ---
 
