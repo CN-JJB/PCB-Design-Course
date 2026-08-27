@@ -23,7 +23,7 @@
 | 5 | ✅ | 四层综合 | STM32F407 V2：USB / CAN / SDIO 综合收口 |
 | 6 | ✅ | 四层 → 六层 | Layer-count / stackup / reference / 多电源域 / H7 transition |
 | 7 | ✅ | 六层高速 | STM32H743 V3 + SDRAM + Ethernet 工程闭环 |
-| 8 | ⏭️ | FPGA 专项 | Bank / BGA fanout / clock / DDR / pin planning |
+| 8 | ✅ | FPGA 专项 | Artix-7：Bank / BGA / DDR3 / GTP / 配置与板级闭环 |
 | 9 | ⏭️ | 工程交付 | DFM / 测量 / 调试 / BOM / 量产 |
 
 ---
@@ -229,24 +229,88 @@ Fault Lab：[Part 7 H7 / SDRAM / Ethernet Faults](projects/stm32h7-mainline/faul
 
 ---
 
-# 下一阶段：Part 8｜FPGA 板级设计专项
+# ✅ Part 8｜FPGA 板级设计专项：Artix-7 V1
 
-Part 8 将把重心从 MCU 转向 FPGA board-level engineering：
+**[开始 Part 8](18_Part8_FPGA板级设计/00_本Part导读.md)**
+
+<p align="center"><img src="assets/svg/part8-fpga-system-overview.svg" width="980" alt="Part 8 Artix-7 FPGA board-level overview"></p>
+
+硬件基线：
+
+- AMD Artix-7 XC7A35T-1CSG325C
+- 15 × 15 mm / 0.8 mm pitch BGA
+- Master SPI + JTAG
+- 100 MHz system clock
+- Alliance AS4C64M16D3B x16 DDR3
+- 3.3 V / 1.8 V SelectIO teaching banks
+- one GTP teaching lane
+
+完整学习链：
 
 ```text
-FPGA architecture / Bank / I/O standard
-→ power rails / sequencing
-→ clock tree
-→ BGA fanout / escape
-→ pin planning ↔ PCB co-design
-→ DDR interface concepts
-→ high-speed differential I/O
-→ decoupling / PDN
-→ configuration / JTAG
-→ FPGA board bring-up
+Device / Package Freeze
+→ Bank / VCCO / IOSTANDARD
+→ Power / XPE / Sequencing
+→ Configuration / JTAG / SPI
+→ Clock-capable Pins
+→ BGA Fanout / Escape
+→ DDR3 / MIG / DQS Byte Lane
+→ GTP High-Speed Channel
+→ Vivado XDC ↔ KiCad
+→ PDN / Thermal
+→ Bring-up / Validation
+→ Final Design Review
 ```
 
-重点仍然是**板级设计**，不会把课程变成 HDL 编程教程。
+核心章节：
+
+- [FPGA 板级设计思维与器件冻结](18_Part8_FPGA板级设计/01_FPGA板级设计思维与器件冻结.md)
+- [Bank / VCCO / IOSTANDARD / Pin Planning](18_Part8_FPGA板级设计/02_Bank_VCCO与IOSTANDARD_PinPlanning.md)
+- [多电源 Rail / PDN / Sequencing](18_Part8_FPGA板级设计/03_FPGA多电源Rail_PDN与Sequencing.md)
+- [Configuration / JTAG / SPI Flash](18_Part8_FPGA板级设计/04_Configuration_JTAG与SPIFlash.md)
+- [Clock Input / Clock Tree](18_Part8_FPGA板级设计/05_Clock_Input与ClockTree.md)
+- [BGA Fanout / Escape](18_Part8_FPGA板级设计/06_BGA_Fanout_Escape与层数.md)
+- [DDR3 / MIG / Byte Lane](18_Part8_FPGA板级设计/07_DDR3_MIG与ByteLane_PinPlanning.md)
+- [GTP 高速差分](18_Part8_FPGA板级设计/08_GTP高速差分与ConnectorChannel.md)
+- [Vivado XDC ↔ KiCad](18_Part8_FPGA板级设计/09_Vivado_XDC与KiCad协同.md)
+- [FPGA PDN / Decoupling / Thermal](18_Part8_FPGA板级设计/10_FPGA_PDN_Decoupling与Thermal.md)
+- [FPGA Bring-up](18_Part8_FPGA板级设计/11_Bringup与故障定位.md)
+- [Final Review](18_Part8_FPGA板级设计/12_FinalReview与FPGA板级毕业门槛.md)
+- [参考资料与 Source Freeze](18_Part8_FPGA板级设计/13_参考资料与SourceFreeze.md)
+
+互动：
+
+- [Bank Voltage Lab](interactive/fpga-bank-voltage-lab.html)
+- [BGA Escape Lab](interactive/fpga-bga-escape-lab.html)
+- [DDR3 Byte-Lane Lab](interactive/fpga-ddr3-byte-lane-lab.html)
+
+工程资产：[`projects/artix7-mainline/v1/`](projects/artix7-mainline/v1/)
+
+Fault Lab：[50 个 FPGA Board-Level Faults](projects/artix7-mainline/fault-lab/part8-fpga-board-faults.md)
+
+Part 8 的毕业标准不是“能下载 bitstream”，而是你能把 **Bank、电源、配置、BGA、DDR3、GTP 与 PCB 约束**放到同一套工程因果链里解释。
+
+---
+
+# 下一阶段：Part 9｜工程交付与量产化
+
+Part 9 将把前面所有板子统一推进到工程交付：
+
+```text
+Design Freeze
+→ DFM / DFA / DFT
+→ BOM lifecycle / alternates
+→ fabrication / assembly package
+→ programming / calibration
+→ test fixture
+→ bring-up evidence
+→ ECO / revision control
+→ pre-compliance / reliability
+→ pilot build
+→ production release
+```
+
+目标是把“能工作的样板”变成**可制造、可测试、可复现、可维护的工程产品**。
 
 ---
 
@@ -287,7 +351,7 @@ Symptom → Why DRC misses it → Current path / field / parasitic
 
 # 一手资料原则
 
-教材优先使用 STM32 Datasheet / Reference Manual / Errata / Hardware Guide、接口规范、器件官方 Application Note、KiCad 官方文档和板厂实际 stackup / capability。
+教材优先使用 STM32 / AMD FPGA Datasheet、Reference Manual / User Guide / Errata、接口规范、器件官方 Application Note、KiCad / Vivado 官方文档和板厂实际 stackup / capability。
 
 标准、器件、软件和板厂工艺会变化；**实际设计冻结前重新核对当前版本。**
 
@@ -295,6 +359,6 @@ Symptom → Why DRC misses it → Current path / field / parasitic
 
 # 最终学习目标
 
-> **一块你能解释每个重要设计决策的六层板。**
+> **一套你能解释每个重要设计决策的多层高速硬件工程。**
 
 别人问你为什么这样叠层、为什么这个电容放这里、为什么这根线换层、为什么接口这样保护、为什么 shield 这样接，你能从电流路径、电磁场、器件要求、系统结构和制造约束解释，而不是回答“网上都这么画”。
