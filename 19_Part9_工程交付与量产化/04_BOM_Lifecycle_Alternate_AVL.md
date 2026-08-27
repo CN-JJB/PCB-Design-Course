@@ -87,3 +87,44 @@ PCN/EOL received
 |---|---|---|---|---|---|
 
 Part 5 / 7 / 8 的 BOM review 最终统一进入这一格式。
+
+
+## 4.8 Battery 不能只作为一行 Generic BOM
+
+如果产品包含 battery，BOM / AVL 至少扩展：
+
+| Field | Why |
+|---|---|
+| exact cell/pack MPN | certification / transport / replacement |
+| manufacturer | traceability |
+| chemistry | charger / safety |
+| Vmax/Vnom/Vmin | regulator |
+| capacity + test condition | runtime |
+| max continuous/pulse current | load |
+| protection/BMS | fault behavior |
+| connector/drawing | mechanical |
+| UN 38.3 Test Summary | lithium transport evidence |
+| applicable safety report | certification |
+| replacement/spare status | lifecycle |
+
+### Alternate Battery Qualification
+
+Battery alternate 绝不能只满足：
+
+> “同样 3.7 V、2000 mAh、尺寸差不多。”
+
+替代电池可能同时改变：
+
+- charge voltage；
+- NTC；
+- protection threshold；
+- max current；
+- swelling envelope；
+- connector；
+- certification report；
+- UN 38.3 identity。
+
+因此 battery alternate 应按**新关键器件**重新 qualification。
+
+详见：[Part 1｜10 电池供电产品](../11_Part1_STM32F407四层板/10_电池供电产品_选型安全认证与可维修性.md)。
+

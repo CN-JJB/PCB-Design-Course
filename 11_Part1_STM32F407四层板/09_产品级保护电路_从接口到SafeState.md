@@ -331,6 +331,28 @@ rail supervisor + watchdog
 
 ---
 
+## 9.18.1 如果 Power Source 是 Lithium Battery，Protection Boundary 还要继续向 Cell/Pack 延伸
+
+对于 battery-powered product，不能只在主板输入端做：
+
+~~~text
+fuse / eFuse / OVP
+~~~
+
+还要明确：
+
+- cell protection 在哪里；
+- pack BMS 在哪里；
+- charge cutoff 在哪里；
+- temperature sensing 在哪里；
+- 多串 pack 是否 balance；
+- pack sudden disconnect 是否会制造新的 system hazard。
+
+所以“产品保护”与“电池保护”不是两套互不相干的清单。
+
+完整 Battery Architecture 见：[10｜电池供电产品](10_电池供电产品_选型安全认证与可维修性.md)。
+
+
 ## 9.19 Protection Requirement Table
 
 | ID | Threat | Entry / failure path | Protection | Safe state | Validation |

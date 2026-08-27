@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="760" viewBox="0 0 1180 760">
+<rect width="1180" height="760" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Battery choice is a system architecture decision</text>
+<g font-family="sans-serif">
+<rect x="70" y="100" width="1040" height="90" rx="18" fill="#dbeafe"/><text x="95" y="136" font-size="22" font-weight="700" fill="#1d4ed8">1. Electrical fit</text><text x="335" y="136" font-size="17" fill="#334155">Vmax / Vnom / Vmin · average + pulse current · source impedance · regulator</text>
+<rect x="70" y="205" width="1040" height="90" rx="18" fill="#ecfdf5"/><text x="95" y="241" font-size="22" font-weight="700" fill="#166534">2. Chemistry / load fit</text><text x="375" y="241" font-size="17" fill="#334155">high-drain · temperature · self-discharge · leakage · rechargeability</text>
+<rect x="70" y="310" width="1040" height="90" rx="18" fill="#fff7ed"/><text x="95" y="346" font-size="22" font-weight="700" fill="#92400e">3. Safety architecture</text><text x="360" y="346" font-size="17" fill="#334155">cell vs pack · protection/BMS · charger · thermal sensing · safe state</text>
+<rect x="70" y="415" width="1040" height="90" rx="18" fill="#f3e8ff"/><text x="95" y="451" font-size="22" font-weight="700" fill="#6d28d9">4. Mechanical / service</text><text x="370" y="451" font-size="17" fill="#334155">holder · pouch keepout · swelling · replaceability · enclosure tooling</text>
+<rect x="70" y="520" width="1040" height="90" rx="18" fill="#fee2e2"/><text x="95" y="556" font-size="22" font-weight="700" fill="#991b1b">5. Regulatory / logistics</text><text x="390" y="556" font-size="17" fill="#334155">Reese’s Law · EU Article 11 · UN 38.3 · IEC/product standards · shipping</text>
+<rect x="70" y="625" width="1040" height="70" rx="18" fill="#e2e8f0"/><text x="95" y="668" font-size="21" font-weight="700" fill="#0f172a">Production gate: exact MPN + supplier traceability + test documents + replacement strategy</text>
+</g></svg>

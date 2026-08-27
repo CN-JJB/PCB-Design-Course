@@ -119,6 +119,29 @@ External source
 具体器件是否需要取决于产品 threat model，不在 V1 机械堆满。完整框架见：[09｜产品级保护电路](09_产品级保护电路_从接口到SafeState.md)。
 
 
+## 3.2 Battery Source 不能只写 Nominal Voltage
+
+如果源改成 battery，power tree 必须同时带：
+
+~~~text
+Battery Vmax / Vnom / Vmin
++ source impedance / pulse sag
++ protection / BMS
++ charger
+→ regulator dropout / UVLO
+→ rail
+→ MCU BOR
+~~~
+
+runtime 的终点往往不是“电池化学能量用光”，而是：
+
+> **最差 pulse load 下，经过 battery sag + regulator margin 后已经无法维持系统 rail。**
+
+因此 battery-powered design 必须把 discharge curve、pulse current、regulator topology 与 BOR 一起 review。
+
+详见：[10｜电池供电产品](10_电池供电产品_选型安全认证与可维修性.md)。
+
+
 ## 4. LDO：不要把最大电流和热能力混为一谈
 
 V1 教学参考器件：`AP2112K-3.3`。

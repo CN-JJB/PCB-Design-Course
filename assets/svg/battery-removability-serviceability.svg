@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Battery replaceability is decided before enclosure tooling</text>
+<g font-family="sans-serif">
+<rect x="75" y="110" width="480" height="460" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="105" y="150" font-size="21" font-weight="700" fill="#166534">Serviceable architecture</text>
+<rect x="140" y="220" width="340" height="230" rx="24" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+<rect x="225" y="270" width="170" height="110" rx="14" fill="#ecfdf5" stroke="#16a34a" stroke-width="3"/>
+<text x="265" y="330" font-size="19" font-weight="700" fill="#166534">Battery</text>
+<circle cx="430" cy="245" r="13" fill="#64748b"/>
+<text x="165" y="490" font-size="16" fill="#334155">commercial tool / reusable fastener</text>
+<text x="165" y="520" font-size="16" fill="#334155">replacement instruction + spare strategy</text>
+
+<rect x="625" y="110" width="480" height="460" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="655" y="150" font-size="21" font-weight="700" fill="#991b1b">Late sealed-in decision</text>
+<rect x="690" y="220" width="340" height="230" rx="24" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+<rect x="775" y="270" width="170" height="110" rx="14" fill="#fee2e2" stroke="#dc2626" stroke-width="3"/>
+<text x="815" y="330" font-size="19" font-weight="700" fill="#991b1b">Battery</text>
+<path d="M740 250 L980 420 M980 250 L740 420" stroke="#dc2626" stroke-width="8" opacity=".7"/>
+<text x="685" y="490" font-size="16" fill="#991b1b">adhesive / no access / tooling locked</text>
+<text x="685" y="520" font-size="16" fill="#991b1b">regulatory + warranty + service rework risk</text>
+
+<rect x="80" y="610" width="1020" height="44" rx="10" fill="#e2e8f0"/>
+<text x="104" y="638" font-size="16" fill="#334155">EU Article 11 has scope and exceptions: review the actual product category and current legal text before freezing mechanics.</text>
+</g></svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Lithium battery production gate: the part number must lead to evidence</text>
+<g font-family="sans-serif">
+<rect x="80" y="120" width="200" height="100" rx="16" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/><text x="120" y="165" font-size="20" font-weight="700" fill="#1d4ed8">Exact pack MPN</text><text x="105" y="195" font-size="15" fill="#334155">manufacturer + model</text>
+<rect x="350" y="120" width="200" height="100" rx="16" fill="#ecfdf5" stroke="#16a34a" stroke-width="3"/><text x="390" y="165" font-size="20" font-weight="700" fill="#166534">Datasheet</text><text x="380" y="195" font-size="15" fill="#334155">V / I / temp / charge</text>
+<rect x="620" y="120" width="200" height="100" rx="16" fill="#fff7ed" stroke="#f59e0b" stroke-width="3"/><text x="660" y="165" font-size="20" font-weight="700" fill="#92400e">UN 38.3</text><text x="655" y="195" font-size="15" fill="#334155">transport test summary</text>
+<rect x="890" y="120" width="200" height="100" rx="16" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/><text x="925" y="165" font-size="20" font-weight="700" fill="#6d28d9">Safety reports</text><text x="915" y="195" font-size="15" fill="#334155">IEC / UL / product scheme</text>
+<path d="M280 170 H350 M550 170 H620 M820 170 H890" stroke="#64748b" stroke-width="6"/>
+
+<rect x="190" y="350" width="250" height="120" rx="16" fill="#fff" stroke="#cbd5e1"/>
+<text x="225" y="390" font-size="19" font-weight="700" fill="#0f172a">Protection description</text><text x="225" y="420" font-size="15" fill="#475569">BMS / cutoff / NTC / fuse</text>
+<rect x="465" y="350" width="250" height="120" rx="16" fill="#fff" stroke="#cbd5e1"/>
+<text x="520" y="390" font-size="19" font-weight="700" fill="#0f172a">Mechanical drawing</text><text x="515" y="420" font-size="15" fill="#475569">connector / swelling / keepout</text>
+<rect x="740" y="350" width="250" height="120" rx="16" fill="#fff" stroke="#cbd5e1"/>
+<text x="790" y="390" font-size="19" font-weight="700" fill="#0f172a">Supplier traceability</text><text x="785" y="420" font-size="15" fill="#475569">lot / AVL / change control</text>
+
+<path d="M315 470 V550 H590 M590 470 V550 M865 470 V550 H590" stroke="#16a34a" stroke-width="5" fill="none"/>
+<rect x="450" y="550" width="280" height="80" rx="16" fill="#ecfdf5" stroke="#16a34a" stroke-width="3"/>
+<text x="500" y="585" font-size="20" font-weight="700" fill="#166534">Production release evidence</text><text x="505" y="612" font-size="15" fill="#334155">shipping + compliance + service</text>
+</g></svg>

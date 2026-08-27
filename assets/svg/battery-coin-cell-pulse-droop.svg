@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Coin cell: high rated capacity does not imply strong pulse current</text>
+<g font-family="sans-serif">
+<rect x="70" y="100" width="1040" height="450" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="100" y="140" font-size="21" font-weight="700" fill="#0f172a">Radio / MCU current pulse</text>
+<path d="M110 220 H300 V140 H430 V220 H620 V140 H750 V220 H1040" fill="none" stroke="#2563eb" stroke-width="6"/>
+<text x="760" y="165" font-size="16" fill="#1d4ed8">pulse current</text>
+
+<text x="100" y="305" font-size="21" font-weight="700" fill="#0f172a">Battery terminal voltage</text>
+<path d="M110 360 H300 Q320 440 345 445 Q390 425 430 360 H620 Q640 440 665 445 Q710 425 750 360 H1040" fill="none" stroke="#ef4444" stroke-width="6"/>
+<line x1="110" y1="430" x2="1040" y2="430" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="820" y="455" font-size="15" fill="#92400e">BOR / UVLO threshold</text>
+
+<path d="M300 520 C340 475 390 475 430 520" fill="none" stroke="#16a34a" stroke-width="5"/>
+<text x="120" y="510" font-size="17" fill="#166534">Reservoir capacitor can supply part of a short pulse, but it must recharge between bursts.</text>
+
+<rect x="75" y="600" width="1030" height="44" rx="10" fill="#fff7ed"/>
+<text x="98" y="628" font-size="16" fill="#92400e">Check actual pulse amplitude, pulse width, duty cycle, battery impedance, capacitor ESR/leakage and the regulator’s UVLO/BOR—not just nominal mAh.</text>
+</g></svg>

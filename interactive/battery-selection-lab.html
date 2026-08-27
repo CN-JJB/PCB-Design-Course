@@ -1,0 +1,90 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Battery Selection Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px}.row{margin:13px 0}label{font-weight:700}.v{float:right;font-weight:800}input,select{width:100%}
+.metric{font-size:24px;font-weight:800;margin:12px 0}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px}
+table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.small{font-size:13px;color:#64748b}
+canvas{width:100%;height:380px;background:#0f172a;border-radius:12px}
+</style></head><body>
+<h1>Battery Selection Lab：不要只看 mAh</h1>
+<p class="lead">这个页面把 pulse load、source impedance、regulator margin、replaceability 和 lithium documentation 放到同一个架构判断里。输出是教学趋势，不是电池认证或 MPN 选型工具。</p>
+<div class="grid"><div class="card">
+<div class="row"><label>Battery concept</label><select id="type"><option value="9v">9V alkaline</option><option value="aa">AA alkaline</option><option value="coin">Coin cell</option><option value="nimh">NiMH pack</option><option value="li">Protected Li-ion/LiPo pack</option><option value="bare">Bare lithium cell / pouch</option></select></div>
+<div class="row"><label>Average current <span class="v" id="av"></span></label><input id="avg" type="range" min="0.05" max="500" step="0.05" value="5"></div>
+<div class="row"><label>Pulse current <span class="v" id="pv"></span></label><input id="pulse" type="range" min="1" max="2000" step="1" value="50"></div>
+<div class="row"><label>Pulse width <span class="v" id="tv"></span></label><input id="pw" type="range" min="1" max="1000" step="1" value="20"></div>
+<div class="row"><label>Temperature class</label><select id="temp"><option value="room">Indoor / room</option><option value="cold">Cold outdoor</option><option value="wide">Wide industrial</option></select></div>
+<div class="row"><label>Target market</label><select id="market"><option value="lab">Lab / prototype</option><option value="us">US consumer</option><option value="eu">EU consumer</option><option value="global">Global product</option></select></div>
+<div class="row"><label>Battery service model</label><select id="service"><option value="replace">User replaceable</option><option value="sealed">Sealed in product</option><option value="professional">Professional service only</option></select></div>
+<div class="row"><label>Load consequence</label><select id="critical"><option value="low">Low consequence</option><option value="medium">Commercial unattended</option><option value="high">High-consequence actuator / motion</option></select></div>
+<div class="metric" id="score"></div><div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="820" height="380"></canvas>
+<table><tr><th>Risk</th><th>Trend</th><th>Next evidence</th></tr>
+<tr><td>Pulse / source impedance</td><td id="r1"></td><td id="e1"></td></tr>
+<tr><td>Voltage / regulator fit</td><td id="r2"></td><td id="e2"></td></tr>
+<tr><td>Mechanical / replaceability</td><td id="r3"></td><td id="e3"></td></tr>
+<tr><td>Lithium documentation</td><td id="r4"></td><td id="e4"></td></tr>
+<tr><td>First action</td><td colspan="2" id="act"></td></tr></table>
+<div class="small">本页不会决定 Reese’s Law / EU Article 11 是否适用，也不会替代 UN 38.3 / IEC / UL / product-specific compliance review。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");
+["type","avg","pulse","pw","temp","market","service","critical"].forEach(id=>$(id).oninput=draw);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const lab=x=>x<.3?"低":x<.6?"中":"高";
+function draw(){
+ const type=$("type").value,avg=+$("avg").value,pulse=+$("pulse").value,pw=+$("pw").value,temp=$("temp").value,market=$("market").value,service=$("service").value,critical=$("critical").value;
+ $("av").textContent=avg.toFixed(avg<1?2:1)+" mA";$("pv").textContent=pulse+" mA";$("tv").textContent=pw+" ms";
+ let source=0.15;
+ if(type==="coin")source=.55+clamp(pulse/100,.0,.45);
+ if(type==="9v")source=.35+clamp(avg/100,0,.4);
+ if(type==="aa")source=.22+clamp(pulse/1000,0,.35);
+ if(type==="nimh")source=.18+clamp(pulse/2500,0,.25);
+ if(type==="li")source=.12+clamp(pulse/3000,0,.2);
+ if(type==="bare")source=.15;
+ if(temp!=="room"&&(type==="aa"||type==="9v"||type==="coin"))source+=.15;
+ source=clamp(source,0,1);
+
+ let regulator=.2;
+ if(type==="9v")regulator=.65;
+ if(type==="coin")regulator=.35;
+ if(type==="aa")regulator=.3;
+ if(type==="nimh")regulator=.3;
+ if(type==="li"||type==="bare")regulator=.35;
+
+ let mech=.1;
+ if(service==="sealed"&&market==="eu")mech=.85;
+ else if(service==="sealed")mech=.45;
+ if(type==="coin"&&(market==="us"||market==="global"))mech=Math.max(mech,.75);
+ if(type==="bare")mech=Math.max(mech,.65);
+
+ let docs=.05;
+ if(type==="li")docs=.55;
+ if(type==="bare")docs=.95;
+ if((type==="li"||type==="bare")&&(market==="global"||market==="us"||market==="eu"))docs=Math.max(docs,.75);
+
+ const total=clamp(.32*source+.18*regulator+.25*mech+.25*docs,0,1);
+ $("score").textContent="Architecture review risk: "+Math.round(total*100)+"/100";
+ $("r1").textContent=lab(source);$("r2").textContent=lab(regulator);$("r3").textContent=lab(mech);$("r4").textContent=lab(docs);
+ $("e1").textContent=source>.55?"拿 exact cell discharge/pulse curves，叠加 BOR/UVLO margin。":"仍需用实际 load waveform 验证。";
+ $("e2").textContent=type==="9v"?"重新比较 LDO/buck efficiency 与更匹配的 battery voltage。":"用 Vmax/Vnom/Vmin 决定 buck/boost/buck-boost/direct。";
+ $("e3").textContent=(type==="coin"&&(market==="us"||market==="global"))?"做 button/coin-cell enclosure + labeling compliance review。":(service==="sealed"&&market==="eu")?"在 mechanical freeze 前做 EU Article 11 scope/exception review。":"记录 holder/pouch keepout/replacement strategy。";
+ $("e4").textContent=(type==="li"||type==="bare")?"冻结 exact MPN，并收集 UN 38.3 Test Summary、安全报告、保护/充电资料。":"记录 exact chemistry/MPN 和供应商数据。";
+ let action="";
+ if(type==="bare")action="先停止把 bare cell 当成 finished battery：定义 pack protection/BMS、charger、mechanical protection 与认证文件。";
+ else if(source>.65)action="先解决 pulse sag：看 source impedance、pulse duration、reservoir C 与 BOR/UVLO。";
+ else if(mech>.65)action="先解决机械/法规架构；这类问题越晚改越贵。";
+ else if(docs>.65)action="先把 lithium documentation gate 关闭，再进入采购与物流。";
+ else action="架构方向可继续，但必须用 exact MPN datasheet 和 mission profile 完成 sign-off。";
+ $("act").textContent=action;
+ $("lesson").textContent="NEVER 不是绝对规则；真正的问题是你能否为这颗 battery 在真实产品环境里提供完整证据。";
+
+ ctx.clearRect(0,0,820,380);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,820,380);
+ const vals=[source,regulator,mech,docs],names=["Pulse","Regulator","Mechanical","Docs"];
+ vals.forEach((v,i)=>{let x=90+i*180;ctx.fillStyle="#334155";ctx.fillRect(x,80,85,220);ctx.fillStyle=v<.3?"#22c55e":v<.6?"#f59e0b":"#ef4444";ctx.fillRect(x,300-v*220,85,v*220);ctx.fillStyle="#cbd5e1";ctx.font="15px system-ui";ctx.fillText(names[i],x,330);ctx.fillText(Math.round(v*100)+"/100",x+8,350)});
+}
+draw();
+</script></body></html>

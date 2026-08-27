@@ -58,6 +58,10 @@
 - [ ] critical source 都有文档名/revision或明确 recheck 规则；
 - [ ] 不存在会阻止原理图开始的 Blocker TBD。
 
+### 如果你的版本改成 Battery Power
+
+额外阅读 [电池供电产品](../../../11_Part1_STM32F407四层板/10_电池供电产品_选型安全认证与可维修性.md)，并在 Gate 1 额外冻结：Vmax/Vnom/Vmin、average/pulse current、replaceability、target market、exact battery MPN 与 lithium documentation gate。
+
 **通过 → Gate 2。**
 
 ---

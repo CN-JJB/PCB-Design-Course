@@ -73,6 +73,43 @@
 基础架构见：[Part 1｜09 产品级保护电路](../11_Part1_STM32F407四层板/09_产品级保护电路_从接口到SafeState.md)。
 
 
+## 10.4.2 Battery Reliability 需要独立 Mission Profile
+
+Battery-powered product 额外记录：
+
+- ambient / cell temperature；
+- charge temperature；
+- pulse-current profile；
+- depth of discharge；
+- charge cycles；
+- storage duration / SoC；
+- mechanical shock / swelling；
+- connector / holder cycles；
+- charger fault；
+- pack protection event；
+- battery replacement event。
+
+验证重点：
+
+~~~text
+new battery
+aged battery
+cold battery
+low-SoC battery
+worst pulse load
+~~~
+
+都必须满足 system rail / BOR / safe-state requirement。
+
+对 lithium product，还要把：
+
+> **transport evidence + safety report + exact MPN traceability**
+
+作为 production release evidence，而不是采购附件。
+
+详见：[Part 1｜10 电池供电产品](../11_Part1_STM32F407四层板/10_电池供电产品_选型安全认证与可维修性.md)。
+
+
 ## 10.5 EMC Pre-compliance
 
 复用 Part 4：
