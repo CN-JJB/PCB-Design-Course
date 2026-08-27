@@ -5,7 +5,7 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-LINK_RE = re.compile(r"!?[[^]]*](([^)]+))")
+LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 
 broken = []
 for md in ROOT.rglob("*.md"):
