@@ -220,6 +220,7 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 
 - `interactive/edge-rate-lab.html`：回顾边沿时间与传播延迟；
 - `interactive/reflection-lab.html`：本 Part 新增，观察负载失配；
+- `interactive/impedance-tradeoff-lab.html`：理解为什么 50 Ω 是工程折中，而不是所有 PCB 的强制答案；
 - `interactive/return-path-lab.html`：观察参考面完整性与共享回流；
 - `interactive/crosstalk-lab.html`：观察 S/H、Lc/tr、NEXT/FEXT、microstrip/stripline 与 termination 对串扰波形的影响；
 - `interactive/topology-termination-lab.html`：把 branch topology、source Rs、Z0、H/S 与 td/tr 放到同一个 A/B 实验里；

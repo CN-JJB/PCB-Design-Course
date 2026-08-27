@@ -111,6 +111,36 @@ adjacent quiet victim
 完整实验参数与教材修正见：[11｜仿真案例：支路、源端串联终端与 Stackup](11_仿真案例_支路终端与Stackup.md)。
 
 
+## 10.4.2 进阶：不要只 sweep Rs，也可以 sweep system Z0
+
+如果不是协议固定 impedance 的接口，可以做一个 architecture experiment：
+
+~~~text
+Z0 = 30 Ω / 40 Ω / 50 Ω / 60 Ω / 70 Ω
+→ 每个 Z0 重新生成合法 PCB geometry
+→ 每个 Z0 重新优化 source / load termination
+→ 比较
+   waveform
+   power
+   crosstalk
+   routing width
+   manufacturing margin
+~~~
+
+注意最重要的一点：
+
+> **不能只把 simulator 里的 Z0 数字从 50 改成 70，却保持 PCB geometry、crosstalk coupling 和 termination 不变。**
+
+因为真实 Z0 变化通常意味着 W/H/Dk 变化，而这些变化会同步影响：
+
+- coupling；
+- delay；
+- loss；
+- routing density。
+
+所以这是“system trade-off sweep”，不是单参数魔法旋钮。
+
+
 ## 10.5 仿真输入必须可追溯
 
 保存：

@@ -184,6 +184,41 @@ ST AN4879 对“作为 HS driver 一部分的 full-speed driver”给出 45 Ω �
 
 ---
 
+## 6.7.1 为什么“100 Ω = 两根 50 Ω”只能当弱耦合直觉
+
+在 weak-coupling limit：
+
+\[
+Z_{diff}=2Z_{odd}
+\]
+
+若：
+
+\[
+Z_{odd}\approx50\,\Omega
+\]
+
+自然有：
+
+\[
+Z_{diff}\approx100\,\Omega
+\]
+
+这就是 50 Ω 单端生态与 100 Ω differential 常常一起出现的一个直觉来源。
+
+但 pair 一旦有明显互耦：
+
+- mutual C / L 会改变 odd-mode impedance；
+- 单独拿走另一根线以后测得的 single-ended Z0 不再等于 Zodd；
+- gap / H / W 都会改变结果。
+
+因此：
+
+> **100 Ω differential 不能用“两根各自 50 Ω 就结束”来签核。**
+
+仍然需要 actual stackup + field solver。
+
+
 ## 6.8 USB connector / ESD 的正确顺序
 
 推荐从板边向 MCU 看：

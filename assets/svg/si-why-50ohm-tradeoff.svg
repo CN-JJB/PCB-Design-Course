@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720">
+<rect width="1180" height="720" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Why 50 Ω is common: a compromise, not a law of nature</text>
+<line x1="150" y1="350" x2="1030" y2="350" stroke="#94a3b8" stroke-width="6"/>
+<g font-family="sans-serif">
+  <circle cx="270" cy="350" r="22" fill="#2563eb"/><text x="245" y="405" font-size="18" font-weight="700" fill="#1d4ed8">Lower Z₀</text>
+  <circle cx="590" cy="350" r="30" fill="#16a34a"/><text x="555" y="410" font-size="21" font-weight="700" fill="#166534">50 Ω</text>
+  <circle cx="910" cy="350" r="22" fill="#f59e0b"/><text x="878" y="405" font-size="18" font-weight="700" fill="#92400e">Higher Z₀</text>
+
+  <rect x="85" y="105" width="300" height="150" rx="16" fill="#fff" stroke="#cbd5e1"/>
+  <text x="110" y="140" font-size="20" font-weight="700" fill="#1d4ed8">Lower impedance tends to favor</text>
+  <text x="110" y="175" font-size="17" fill="#334155">• wider lines / closer reference</text>
+  <text x="110" y="205" font-size="17" fill="#334155">• lower field spread in many geometries</text>
+  <text x="110" y="235" font-size="17" fill="#334155">• lower discontinuity sensitivity</text>
+
+  <rect x="795" y="105" width="300" height="150" rx="16" fill="#fff" stroke="#cbd5e1"/>
+  <text x="820" y="140" font-size="20" font-weight="700" fill="#92400e">Higher impedance tends to favor</text>
+  <text x="820" y="175" font-size="17" fill="#334155">• lower termination current</text>
+  <text x="820" y="205" font-size="17" fill="#334155">• narrower lines / looser geometry</text>
+  <text x="820" y="235" font-size="17" fill="#334155">• easier density in some stackups</text>
+
+  <rect x="420" y="470" width="340" height="165" rx="18" fill="#ecfdf5" stroke="#86efac"/>
+  <text x="452" y="510" font-size="23" font-weight="700" fill="#166534">Why 50 Ω survives</text>
+  <text x="452" y="547" font-size="17" fill="#334155">• manufacturable on many PCB stackups</text>
+  <text x="452" y="578" font-size="17" fill="#334155">• compatible with common test equipment</text>
+  <text x="452" y="609" font-size="17" fill="#334155">• balanced power / noise / density trade-off</text>
+
+  <path d="M300 330 C375 285 470 280 555 325" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="8 6"/>
+  <path d="M880 330 C805 285 710 280 625 325" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="8 6"/>
+
+  <rect x="70" y="665" width="1040" height="34" rx="10" fill="#e2e8f0"/>
+  <text x="90" y="688" font-size="16" fill="#334155">The optimum is soft: consistency across driver / line / receiver / termination matters more than “50” by itself.</text>
+</g>
+</svg>
