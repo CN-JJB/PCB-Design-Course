@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Decoupling connection A/B: compare the whole loop, not one cosmetic detail</text>
+<g font-family="sans-serif">
+<rect x="60" y="95" width="245" height="210" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="85" y="132" font-size="20" font-weight="700" fill="#1d4ed8">Trace width</text>
+<line x1="95" y1="195" x2="270" y2="195" stroke="#2563eb" stroke-width="4"/>
+<line x1="95" y1="245" x2="270" y2="245" stroke="#2563eb" stroke-width="14"/>
+<text x="95" y="280" font-size="15" fill="#475569">Wider helps, but may not dominate.</text>
+
+<rect x="330" y="95" width="245" height="210" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="355" y="132" font-size="20" font-weight="700" fill="#166534">Via distance</text>
+<rect x="365" y="175" width="70" height="38" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+<circle cx="455" cy="194" r="10" fill="#475569"/>
+<rect x="365" y="235" width="70" height="38" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+<circle cx="520" cy="254" r="10" fill="#475569"/>
+<text x="355" y="292" font-size="15" fill="#475569">Short pad→via path is usually better.</text>
+
+<rect x="600" y="95" width="245" height="210" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="625" y="132" font-size="20" font-weight="700" fill="#92400e">Via count</text>
+<circle cx="665" cy="205" r="11" fill="#7c3aed"/>
+<circle cx="735" cy="205" r="11" fill="#7c3aed"/><circle cx="770" cy="205" r="11" fill="#7c3aed"/>
+<circle cx="690" cy="255" r="10" fill="#7c3aed"/><circle cx="720" cy="255" r="10" fill="#7c3aed"/><circle cx="750" cy="255" r="10" fill="#7c3aed"/><circle cx="780" cy="255" r="10" fill="#7c3aed"/>
+<text x="625" y="292" font-size="15" fill="#475569">Parallel vias help with diminishing returns.</text>
+
+<rect x="870" y="95" width="245" height="210" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="895" y="132" font-size="20" font-weight="700" fill="#991b1b">Via-pair spacing</text>
+<circle cx="930" cy="210" r="11" fill="#dc2626"/><circle cx="1040" cy="210" r="11" fill="#475569"/>
+<circle cx="955" cy="260" r="11" fill="#dc2626"/><circle cx="985" cy="260" r="11" fill="#475569"/>
+<text x="895" y="292" font-size="15" fill="#475569">PWR↔GND geometry changes loop area.</text>
+
+<rect x="90" y="365" width="1000" height="205" rx="20" fill="#fff" stroke="#cbd5e1"/>
+<text x="120" y="405" font-size="21" font-weight="700" fill="#0f172a">The ranking can change with frequency, stackup, component model and port definition</text>
+<path d="M155 495 C300 420 420 535 555 465 C680 400 800 535 1015 445" fill="none" stroke="#7c3aed" stroke-width="6"/>
+<line x1="155" y1="530" x2="1015" y2="530" stroke="#94a3b8" stroke-width="2"/>
+<text x="160" y="555" font-size="15" fill="#475569">frequency →</text>
+<text x="165" y="465" font-size="15" fill="#6d28d9">|Zinstall|</text>
+
+<rect x="60" y="625" width="1055" height="38" rx="10" fill="#e2e8f0"/>
+<text x="82" y="650" font-size="16" fill="#334155">Best practice: identify the dominant inductive bottleneck first, then optimize width, via placement and via count.</text>
+</g></svg>

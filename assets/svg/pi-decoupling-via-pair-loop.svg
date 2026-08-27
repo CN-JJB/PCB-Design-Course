@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="690" viewBox="0 0 1180 690">
+<rect width="1180" height="690" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Power/GND vias form one magnetic loop: spacing matters</text>
+<g font-family="sans-serif">
+<rect x="70" y="100" width="490" height="460" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="100" y="140" font-size="21" font-weight="700" fill="#991b1b">Far apart</text>
+<rect x="160" y="205" width="300" height="42" rx="8" fill="#fef2f2" stroke="#fca5a5"/>
+<text x="270" y="232" font-size="17" fill="#991b1b">Cdec</text>
+<circle cx="180" cy="315" r="15" fill="#dc2626"/><circle cx="440" cy="315" r="15" fill="#475569"/>
+<line x1="180" y1="247" x2="180" y2="500" stroke="#dc2626" stroke-width="8"/>
+<line x1="440" y1="247" x2="440" y2="500" stroke="#475569" stroke-width="8"/>
+<path d="M180 475 C260 555 360 555 440 475" fill="none" stroke="#f59e0b" stroke-width="5"/>
+<text x="190" y="535" font-size="16" fill="#92400e">large magnetic loop</text>
+
+<rect x="620" y="100" width="490" height="460" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="650" y="140" font-size="21" font-weight="700" fill="#166534">Close pair</text>
+<rect x="710" y="205" width="300" height="42" rx="8" fill="#ecfdf5" stroke="#86efac"/>
+<text x="820" y="232" font-size="17" fill="#166534">Cdec</text>
+<circle cx="820" cy="315" r="15" fill="#dc2626"/><circle cx="880" cy="315" r="15" fill="#475569"/>
+<line x1="820" y1="247" x2="820" y2="500" stroke="#dc2626" stroke-width="8"/>
+<line x1="880" y1="247" x2="880" y2="500" stroke="#475569" stroke-width="8"/>
+<path d="M820 475 C835 500 865 500 880 475" fill="none" stroke="#16a34a" stroke-width="5"/>
+<text x="770" y="535" font-size="16" fill="#166534">smaller loop / stronger field cancellation</text>
+
+<rect x="70" y="600" width="1040" height="38" rx="10" fill="#fff7ed"/>
+<text x="94" y="625" font-size="16" fill="#92400e">Do not optimize a power via and ground via independently; they are the outgoing and returning conductors of the same transient-current loop.</text>
+</g></svg>

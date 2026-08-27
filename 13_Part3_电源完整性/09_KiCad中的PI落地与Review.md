@@ -104,6 +104,8 @@ PI Review 不只数 via 数量。
 
 - VDD local path 是否有不必要 via；
 - GND via 是否靠近 decoupler ground pad；
+- PWR/GND via pair 是否靠近；
+- 多 via 是否真正并联有效路径，而不是共享同一条狭窄 neck；
 - power plane transition 是否形成瓶颈；
 - 大电流路径是否需要并联 vias；
 - exposed pad thermal vias 是否按器件要求；
@@ -339,3 +341,8 @@ GND 怎么回？
 ```
 
 这时你才从“会放去耦电容”跨到了**会做基础 Power Integrity**。
+
+
+## 9.16 去耦 Via 连接专项复查
+
+对于关键 local decoupler，再打开 [Decoupling Via Layout Lab](../interactive/decoupling-via-layout-lab.html)，至少比较一次：via pair spacing、pad-to-via distance、1/2/4 vias 与 top/bottom placement。对应案例见 [14｜去耦过孔与连接拓扑](14_仿真案例_去耦过孔与连接拓扑.md)。

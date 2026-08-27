@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700">
+<rect width="1180" height="700" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="29" font-weight="700" fill="#0f172a">Top-side vs bottom-side decoupling: vertical distance is not the whole story</text>
+<g font-family="sans-serif">
+<rect x="70" y="95" width="500" height="470" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="100" y="135" font-size="21" font-weight="700" fill="#166534">Same-side direct connection</text>
+<rect x="120" y="210" width="165" height="90" rx="14" fill="#dbeafe" stroke="#2563eb"/>
+<text x="165" y="260" font-size="20" font-weight="700" fill="#1d4ed8">IC</text>
+<rect x="355" y="220" width="135" height="70" rx="12" fill="#ecfdf5" stroke="#16a34a"/>
+<text x="390" y="262" font-size="18" font-weight="700" fill="#166534">Cdec</text>
+<line x1="285" y1="255" x2="355" y2="255" stroke="#dc2626" stroke-width="8"/>
+<circle cx="390" cy="360" r="12" fill="#dc2626"/><circle cx="455" cy="360" r="12" fill="#475569"/>
+<line x1="390" y1="290" x2="390" y2="440" stroke="#dc2626" stroke-width="6"/><line x1="455" y1="290" x2="455" y2="440" stroke="#475569" stroke-width="6"/>
+<text x="115" y="500" font-size="16" fill="#334155">Simple, visible, short horizontal path.</text>
+
+<rect x="610" y="95" width="500" height="470" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="640" y="135" font-size="21" font-weight="700" fill="#1d4ed8">Opposite-side, well-viaed</text>
+<rect x="660" y="190" width="165" height="90" rx="14" fill="#dbeafe" stroke="#2563eb"/>
+<text x="705" y="240" font-size="20" font-weight="700" fill="#1d4ed8">IC</text>
+<circle cx="760" cy="340" r="12" fill="#dc2626"/><circle cx="815" cy="340" r="12" fill="#475569"/>
+<line x1="760" y1="280" x2="760" y2="460" stroke="#dc2626" stroke-width="7"/><line x1="815" y1="280" x2="815" y2="460" stroke="#475569" stroke-width="7"/>
+<rect x="700" y="460" width="175" height="70" rx="12" fill="#ecfdf5" stroke="#16a34a"/>
+<text x="750" y="502" font-size="18" font-weight="700" fill="#166534">Cdec</text>
+<text x="650" y="555" font-size="16" fill="#334155">Can be excellent when vertical transitions are short and paired.</text>
+
+<rect x="70" y="610" width="1040" height="45" rx="10" fill="#e2e8f0"/>
+<text x="94" y="638" font-size="16" fill="#334155">Same-side is often the cleanest starting point; opposite-side is not inherently bad—compare total mounting inductance and loop geometry.</text>
+</g></svg>
