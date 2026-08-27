@@ -257,7 +257,7 @@ SDIO
 
 ---
 
-## 9. Part 0 毕业检查
+## 9. KiCad 复习检查
 
 在进入 STM32F407 四层项目之前，你应该能：
 
@@ -270,4 +270,8 @@ SDIO
 - [ ] 知道 Net Class 数值必须有来源；
 - [ ] 知道 DRC 无法替代 return-path review。
 
-全部能解释，就进入 Part 1。
+全部能解释后，先进入最后一关：
+
+> [06｜实测案例：接地、过孔寄生与耦合](06_实测案例_接地过孔与耦合.md)
+
+在那里你会用“同一原理图、不同 PCB 结构”的实测结果，把 reference plane、return path、GND via 和 loop coupling 串成一条完整因果链。完成第 6 关的 Design Review 后，再进入 Part 1。
