@@ -22,7 +22,7 @@
 | 4 | ✅ | EMI / EMC | V2 interface / ESD / pre-compliance |
 | 5 | ✅ | 四层综合 | STM32F407 V2：USB / CAN / SDIO 综合收口 |
 | 6 | ✅ | 四层 → 六层 | Layer-count / stackup / reference / 多电源域 / H7 transition |
-| 7 | ⏭️ | 六层高速 | STM32H743 V3 + Ethernet + SDRAM |
+| 7 | ✅ | 六层高速 | STM32H743 V3 + SDRAM + Ethernet 工程闭环 |
 | 8 | ⏭️ | FPGA 专项 | Bank / BGA fanout / clock / DDR / pin planning |
 | 9 | ⏭️ | 工程交付 | DFM / 测量 / 调试 / BOM / 量产 |
 
@@ -170,21 +170,83 @@ Part 6 使用 JLCPCB 当前公开的六层 controlled-impedance stackup 作为�
 
 ---
 
-# 下一阶段：Part 7｜STM32H743 V3 六层高速板
+# ✅ Part 7｜STM32H743 V3 六层高速综合板
 
-主线进入 **STM32H743ZIT6 / LQFP144**，开始真正落地：
+**[开始 Part 7](17_Part7_STM32H7六层高速/00_本Part导读.md)**
+
+<p align="center"><img src="assets/svg/part7-system-architecture.svg" width="980" alt="Part 7 STM32H743 V3 六层高速系统架构"></p>
+
+硬件基线：
+
+- STM32H743ZIT6 / LQFP144
+- Alliance AS4C4M16SA-6TIN，x16 8 MiB SDR SDRAM
+- FMC_SDCLK = 100 MHz project baseline
+- LAN8742A/Ai 10/100 Ethernet PHY
+- RMII 50 MHz
+- 六层 controlled-impedance PCB
+
+完整工程链：
 
 ```text
-H7 power / clock architecture
-→ SDRAM device selection + FMC timing budget
-→ Ethernet PHY / MAC interface + magnetics / connector
+System / Pin / Power / Clock Freeze
+→ SDRAM selection → FMC ns-to-cycle timing
+→ board skew / routing constraints
+→ RMII / PHY / MDI / Magnetics / RJ45
 → six-layer floorplan
-→ memory routing + clock strategy
-→ SI / PI / EMC joint review
-→ DFM / release / bring-up
+→ SI + PI + EMC joint review
+→ KiCad constraints
+→ bring-up / stress / evidence
+→ Final Design Review / Source Freeze
 ```
 
-Part 7 的目标不是“画一块复杂板”，而是完成第一块**可以解释每个关键设计决策的六层高速 MCU 板**。
+核心章节：
+
+- [系统规格与资源冻结](17_Part7_STM32H7六层高速/01_V3系统规格与资源冻结.md)
+- [H743 电源、时钟与启动](17_Part7_STM32H7六层高速/02_H743电源时钟与启动架构.md)
+- [SDRAM 选型与 FMC 架构](17_Part7_STM32H7六层高速/03_SDRAM选型与FMC架构.md)
+- [FMC 时序：ns → cycles](17_Part7_STM32H7六层高速/04_FMC时序从ns到寄存器.md)
+- [SDRAM 板级时序与等长](17_Part7_STM32H7六层高速/05_SDRAM板级时序与等长.md)
+- [Ethernet PHY / RMII](17_Part7_STM32H7六层高速/06_Ethernet_PHY与RMII架构.md)
+- [Magnetics / RJ45 / ESD](17_Part7_STM32H7六层高速/07_Magnetics_RJ45与ESD边界.md)
+- [六层 Floorplan 与布线顺序](17_Part7_STM32H7六层高速/08_六层Floorplan与布线顺序.md)
+- [SI / PI / EMC 联合 Review](17_Part7_STM32H7六层高速/09_SI_PI_EMC联合Review.md)
+- [KiCad 高速约束](17_Part7_STM32H7六层高速/10_KiCad高速约束与Review.md)
+- [Bring-up 与故障定位](17_Part7_STM32H7六层高速/11_Bringup内存网络与故障定位.md)
+- [Final Design Review](17_Part7_STM32H7六层高速/12_FinalDesignReview与六层毕业门槛.md)
+- [参考资料与 Source Freeze](17_Part7_STM32H7六层高速/13_参考资料与SourceFreeze.md)
+
+互动：
+
+- [FMC Timing Lab](interactive/fmc-timing-lab.html)
+- [SDRAM Skew Lab](interactive/sdram-skew-lab.html)
+- [Ethernet Boundary Lab](interactive/ethernet-boundary-lab.html)
+
+工程资产：[`projects/stm32h7-mainline/v3/`](projects/stm32h7-mainline/v3/)
+
+Fault Lab：[Part 7 H7 / SDRAM / Ethernet Faults](projects/stm32h7-mainline/fault-lab/part7-h7-sdram-ethernet-faults.md)
+
+**六层毕业标准：**不是把几十根线“调成绿色”，而是能从 datasheet timing、PCB delay、reference/return、PDN、connector boundary 和实测 evidence 解释每个关键决策。
+
+---
+
+# 下一阶段：Part 8｜FPGA 板级设计专项
+
+Part 8 将把重心从 MCU 转向 FPGA board-level engineering：
+
+```text
+FPGA architecture / Bank / I/O standard
+→ power rails / sequencing
+→ clock tree
+→ BGA fanout / escape
+→ pin planning ↔ PCB co-design
+→ DDR interface concepts
+→ high-speed differential I/O
+→ decoupling / PDN
+→ configuration / JTAG
+→ FPGA board bring-up
+```
+
+重点仍然是**板级设计**，不会把课程变成 HDL 编程教程。
 
 ---
 
