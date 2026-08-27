@@ -20,7 +20,8 @@ jobs:
 
       - name: Run KiCad 10.0.5 ERC/DRC
         run: |
-          docker run --rm             -v "$PWD:/work"             -w /work             --entrypoint bash             kicad/kicad:10.0.5             tools/hardware-ci.sh
+          mkdir -p ci-reports
+          docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/work" -w /work --entrypoint bash kicad/kicad:10.0.5 tools/hardware-ci.sh
 
       - name: Upload reports
         if: always()
