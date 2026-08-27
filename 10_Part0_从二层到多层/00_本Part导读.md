@@ -129,6 +129,7 @@
 4. [如何读 Datasheet / Hardware Design Guide](04_从手册提取PCB规则.md)
 5. [KiCad 10 多层板必备复习](05_KiCad10多层必备复习.md)
 6. [实测案例：接地、过孔寄生与耦合](06_实测案例_接地过孔与耦合.md)
+7. [PCB 走线工程基础：几何、电流、阻抗与时延](07_PCB走线工程基础_几何电流阻抗与时延.md)
 
 ---
 
@@ -139,3 +140,7 @@
 - STM32F407VG 产品页：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
 
 > **本课程约定**：任何精确数值如果来自器件、接口或板厂要求，都尽量就近注明来源；工程经验会明确写出适用条件，不再把经验值包装成“宇宙铁律”。
+
+## 新增统一走线实验
+
+- [Trace Engineering Lab](../interactive/trace-engineering-lab.html)：同一根 trace 同时从 DC drop、thermal、loop inductance 与 td/tr 四个视角观察，避免把“线宽规则”误学成单一数字。

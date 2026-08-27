@@ -136,3 +136,26 @@ Measurement
 IPC-2152 的用途就是在这些热与结构条件下评估 conductor current-carrying capability，而不是提供一个固定 `width → current` 常数。
 
 因此课程策略是：**先做 DC/thermal sizing，再决定 rail 用 trace、pour 还是 plane。**
+
+
+## 11.10.1 IPC Calculator 的正确定位
+
+Phil's Lab #112 在 trace-current sizing 部分给出 IPC-2221 calculator 作为入门工具。
+
+课程保留它的教学价值，但项目 sign-off 采用更严格分级：
+
+~~~text
+IPC-2221-style formula
+→ quick screening
+
+IPC-2152 / modern thermal calculator
+→ engineering estimate
+
+prototype thermal + voltage measurement
+→ evidence
+~~~
+
+原因是 conductor current capability 不只由 width/copper thickness 决定，还受 layer position、board thermal environment、adjacent copper、allowed temperature rise 与 length 影响。
+
+所以任何“X mil = Y A”必须带适用条件。
+

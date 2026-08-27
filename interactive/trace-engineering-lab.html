@@ -1,0 +1,48 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trace Engineering Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1160px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+.grid{display:grid;grid-template-columns:350px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px}.row{margin:13px 0}label{font-weight:700}.v{float:right;font-weight:800}input,select{width:100%}.metric{font-size:22px;font-weight:800;margin:12px 0}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px;border-radius:8px}canvas{width:100%;height:390px;background:#0f172a;border-radius:12px}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Trace Engineering Lab：同一根铜，DC / PI / SI 看法不同</h1>
+<p>教学模型：观察 W/T/H/L/current/edge time 对 DC drop、thermal pressure、loop-inductance trend 和 transmission-line relevance 的影响。不会替代 IPC-2152、field solver 或 thermal simulation。</p>
+<div class="grid"><div class="card">
+<div class="row"><label>Trace width <span class="v" id="wv"></span></label><input id="w" type="range" min="0.1" max="3" step="0.05" value="0.25"></div>
+<div class="row"><label>Copper thickness <span class="v" id="tv"></span></label><input id="t" type="range" min="18" max="105" step="1" value="35"></div>
+<div class="row"><label>Trace length <span class="v" id="lv"></span></label><input id="l" type="range" min="5" max="300" step="1" value="80"></div>
+<div class="row"><label>Reference height H <span class="v" id="hv"></span></label><input id="h" type="range" min="0.08" max="1.2" step="0.01" value="0.18"></div>
+<div class="row"><label>DC current <span class="v" id="iv"></span></label><input id="i" type="range" min="0.01" max="5" step="0.01" value="0.3"></div>
+<div class="row"><label>Edge time <span class="v" id="ev"></span></label><input id="e" type="range" min="0.2" max="20" step="0.1" value="1"></div>
+<div class="row"><label>Layer</label><select id="layer"><option value="outer">Outer / microstrip-like</option><option value="inner">Inner / stripline-like</option></select></div>
+<div class="metric" id="headline"></div><div class="note" id="lesson"></div>
+</div><div class="card"><canvas id="plot" width="800" height="390"></canvas>
+<table><tr><th>View</th><th>Teaching result</th><th>Interpretation</th></tr>
+<tr><td>DC R / drop</td><td id="dc"></td><td id="dcw"></td></tr>
+<tr><td>Thermal pressure</td><td id="th"></td><td>Normalized only; real allowable current needs thermal evidence.</td></tr>
+<tr><td>Loop inductance</td><td id="li"></td><td id="liw"></td></tr>
+<tr><td>td / tr</td><td id="si"></td><td id="siw"></td></tr></table>
+<div class="small">Copper resistivity uses a simple room-temperature estimate only. Temperature coefficient, plating, current crowding and real stackup are intentionally omitted.</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");["w","t","l","h","i","e","layer"].forEach(id=>$(id).oninput=draw);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),txt=x=>x<.3?"低":x<.6?"中":"高";
+function draw(){
+ const w=+$("w").value,t=+$("t").value,l=+$("l").value,h=+$("h").value,I=+$("i").value,tr=+$("e").value,layer=$("layer").value;
+ $("wv").textContent=w.toFixed(2)+" mm";$("tv").textContent=t+" µm";$("lv").textContent=l+" mm";$("hv").textContent=h.toFixed(2)+" mm";$("iv").textContent=I.toFixed(2)+" A";$("ev").textContent=tr.toFixed(1)+" ns";
+ const rho=1.72e-8,R=rho*(l/1000)/((w/1000)*(t*1e-6)),drop=I*R;
+ const thermal=clamp((I/(w*Math.sqrt(t/35)+0.08))/3,0,1);
+ const loop=clamp((h/(w+0.15))*0.45,0,1);
+ const vp=layer==="outer"?175:155; // mm/ns teaching assumption
+ const td=l/vp,ratio=td/tr,si=clamp(ratio/.5,0,1);
+ $("dc").textContent=R.toFixed(3)+" Ω / "+(drop*1000).toFixed(1)+" mV";
+ $("dcw").textContent=drop>0.1?"DC drop 已明显，先做真实 voltage-budget。":"DC drop 量级较小，但 connector/via/return 仍需加入。";
+ $("th").textContent=txt(thermal);$("li").textContent=txt(loop);$("liw").textContent=h>w?"reference 较远，单纯加宽未必是最有效的降环路电感方式。":"signal-reference 几何较紧凑。";
+ $("si").textContent=ratio.toFixed(2);$("siw").textContent=ratio>.2?"flight time 已是 edge time 的重要分数，应进入 transmission-line review。":"集中参数近似更有机会成立，但仍看 discontinuity/noise margin。";
+ $("headline").textContent="td ≈ "+td.toFixed(2)+" ns · ΔVDC ≈ "+(drop*1000).toFixed(1)+" mV";
+ $("lesson").textContent="同一根 trace 可能在 DC 上完全没问题，却在 fast edge 上已经属于 transmission line；反过来也可能 SI 很轻松但 DC/thermal 不合格。";
+ ctx.clearRect(0,0,800,390);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,800,390);
+ const vals=[clamp(drop/.2,0,1),thermal,loop,si],names=["DC drop","Thermal","Loop L","SI td/tr"];
+ vals.forEach((v,k)=>{let x=90+k*170;ctx.fillStyle="#334155";ctx.fillRect(x,70,80,230);ctx.fillStyle=v<.3?"#22c55e":v<.6?"#f59e0b":"#ef4444";ctx.fillRect(x,300-v*230,80,v*230);ctx.fillStyle="#cbd5e1";ctx.font="14px system-ui";ctx.fillText(names[k],x,330);ctx.fillText(Math.round(v*100)+"/100",x+10,352)});
+}
+draw();
+</script></body></html>
