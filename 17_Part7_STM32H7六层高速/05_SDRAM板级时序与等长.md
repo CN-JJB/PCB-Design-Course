@@ -259,3 +259,71 @@ KiCad 可以算 length/skew，但不能自己判断你的 100 ps 目标有没有
 ## 本章产出
 
 **sdram-routing-constraints.md**
+
+
+# 增补｜完整的 Board Timing Budget
+
+本章必须最终产生一张可计算、可回填实际长度的表。
+
+## A. 先从 Datasheet Margin 开始
+
+对每个 timing group：
+
+```text
+controller output timing
++ package uncertainty
++ PCB flight/skew
++ memory setup/hold
++ jitter / clock uncertainty
+→ remaining margin
+```
+
+不要从“想控制在 10 mm”反推物理意义。
+
+## B. Stackup Freeze 后得到传播延迟
+
+记录：
+
+```text
+Layer:
+Structure:
+Dk model:
+Field-solver delay:
+ps/mm:
+Source/date:
+```
+
+只有这一步完成后，`100 ps` 才能转换成真实 mm mismatch。
+
+## C. Actual Route 回填
+
+| Group | Target ps | ps/mm | Allowed ΔL | Actual max-min | Via delta | Remaining margin |
+|---|---:|---:|---:|---:|---:|---:|
+| CLK↔A/C | TBD | TBD | TBD | TBD | TBD | TBD |
+| CLK↔Write DQ | TBD | TBD | TBD | TBD | TBD | TBD |
+| CLK↔Read DQ | TBD | TBD | TBD | TBD | TBD | TBD |
+
+## D. Via Delay 不能只数颗数
+
+如果不同网络 via 结构不同，要考虑：
+
+- layer span；
+- barrel / stub；
+- pad/antipad；
+- reference transition。
+
+“每根都 2 个 via”不一定代表电气延迟一致。
+
+## E. Measurement / Validation
+
+PCB timing 预算最终由：
+
+- memory stress；
+- clock frequency A/B；
+- GPIO slew A/B；
+- temperature / voltage corner（条件允许时）；
+- 示波器关键节点观察
+
+来验证趋势。
+
+**长度绿色只是输入证据，不是内存通过的最终证据。**

@@ -217,3 +217,75 @@ datasheet 要求 exposed pad 连接 ground plane，并使用 via array。
 - LAN8742A datasheet/product page
 - RM0433 Ethernet chapter
 - NUCLEO-H743ZI2 schematic
+
+
+# 增补｜RMII 架构冻结清单
+
+## A. REF_CLK 必须先选架构
+
+RMII 的关键不是“50 MHz 走短点”，而是先明确谁产生 REF_CLK。
+
+记录：
+
+| Item | Decision |
+|---|---|
+| REF_CLK source | TBD |
+| PHY clock mode / strap | TBD |
+| MCU clock input/output relation | TBD |
+| oscillator/crystal | TBD |
+| startup dependency | TBD |
+| measurement point | TBD |
+
+任何通过 strap / register 改变 clock mode 的 PHY，都必须在原理图、BOM、firmware 和 bring-up 文档同步。
+
+## B. Strap Pins
+
+为 PHY 每个 strap 建表：
+
+```text
+pin
+reset-time sampled function
+pull resistor
+LED/shared function
+expected boot state
+register readback
+```
+
+不要只相信原理图拉高/拉低，bring-up 后用寄存器读回实际 mode。
+
+## C. Reset Timing
+
+保存：
+
+```text
+power-good
+REF_CLK valid
+RESET_N assertion/deassertion
+strap sample
+MDIO access
+link start
+```
+
+失败时分清：
+
+- power；
+- clock；
+- reset；
+- strap；
+- MDIO；
+- MDI/link。
+
+## D. RBIAS / Analog Pins
+
+类似 RBIAS、reference/bias、exposed pad 等 pin 必须按 exact PHY datasheet 布局，不使用“所有 PHY 都一样”的模板。
+
+## E. PHY Power Review
+
+把 PHY 拆成实际 rail / analog domain：
+
+- source；
+- decoupling；
+- ferrite / filter（如器件建议）；
+- local loop；
+- measurement point；
+- interaction with MDI / magnetics。

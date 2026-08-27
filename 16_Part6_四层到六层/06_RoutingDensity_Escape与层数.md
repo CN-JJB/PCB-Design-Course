@@ -149,3 +149,67 @@ L4 signal
 ## 本章一句话
 
 > **多层板的目标不是最大化可布线数量，而是给高优先级网络分配“带参考的可用通道”。**
+
+# 增补｜把 Escape 压力量化成制造决策
+
+## A. Via 工艺不是“最后问板厂”
+
+BGA / 高密度板在 layer-count review 时必须提前列出：
+
+| Item | Candidate | Need source |
+|---|---|---|
+| finished drill | TBD | fab capability |
+| pad / annular ring | TBD | fab capability |
+| aspect ratio | TBD | fab capability |
+| through via | yes/no | escape study |
+| blind / buried via | yes/no | cost/yield |
+| microvia | yes/no | HDI process |
+| via-in-pad | yes/no | fill/cap requirement |
+| backdrill | yes/no | high-speed stub budget |
+
+层数、孔工艺与成本是同一个决策树，不应“先画六层，再让板厂想办法生产”。
+
+## B. Escape Channel Estimate
+
+对 BGA 先计算：
+
+```text
+ball pitch
+- pad diameter
+- clearance
+- trace width
+- via pad / antipad
+→ 每两列球之间可通过多少条线
+```
+
+然后按 ring / row 统计：
+
+- 外圈可直接 Top escape；
+- 中圈需要多少 routing layer；
+- power/GND via 消耗多少通道；
+- DDR / GTP 等高约束网络是否还能保持 reference。
+
+## C. 六层 vs 八层完整 Gate
+
+只有同时回答下面问题才允许冻结 6 层：
+
+1. 关键组是否有足够 routing channel？
+2. 每个关键 signal layer 是否有明确 reference？
+3. power domains 是否迫使信号跨 split？
+4. BGA escape 是否需要破坏 reference 才能完成？
+5. via / antipad forest 是否造成 plane neck？
+6. 额外两层的成本是否低于复杂 HDI / 返工风险？
+
+如果 6 层只能靠极小线宽、激进孔径、频繁换层或大量 reference discontinuity 才“布得完”，8 层可能反而是更便宜的工程方案。
+
+## D. 输出
+
+建立 `routing-capacity-evidence.md`：
+
+- package map；
+- escape sketch；
+- layer allocation；
+- via process；
+- fab capability source/date；
+- unresolved risks；
+- 4/6/8-layer comparison。

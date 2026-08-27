@@ -193,3 +193,96 @@ A/B：
 
 - bringup-test-plan.md
 - validation-matrix.md
+
+
+# 增补｜IBERT / PRBS / BER：GTP Bring-up 必须有可量化证据
+
+## A. GTP Bring-up Ladder
+
+```text
+MGT rails
+→ refclk
+→ transceiver reset/state
+→ IBERT
+→ internal loopback
+→ external short channel
+→ connector/cable
+→ target channel
+```
+
+先把 PCB 外部变量逐层加进来。
+
+## B. PRBS
+
+使用适合实验的 PRBS pattern，记录：
+
+- line rate；
+- pattern；
+- TX swing / pre-emphasis；
+- RX equalization；
+- duration；
+- bit count；
+- error count。
+
+## C. BER
+
+不要只写“跑了很久没错”。
+
+报告至少写：
+
+```text
+bits observed
+errors
+test duration
+line rate
+configuration
+channel
+temperature
+confidence/limit statement
+```
+
+零错误只能支持“在此次观测量下未发现错误”，不能宣称宇宙意义上的 BER=0。
+
+## D. Eye Scan
+
+若器件/工具支持，保存：
+
+- scan settings；
+- horizontal/vertical range；
+- equalization；
+- lane；
+- firmware/bitstream commit；
+- channel configuration。
+
+Eye scan 是 receiver 内部采样证据，不等同于外部 compliance eye。
+
+## E. DDR3 + GTP + I/O Concurrent Stress
+
+最终 FPGA 板要做联合压力：
+
+- DDR3 traffic；
+- GTP PRBS；
+- GPIO switching；
+- thermal load。
+
+观察：
+
+- rail noise；
+- calibration stability；
+- BER；
+- temperature；
+- reset / configuration stability。
+
+## F. Evidence 目录
+
+`projects/artix7-mainline/v1/test/` 最终归档：
+
+- JTAG IDCODE；
+- configuration log；
+- MIG calibration；
+- memory stress；
+- IBERT config；
+- BER；
+- eye scan；
+- power/thermal measurement；
+- issue/fix/retest。

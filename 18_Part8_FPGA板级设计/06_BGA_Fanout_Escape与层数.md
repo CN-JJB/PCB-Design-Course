@@ -190,3 +190,70 @@ GTP：
 - [ ] 内层 escape corridor 预留
 - [ ] layer count 有 fanout 证据
 - [ ] 所有 footprint pad/via 满足 DFM
+
+
+# 增补｜BGA 制造工艺必须进入 Escape 决策
+
+## A. Pad / Via Vocabulary
+
+至少区分：
+
+- SMD / NSMD pad；
+- dogbone fanout；
+- through via；
+- blind / buried via；
+- microvia；
+- via-in-pad；
+- filled / capped via。
+
+选择由 package pitch、routing density、fab capability、assembly yield 和 cost 共同决定。
+
+## B. 0.8 mm Pitch 的教学策略
+
+不能写成：
+
+> 0.8 mm 一定要 microvia
+
+也不能写成：
+
+> 0.8 mm 一定能普通通孔 escape
+
+正确流程：
+
+```text
+exact ball map
+→ pad size
+→ fab min trace/space
+→ via pad/drill
+→ escape channel
+→ power/GND demand
+→ DDR/GTP priority
+→ layer count
+→ DFM review
+```
+
+## C. Via-in-Pad 代价
+
+如果选用 via-in-pad，release 必须说明：
+
+- fill type；
+- cap / planarization；
+- assembly requirement；
+- fab quote；
+- inspection / yield concern。
+
+未填充的 via-in-pad 可能带来焊料流失等装配风险，不能只从“能逃线”角度决定。
+
+## D. BGA DFM 输出
+
+最终 `bga-escape-plan.md` 增加：
+
+- package drawing revision；
+- land pattern source；
+- fab capability table；
+- escape screenshot / map；
+- per-ring strategy；
+- power/GND via map；
+- DDR byte lane escape；
+- GTP escape；
+- unresolved yield/cost risk。

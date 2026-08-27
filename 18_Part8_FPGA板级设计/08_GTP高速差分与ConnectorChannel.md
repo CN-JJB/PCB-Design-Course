@@ -149,3 +149,86 @@ MGT analog rails 必须单独进入：
 - [ ] AC coupling 有协议/guide 来源
 - [ ] via stub 风险已量化
 - [ ] loopback/BER test plan 已准备
+
+
+# 增补｜把 GTP 变成真正的 Channel Engineering
+
+## A. Channel Definition
+
+一条 lane 应写成：
+
+```text
+FPGA TX package
+→ launch via
+→ PCB trace
+→ AC coupling
+→ connector
+→ cable/backplane
+→ connector
+→ PCB
+→ RX package
+```
+
+每段都要有 model / assumption。
+
+## B. 需要看的不只有 100 Ω
+
+至少建立概念：
+
+- insertion loss；
+- return loss；
+- mode conversion；
+- crosstalk；
+- via stub；
+- connector discontinuity；
+- reference-clock jitter；
+- channel loss budget。
+
+具体 limit 必须来自目标 line rate / device guide / protocol，而不是本课程发明。
+
+## C. S-parameter Workflow
+
+```text
+connector .sNp
++ PCB/via model
++ cable .sNp
+→ channel model
+→ inspect IL/RL
+→ time-domain / eye tool
+→ compare hardware
+```
+
+每个 Touchstone 文件记录 vendor、part number、fixture/port definition 与 revision。
+
+## D. Via Stub / Backdrill Gate
+
+只有当 channel analysis 说明 stub 影响不可接受时才引入 backdrill/HDI；同时记录：
+
+- target layer；
+- remaining stub；
+- drill tolerance；
+- fab capability；
+- cost。
+
+## E. AC Coupling
+
+记录：
+
+- TX/RX 哪一侧要求；
+- device guideline；
+- capacitor value / package；
+- placement；
+- footprint discontinuity；
+- receiver common-mode requirement。
+
+## F. Reference Clock
+
+GTP refclk 单独 review：
+
+- exact clock-capable/transceiver pins；
+- source standard；
+- termination；
+- jitter requirement；
+- power supply；
+- routing；
+- measurement。
