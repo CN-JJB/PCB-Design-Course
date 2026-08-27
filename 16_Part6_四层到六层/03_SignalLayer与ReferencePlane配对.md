@@ -163,7 +163,7 @@ L6  Low/medium speed signal
 
 # 7. KiCad 落地
 
-在 KiCad 9 中：
+在 KiCad 10 中：
 
 1. `Board Setup → Physical Stackup` 写入真实铜厚/介质结构；
 2. 为每个 copper layer 写清名称与用途；

@@ -168,6 +168,6 @@ GTP 不是普通 differential pair。
 - AMD UG482 7 Series GTP Transceivers
 - AMD UG1099 BGA Device Design Rules and Strategies
 - Alliance AS4C64M16D3B DDR3 product/datasheet
-- KiCad 9 PCB Editor documentation
+- KiCad 10 PCB Editor documentation
 
 实际生产冻结前重新核对 revision、器件 lifecycle、Flash/DDR3 exact suffix、板厂 stackup 与 Vivado 版本。
