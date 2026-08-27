@@ -327,3 +327,31 @@ PCB timing 预算最终由：
 来验证趋势。
 
 **长度绿色只是输入证据，不是内存通过的最终证据。**
+
+
+# 增补｜Layer Delay 与 Package Delay 也属于 SDRAM Timing
+
+“长度匹配”只有在 routing environment 一致时才是 delay matching 的好代理。
+
+V3 timing group 继续增加两个字段：
+
+| Net/Group | Layer ps/mm | Package delay / skew |
+|---|---:|---:|
+| SDCLK | TBD | TBD / N/A |
+| Address/Cmd | TBD | TBD / N/A |
+| DQ | TBD | TBD / N/A |
+
+如果不同 nets 分布在 outer / inner layer，不能只看 total mm；应按：
+
+\[
+t_{PCB}=\sum L_i k_i
+\]
+
+计算 board delay。
+
+如果 MCU / SDRAM 官方资料提供 package flight-time / pin-delay 信息，也应加入 die-to-die timing budget。
+
+这也是为什么本章原有原则“尽量单层、相似 via structure”不仅是 SI 美学，而是在主动降低 timing model uncertainty。
+
+系统方法见：[Part 2｜12 高速时延匹配](../12_Part2_信号完整性/12_高速时延匹配_TimingBudget与等长.md)。
+

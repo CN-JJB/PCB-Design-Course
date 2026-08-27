@@ -1,0 +1,47 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delay Matching Budget Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1160px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px}.row{margin:13px 0}label{font-weight:700}.v{float:right;font-weight:800}input{width:100%}.metric{font-size:22px;font-weight:800;margin:12px 0}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px;border-radius:8px}canvas{width:100%;height:390px;background:#0f172a;border-radius:12px}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}.small{font-size:13px;color:#64748b}
+</style></head><body>
+<h1>Delay Matching Budget Lab：0 mm mismatch 也可能不是 0 ps</h1>
+<p>教学模型：把 outer/inner layer、via transition 与 package offset 合并到 die-to-die timing。实际 ps/mm、via delay 和 package delay 必须来自真实 stackup / vendor / extraction。</p>
+<div class="grid"><div class="card">
+<div class="row"><label>Outer delay <span class="v" id="ov"></span></label><input id="outer" type="range" min="4" max="9" step="0.1" value="5.8"></div>
+<div class="row"><label>Inner delay <span class="v" id="iv"></span></label><input id="inner" type="range" min="4" max="9" step="0.1" value="6.7"></div>
+<div class="row"><label>Net A outer length <span class="v" id="aov"></span></label><input id="ao" type="range" min="0" max="200" step="1" value="100"></div>
+<div class="row"><label>Net A inner length <span class="v" id="aiv"></span></label><input id="ai" type="range" min="0" max="200" step="1" value="0"></div>
+<div class="row"><label>Net B outer length <span class="v" id="bov"></span></label><input id="bo" type="range" min="0" max="200" step="1" value="0"></div>
+<div class="row"><label>Net B inner length <span class="v" id="biv"></span></label><input id="bi" type="range" min="0" max="200" step="1" value="100"></div>
+<div class="row"><label>Via-delay difference B-A <span class="v" id="vv"></span></label><input id="via" type="range" min="-100" max="100" step="1" value="0"></div>
+<div class="row"><label>Package-delay difference B-A <span class="v" id="pv"></span></label><input id="pkg" type="range" min="-200" max="200" step="1" value="40"></div>
+<div class="row"><label>Total skew budget <span class="v" id="sv"></span></label><input id="spec" type="range" min="20" max="500" step="5" value="100"></div>
+<div class="metric" id="headline"></div><div class="note" id="lesson"></div>
+</div><div class="card"><canvas id="plot" width="800" height="390"></canvas>
+<table><tr><th>Metric</th><th>Result</th><th>Meaning</th></tr>
+<tr><td>Physical ΔL (B-A)</td><td id="dl"></td><td>CAD centerline length only.</td></tr>
+<tr><td>PCB delay Δt</td><td id="pcb"></td><td>Layer-dependent propagation + via offset.</td></tr>
+<tr><td>Die-to-die Δt</td><td id="die"></td><td>PCB + package delay.</td></tr>
+<tr><td>Remaining margin</td><td id="margin"></td><td id="mw"></td></tr></table>
+<div class="small">This is not a DDR/USB/HDMI compliance calculator. It trains the order of operations: spec → ps → stackup → routing.</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");["outer","inner","ao","ai","bo","bi","via","pkg","spec"].forEach(id=>$(id).oninput=draw);
+function draw(){
+ const ko=+$("outer").value,ki=+$("inner").value,ao=+$("ao").value,ai=+$("ai").value,bo=+$("bo").value,bi=+$("bi").value,via=+$("via").value,pkg=+$("pkg").value,spec=+$("spec").value;
+ $("ov").textContent=ko.toFixed(1)+" ps/mm";$("iv").textContent=ki.toFixed(1)+" ps/mm";$("aov").textContent=ao+" mm";$("aiv").textContent=ai+" mm";$("bov").textContent=bo+" mm";$("biv").textContent=bi+" mm";$("vv").textContent=via+" ps";$("pv").textContent=pkg+" ps";$("sv").textContent=spec+" ps";
+ const la=ao+ai,lb=bo+bi,dl=lb-la;
+ const ta=ao*ko+ai*ki,tb=bo*ko+bi*ki+via,pcb=tb-ta,die=pcb+pkg,margin=spec-Math.abs(die);
+ $("dl").textContent=dl+" mm";$("pcb").textContent=pcb.toFixed(1)+" ps";$("die").textContent=die.toFixed(1)+" ps";$("margin").textContent=margin.toFixed(1)+" ps";
+ $("mw").textContent=margin>=0?"仍在预算内，但还要留 PVT/jitter/model uncertainty。":"已经超出当前 skew budget。";
+ $("headline").textContent="Physical ΔL "+dl+" mm · Die-to-die Δt "+die.toFixed(1)+" ps";
+ $("lesson").textContent=Math.abs(dl)<1&&Math.abs(die)>1?"这正是关键案例：物理等长，但由于 layer/package/via 差异，arrival time 并不等时。":"把长度看成 delay 的代理变量，而不是最终真值。";
+ ctx.clearRect(0,0,800,390);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,800,390);
+ const max=Math.max(spec,Math.abs(die),1),cx=400,scale=280/max;
+ ctx.strokeStyle="#64748b";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(80,200);ctx.lineTo(720,200);ctx.stroke();
+ ctx.strokeStyle="#f59e0b";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(cx-spec*scale,100);ctx.lineTo(cx-spec*scale,300);ctx.moveTo(cx+spec*scale,100);ctx.lineTo(cx+spec*scale,300);ctx.stroke();
+ ctx.strokeStyle=Math.abs(die)<=spec?"#22c55e":"#ef4444";ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(cx,200);ctx.lineTo(cx+die*scale,200);ctx.stroke();
+ ctx.fillStyle="#cbd5e1";ctx.font="15px system-ui";ctx.fillText("-budget",cx-spec*scale-25,330);ctx.fillText("+budget",cx+spec*scale-25,330);ctx.fillText("die-to-die skew",cx-50,75);
+}
+draw();
+</script></body></html>

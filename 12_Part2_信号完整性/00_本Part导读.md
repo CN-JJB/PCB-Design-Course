@@ -250,3 +250,11 @@ V2 不追求“接口更多”，先追求**信号路径更可解释**：
 11. [仿真案例：支路、源端串联终端与 Stackup](11_仿真案例_支路终端与Stackup.md)
 
 这两章是 Part 8 GTP / SerDes 的前置桥梁：把“阻抗与波形”扩展到完整 channel、S 参数和模型验证。
+
+
+12. [高速时延匹配：Timing Budget、层间差异与真正的等长](12_高速时延匹配_TimingBudget与等长.md)
+
+
+## 新增互动实验
+
+- [Delay Matching Budget Lab](../interactive/delay-matching-budget-lab.html)：比较 physical length、layer-dependent ps/mm、via/package offset 与 die-to-die skew。
