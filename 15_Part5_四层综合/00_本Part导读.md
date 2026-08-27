@@ -2,6 +2,12 @@
 
 > 到这里，课程第一次不再新增一套“独立理论”。你已经分别学过 SI、PI、EMI/EMC；Part 5 的任务是把它们放到同一张原理图、同一个四层 stackup、同一块有限板框里做取舍。
 
+<p align="center">
+  <img src="../assets/svg/v2-part5-overview.svg" width="960" alt="STM32F407 V2 四层综合项目教材总览">
+</p>
+
+> 上图是本 Part 的**教学总览图**：它用一张页面把系统目标、四层叠层、USB/CAN/SDIO、SI/PI/EMC 挑战和工程交付闭环放在一起。具体参数仍以本 Part 正文、器件一手资料和实际板厂工艺为准。
+
 ---
 
 ## 你现在要做的，不是“画更多线”
@@ -36,7 +42,7 @@
 - Power：USB 5 V 输入 → 3.3 V 主电源
 - Clock：HSE + 必要 RTC/低速时钟按项目需求决定
 
-> STM32F407 本身提供 USB OTG FS、2× CAN 和 SDIO；产品页也列出 SDIO、CAN 2.0B 与 USB FS/HS 外设。V2 只使用其中一部分，避免“因为芯片有就全部接出来”。
+> STM32F407 本身提供 USB OTG FS、2× CAN 和 SDIO；V2 只使用其中一部分，避免“因为芯片有就全部接出来”。
 
 ---
 
@@ -70,7 +76,7 @@
 
 会同时用到：
 
-- 一组 source-synchronous-ish digital signals；
+- 一组相关高速数字信号；
 - CLK aggressor；
 - pin planning；
 - group routing；
@@ -96,6 +102,26 @@
 → 10 Bring-up / Validation
 → 11 Final Design Review
 ```
+
+章节：
+
+1. [V2 系统规格与接口决策](01_V2系统规格与接口决策.md)
+2. [Pin 规划、时钟与资源冲突](02_Pin规划时钟与资源冲突.md)
+3. [原理图综合与 Design Review](03_原理图综合与DesignReview.md)
+4. [布局分区与器件优先级](04_布局分区与器件优先级.md)
+5. [Stackup、Net Class 与规则矩阵](05_Stackup_NetClass与规则矩阵.md)
+6. [布线优先级与实施顺序](06_布线优先级与实施顺序.md)
+7. [SI / PI / EMC 联合 Review](07_SI_PI_EMC联合Review.md)
+8. [DFM、BOM 与可测试性](08_DFM_BOM与可测试性.md)
+9. [Gerber、装配包与 Release Gate](09_Gerber装配包与ReleaseGate.md)
+10. [Bring-up 与验证计划](10_Bringup与验证计划.md)
+11. [Final Design Review 与四层毕业门槛](11_FinalDesignReview与四层毕业门槛.md)
+12. [参考资料与版本冻结](12_参考资料与版本冻结.md)
+
+互动实验：
+
+- [V2 Layout Tradeoff Lab](../interactive/v2-layout-tradeoff-lab.html)
+- [V2 Release Gate Lab](../interactive/v2-release-gate-lab.html)
 
 ---
 
@@ -125,15 +151,15 @@
 3. 一份原理图 Design Review；
 4. 一份 Board Zoning / Placement Plan；
 5. 一份 Routing & Constraint Matrix；
-6. SI / PI / EMC 三套 Review 结果；
+6. SI / PI / EMC 联合 Review 结果；
 7. DFM / BOM / Testability Checklist；
 8. Gerber Release Checklist；
 9. Bring-up Test Plan；
 10. Final Design Review Report。
 
-配套项目资产放在：
+配套项目资产：[`projects/stm32f407-mainline/v2/`](../projects/stm32f407-mainline/v2/)
 
-`projects/stm32f407-mainline/v2/`
+Fault Lab：[`part5-integration-faults.md`](../projects/stm32f407-mainline/fault-lab/part5-integration-faults.md)
 
 ---
 
@@ -147,8 +173,7 @@
 - ST AN4488 Hardware Development；
 - ST AN4879 USB Hardware and PCB Guidelines；
 - USB-IF USB Type-C Cable and Connector Specification；
-- TI TCAN33x datasheet；
-- TI CAN transient-protection reference design；
+- CAN transceiver datasheet / protection reference design；
 - KiCad 9 PCB Editor documentation；
 - 本课程 Part 1~4 已建立的 SI / PI / EMC 方法。
 
@@ -169,4 +194,4 @@
 7. 解释为什么这样设计；
 8. 给出测量与 Bring-up 方法。
 
-这才是第一次真正意义上的“四层板毕业项目”。
+这才是第一次真正意义上的**四层板毕业项目**。

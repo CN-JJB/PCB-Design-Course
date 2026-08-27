@@ -2,40 +2,39 @@
 
 > 面向**已经会画二层板**的学习者：通过一条持续升级的 MCU 项目主线，系统学习 4 层 / 6 层 PCB、Signal Integrity（SI）、Power Integrity（PI）、EMI/EMC、DFM、测量与 Design Review。
 
-这套教材不以“背规则”为目标。核心学习顺序是：
+这套教材不以“背规则”为目标，而是训练你从**电流路径、电磁场、器件要求、接口规范和制造约束**解释每一个关键 PCB 决策。
 
 ```text
-现象
-→ 建立直觉
-→ SVG / 互动实验
-→ 物理原因
-→ 必要公式
-→ KiCad 实操
-→ 修改主线 PCB
-→ Fault Lab
-→ Design Review
-→ 实测 / 验证
+现象 → 建立直觉 → SVG / 互动实验 → 物理原因 → 必要公式
+→ KiCad 实操 → 修改主线 PCB → Fault Lab → Design Review → 实测 / 验证
 ```
 
 ---
 
 # 当前课程进度
 
+| Part | 状态 | 主题 | 主线产出 |
+|---|---|---|---|
+| 0 | ✅ | 二层 → 多层认知跃迁 | 能分析 reference / return / edge rate |
+| 1 | ✅ | 第一块四层板 | STM32F407 V1 |
+| 2 | ✅ | Signal Integrity | V2 SI upgrade |
+| 3 | ✅ | Power Integrity | V2 PI upgrade |
+| 4 | ✅ | EMI / EMC | V2 interface / ESD / pre-compliance |
+| 5 | ✅ | 四层综合 | STM32F407 V2：USB / CAN / SDIO 综合收口 |
+| 6 | ✅ | 四层 → 六层 | Layer-count / stackup / reference / 多电源域 / H7 transition |
+| 7 | ✅ | 六层高速 | STM32H743 V3 + SDRAM + Ethernet 工程闭环 |
+| 8 | ✅ | FPGA 专项 | Artix-7：Bank / BGA / DDR3 / GTP / 配置与板级闭环 |
+| 9 | ⏭️ | 工程交付 | DFM / 测量 / 调试 / BOM / 量产 |
+
+---
+
 ## ✅ Part 0｜从二层板到多层板：认知升级
 
 **[开始学习](10_Part0_从二层到多层/00_本Part导读.md)**
 
-重点：
+重点：PCB 互连不是理想导线、Return Path / Reference Plane、edge rate / flight time、从 Datasheet 提取 PCB 规则、KiCad 9 多层基础。
 
-- PCB 互连不是理想导线
-- Return Path / Reference Plane
-- edge rate / flight time
-- 从 Datasheet / Hardware Guide 提取 PCB 规则
-- KiCad 9 多层必备操作
-
-互动：
-
-- [Edge Rate Lab](interactive/edge-rate-lab.html)
+互动：[Edge Rate Lab](interactive/edge-rate-lab.html)
 
 ---
 
@@ -43,25 +42,12 @@
 
 **[开始项目](11_Part1_STM32F407四层板/00_项目导读.md)**
 
-主控：`STM32F407VGT6 / LQFP100`
-
 ```text
-需求
-→ power tree / schematic
-→ 真实四层 stackup
-→ placement
-→ routing
-→ DRC + manual review
-→ Gerber
-→ bring-up
+需求 → power tree / schematic → 四层 stackup → placement → routing
+→ DRC + manual review → Gerber → bring-up
 ```
 
-项目资产：
-
-- [STM32F407 mainline](projects/stm32f407-mainline/README.md)
-- [Hardware Constraints](projects/stm32f407-mainline/v1/hardware-constraints.md)
-- [Design Decisions](projects/stm32f407-mainline/v1/design-decisions.md)
-- [Design Review Checklist](projects/stm32f407-mainline/review/design-review-checklist.md)
+项目资产：[`projects/stm32f407-mainline/v1/`](projects/stm32f407-mainline/v1/)
 
 ---
 
@@ -70,40 +56,14 @@
 **[开始学习 SI](12_Part2_信号完整性/00_本Part导读.md)**
 
 ```text
-波传播
-→ transmission line / Z0
-→ reflection / termination
-→ return path / layer transition
-→ crosstalk
-→ differential pair / USB FS
-→ TDR / eye / oscilloscope
-→ KiCad SI Review
+波传播 → transmission line / Z0 → reflection / termination
+→ return path / layer transition → crosstalk → differential pair / USB FS
+→ TDR / eye / oscilloscope → KiCad SI Review
 ```
 
-核心章节：
+互动：[Reflection Lab](interactive/reflection-lab.html) · [Return Path Lab](interactive/return-path-lab.html) · [Crosstalk Lab](interactive/crosstalk-lab.html)
 
-- [波在 PCB 上怎么传播](12_Part2_信号完整性/01_波在PCB上怎么传播.md)
-- [传输线与特性阻抗](12_Part2_信号完整性/02_传输线与特性阻抗.md)
-- [反射与终端匹配](12_Part2_信号完整性/03_反射与终端匹配.md)
-- [回流路径与换层](12_Part2_信号完整性/04_回流路径与换层.md)
-- [串扰与几何隔离](12_Part2_信号完整性/05_串扰与几何隔离.md)
-- [差分对与 USB 实战](12_Part2_信号完整性/06_差分对与USB实战.md)
-- [TDR、眼图与示波器判读](12_Part2_信号完整性/07_TDR眼图与示波器判读.md)
-- [KiCad SI Review](12_Part2_信号完整性/08_KiCad中的SI落地与Review.md)
-
-互动：
-
-- [Reflection Lab](interactive/reflection-lab.html)
-- [Return Path Lab](interactive/return-path-lab.html)
-- [Crosstalk Lab](interactive/crosstalk-lab.html)
-
-V2 SI：
-
-- [SI Upgrade Plan](projects/stm32f407-mainline/v2/si-upgrade-plan.md)
-- [SI Net Inventory](projects/stm32f407-mainline/v2/si-net-inventory.md)
-- [SI Routing Constraints](projects/stm32f407-mainline/v2/si-routing-constraints.md)
-- [SI Review](projects/stm32f407-mainline/v2/si-review.md)
-- [SI Fault Lab](projects/stm32f407-mainline/fault-lab/part2-si-faults.md)
+V2 SI：[`projects/stm32f407-mainline/v2/si-review.md`](projects/stm32f407-mainline/v2/si-review.md)
 
 ---
 
@@ -112,42 +72,12 @@ V2 SI：
 **[开始学习 PI](13_Part3_电源完整性/00_本Part导读.md)**
 
 ```text
-瞬态电流
-→ local decoupling
-→ C / ESR / ESL / SRF / DC Bias
-→ mounting inductance
-→ PDN / target impedance
-→ anti-resonance
-→ plane / ground bounce
-→ Buck hot loop
-→ measurement integrity
-→ KiCad PI Review
+瞬态电流 → local decoupling → C / ESR / ESL / SRF / DC Bias
+→ mounting inductance → PDN / target impedance → anti-resonance
+→ plane / ground bounce → Buck hot loop → measurement integrity → KiCad PI Review
 ```
 
-核心章节：
-
-- [瞬态电流与去耦](13_Part3_电源完整性/01_瞬态电流与去耦.md)
-- [真实电容：ESR / ESL / SRF](13_Part3_电源完整性/02_真实电容_ESR_ESL与自谐振.md)
-- [安装电感与布局](13_Part3_电源完整性/03_安装电感与布局.md)
-- [PDN 与目标阻抗](13_Part3_电源完整性/04_PDN与目标阻抗.md)
-- [多电容与反谐振](13_Part3_电源完整性/05_多电容与反谐振.md)
-- [电源地平面与地弹](13_Part3_电源完整性/06_电源地平面与地弹.md)
-- [Buck 热环路与布局](13_Part3_电源完整性/07_Buck热环路与布局.md)
-- [示波器测电源噪声](13_Part3_电源完整性/08_示波器测电源噪声.md)
-- [KiCad PI Review](13_Part3_电源完整性/09_KiCad中的PI落地与Review.md)
-
-互动：
-
-- [Decoupling Impedance Lab](interactive/decoupling-impedance-lab.html)
-- [Target Impedance Lab](interactive/target-impedance-lab.html)
-- [Buck Hot Loop Lab](interactive/buck-hot-loop-lab.html)
-
-V2 PI：
-
-- [PI Upgrade Plan](projects/stm32f407-mainline/v2/pi-upgrade-plan.md)
-- [PI Rail Budget](projects/stm32f407-mainline/v2/pi-rail-budget.md)
-- [PI Review](projects/stm32f407-mainline/v2/pi-review.md)
-- [PI Fault Lab](projects/stm32f407-mainline/fault-lab/part3-pi-faults.md)
+互动：[Decoupling Impedance Lab](interactive/decoupling-impedance-lab.html) · [Target Impedance Lab](interactive/target-impedance-lab.html) · [Buck Hot Loop Lab](interactive/buck-hot-loop-lab.html)
 
 ---
 
@@ -156,76 +86,242 @@ V2 PI：
 **[开始学习 EMI / EMC](14_Part4_EMI_EMC/00_本Part导读.md)**
 
 ```text
-Differential / Common Mode
-→ loop / slot / cable antenna structure
-→ connector electromagnetic boundary
-→ ESD / TVS current path
-→ shield / chassis / system GND
-→ USB / CAN interface EMC
-→ near-field / cable A-B experiments
-→ KiCad EMC Review
+Differential / Common Mode → loop / slot / cable
+→ connector electromagnetic boundary → ESD / TVS current path
+→ shield / chassis / system GND → USB / CAN EMC
+→ near-field / cable A-B experiments → KiCad EMC Review
+```
+
+互动：[ESD Layout Lab](interactive/esd-layout-lab.html) · [Common-Mode Cable Lab](interactive/common-mode-cable-lab.html)
+
+---
+
+# ✅ Part 5｜STM32F407 V2 四层综合板
+
+**[开始四层综合项目](15_Part5_四层综合/00_本Part导读.md)**
+
+<p align="center"><img src="assets/svg/v2-part5-overview.svg" width="980" alt="Part 5 STM32F407 V2 四层综合项目总览"></p>
+
+Part 5 把 **SI + PI + EMC** 压回同一块四层 PCB：
+
+```text
+System Specification → Pin / Clock Planning → Schematic Review
+→ Placement / Board Zoning → Stackup / Rule Matrix → Routing Priority
+→ SI + PI + EMC Joint Review → DFM / BOM / Testability
+→ Gerber / Release Gate → Bring-up / Validation → Final Design Review
+```
+
+项目资产：[`projects/stm32f407-mainline/v2/`](projects/stm32f407-mainline/v2/)
+
+互动：[V2 Layout Tradeoff Lab](interactive/v2-layout-tradeoff-lab.html) · [V2 Release Gate Lab](interactive/v2-release-gate-lab.html)
+
+---
+
+# ✅ Part 6｜从四层升级到六层：重新组织电磁结构
+
+**[开始学习 Part 6](16_Part6_四层到六层/00_本Part导读.md)**
+
+<p align="center"><img src="assets/svg/part6-four-vs-six.svg" width="980" alt="Part 6 四层到六层设计压力"></p>
+
+Part 6 不用接口名字机械决定层数，而是完成一次完整 **Layer-Count / Stackup Architecture Review**：
+
+```text
+四层真实瓶颈
+→ Layer-Count Gate
+→ 六层 Stackup 邻接关系
+→ Signal Layer / Reference Plane 配对
+→ GND↔GND / GND↔PWR Reference Transition
+→ Power Domain / Plane Split
+→ Routing Density / Escape / Via Forest
+→ KiCad 9 六层规则
+→ 板厂阻抗与 Stackup Freeze
+→ STM32H743 V3 Transition Gate
 ```
 
 核心章节：
 
-- [差模、共模与辐射源](14_Part4_EMI_EMC/01_差模共模与辐射源.md)
-- [回路、槽缝与天线结构](14_Part4_EMI_EMC/02_回路槽缝与天线结构.md)
-- [连接器、电缆与共模转换](14_Part4_EMI_EMC/03_连接器电缆与共模转换.md)
-- [ESD 与 TVS 布局](14_Part4_EMI_EMC/04_ESD与TVS布局.md)
-- [Shield / Chassis / System GND](14_Part4_EMI_EMC/05_Shield_Chassis与系统地.md)
-- [USB / CAN 接口 EMC 实战](14_Part4_EMI_EMC/06_USB_CAN接口EMC实战.md)
-- [近场探头与预兼容测试](14_Part4_EMI_EMC/07_近场探头与预兼容测试.md)
-- [KiCad EMC Review](14_Part4_EMI_EMC/08_KiCad中的EMC落地与Review.md)
-- [参考资料与数据纪律](14_Part4_EMI_EMC/09_参考资料与数据纪律.md)
+- [四层板什么时候真的不够](16_Part6_四层到六层/01_四层板什么时候真的不够.md)
+- [六层 Stackup 工程设计](16_Part6_四层到六层/02_六层Stackup工程设计.md)
+- [Signal Layer 与 Reference Plane](16_Part6_四层到六层/03_SignalLayer与ReferencePlane配对.md)
+- [换层与 Reference Transition](16_Part6_四层到六层/04_换层与ReferenceTransition.md)
+- [Power Domain 与 Plane Split](16_Part6_四层到六层/05_PowerDomain与PlaneSplit规划.md)
+- [Routing Density / Escape 与层数](16_Part6_四层到六层/06_RoutingDensity_Escape与层数.md)
+- [KiCad 六层 Stackup 与规则](16_Part6_四层到六层/07_KiCad六层Stackup与规则落地.md)
+- [板厂阻抗与 Stackup Freeze](16_Part6_四层到六层/08_板厂阻抗与StackupFreeze.md)
+- [STM32H7 V3 过渡设计](16_Part6_四层到六层/09_STM32H7_V3过渡设计.md)
+- [参考资料与数据纪律](16_Part6_四层到六层/10_参考资料与数据纪律.md)
 
 互动：
 
-- [ESD Layout Lab](interactive/esd-layout-lab.html)
-- [Common-Mode Cable Lab](interactive/common-mode-cable-lab.html)
+- [Six-Layer Stackup Lab](interactive/six-layer-stackup-lab.html)
+- [Reference Transition Lab](interactive/reference-transition-lab.html)
 
-V2 EMC：
+V3 过渡工程资产：[`projects/stm32h7-mainline/v3/`](projects/stm32h7-mainline/v3/)
 
-- [EMC Upgrade Plan](projects/stm32f407-mainline/v2/emc-upgrade-plan.md)
-- [EMC Interface Inventory](projects/stm32f407-mainline/v2/emc-interface-inventory.md)
-- [EMC Review](projects/stm32f407-mainline/v2/emc-review.md)
-- [Pre-compliance Plan](projects/stm32f407-mainline/v2/emc-precompliance-plan.md)
-- [Part 4 Fault Lab](projects/stm32f407-mainline/fault-lab/part4-emc-faults.md)
+- [Layer-Count Decision](projects/stm32h7-mainline/v3/layer-count-decision.md)
+- [Stackup Decision Record](projects/stm32h7-mainline/v3/stackup-decision-record.md)
+- [Layer Role Map](projects/stm32h7-mainline/v3/layer-role-map.md)
+- [Reference Transition Map](projects/stm32h7-mainline/v3/reference-transition-map.md)
+- [KiCad Rule Plan](projects/stm32h7-mainline/v3/kicad-rule-plan.md)
+- [Part 6 → 7 Transition Review](projects/stm32h7-mainline/v3/part6-transition-review.md)
+- [Part 6 Fault Lab](projects/stm32h7-mainline/fault-lab/part6-stackup-faults.md)
 
-Part 4 特别避免这些“EMC 口诀化”误导：
-
-- 不把 TVS `<5 mm` 当通用通过条件；
-- 不把板边 via fence `≤10 mm` 当所有板通用要求；
-- 不把 shield 永远直接接 GND / 永远 RC 接地写成统一答案；
-- 不把 CMC / ferrite 当万能整改件；
-- 不把 near-field hotspot 直接等同于正式远场主因；
-- 不把“拔掉电缆后峰值下降”直接等同于 PHY 根因；
-- 不把 DRC PASS 当 EMC PASS。
+Part 6 使用 JLCPCB 当前公开的六层 controlled-impedance stackup 作为真实制造案例，但所有板厂参数在实际下单前重新核对。
 
 ---
 
-# 整本教材路线
+# ✅ Part 7｜STM32H743 V3 六层高速综合板
 
-| Part | 主题 | 主线产出 |
-|---|---|---|
-| 0 | 二层 → 多层认知跃迁 | 能分析 reference / return / edge rate |
-| 1 | 四层入门 | STM32F407 V1 |
-| 2 | Signal Integrity | V2 SI upgrade |
-| 3 | Power Integrity | V2 PI upgrade |
-| 4 | EMI / EMC | V2 interface / ESD / pre-compliance |
-| 5 | 四层综合 | STM32F407 V2：USB / CAN / SDIO 综合收口 |
-| 6 | 四层 → 六层 | Stackup / reference / 多电源域 |
-| 7 | 六层高速 | STM32H7 + Ethernet + SDRAM |
-| 8 | FPGA 专项 | Bank / BGA fanout / clock / DDR / pin planning |
-| 9 | 工程交付 | DFM / 测量 / 调试 / BOM / 量产 |
+**[开始 Part 7](17_Part7_STM32H7六层高速/00_本Part导读.md)**
 
-主线产品家族：
+<p align="center"><img src="assets/svg/part7-system-architecture.svg" width="980" alt="Part 7 STM32H743 V3 六层高速系统架构"></p>
+
+硬件基线：
+
+- STM32H743ZIT6 / LQFP144
+- Alliance AS4C4M16SA-6TIN，x16 8 MiB SDR SDRAM
+- FMC_SDCLK = 100 MHz project baseline
+- LAN8742A/Ai 10/100 Ethernet PHY
+- RMII 50 MHz
+- 六层 controlled-impedance PCB
+
+完整工程链：
+
+```text
+System / Pin / Power / Clock Freeze
+→ SDRAM selection → FMC ns-to-cycle timing
+→ board skew / routing constraints
+→ RMII / PHY / MDI / Magnetics / RJ45
+→ six-layer floorplan
+→ SI + PI + EMC joint review
+→ KiCad constraints
+→ bring-up / stress / evidence
+→ Final Design Review / Source Freeze
+```
+
+核心章节：
+
+- [系统规格与资源冻结](17_Part7_STM32H7六层高速/01_V3系统规格与资源冻结.md)
+- [H743 电源、时钟与启动](17_Part7_STM32H7六层高速/02_H743电源时钟与启动架构.md)
+- [SDRAM 选型与 FMC 架构](17_Part7_STM32H7六层高速/03_SDRAM选型与FMC架构.md)
+- [FMC 时序：ns → cycles](17_Part7_STM32H7六层高速/04_FMC时序从ns到寄存器.md)
+- [SDRAM 板级时序与等长](17_Part7_STM32H7六层高速/05_SDRAM板级时序与等长.md)
+- [Ethernet PHY / RMII](17_Part7_STM32H7六层高速/06_Ethernet_PHY与RMII架构.md)
+- [Magnetics / RJ45 / ESD](17_Part7_STM32H7六层高速/07_Magnetics_RJ45与ESD边界.md)
+- [六层 Floorplan 与布线顺序](17_Part7_STM32H7六层高速/08_六层Floorplan与布线顺序.md)
+- [SI / PI / EMC 联合 Review](17_Part7_STM32H7六层高速/09_SI_PI_EMC联合Review.md)
+- [KiCad 高速约束](17_Part7_STM32H7六层高速/10_KiCad高速约束与Review.md)
+- [Bring-up 与故障定位](17_Part7_STM32H7六层高速/11_Bringup内存网络与故障定位.md)
+- [Final Design Review](17_Part7_STM32H7六层高速/12_FinalDesignReview与六层毕业门槛.md)
+- [参考资料与 Source Freeze](17_Part7_STM32H7六层高速/13_参考资料与SourceFreeze.md)
+
+互动：
+
+- [FMC Timing Lab](interactive/fmc-timing-lab.html)
+- [SDRAM Skew Lab](interactive/sdram-skew-lab.html)
+- [Ethernet Boundary Lab](interactive/ethernet-boundary-lab.html)
+
+工程资产：[`projects/stm32h7-mainline/v3/`](projects/stm32h7-mainline/v3/)
+
+Fault Lab：[Part 7 H7 / SDRAM / Ethernet Faults](projects/stm32h7-mainline/fault-lab/part7-h7-sdram-ethernet-faults.md)
+
+**六层毕业标准：**不是把几十根线“调成绿色”，而是能从 datasheet timing、PCB delay、reference/return、PDN、connector boundary 和实测 evidence 解释每个关键决策。
+
+---
+
+# ✅ Part 8｜FPGA 板级设计专项：Artix-7 V1
+
+**[开始 Part 8](18_Part8_FPGA板级设计/00_本Part导读.md)**
+
+<p align="center"><img src="assets/svg/part8-fpga-system-overview.svg" width="980" alt="Part 8 Artix-7 FPGA board-level overview"></p>
+
+硬件基线：
+
+- AMD Artix-7 XC7A35T-1CSG325C
+- 15 × 15 mm / 0.8 mm pitch BGA
+- Master SPI + JTAG
+- 100 MHz system clock
+- Alliance AS4C64M16D3B x16 DDR3
+- 3.3 V / 1.8 V SelectIO teaching banks
+- one GTP teaching lane
+
+完整学习链：
+
+```text
+Device / Package Freeze
+→ Bank / VCCO / IOSTANDARD
+→ Power / XPE / Sequencing
+→ Configuration / JTAG / SPI
+→ Clock-capable Pins
+→ BGA Fanout / Escape
+→ DDR3 / MIG / DQS Byte Lane
+→ GTP High-Speed Channel
+→ Vivado XDC ↔ KiCad
+→ PDN / Thermal
+→ Bring-up / Validation
+→ Final Design Review
+```
+
+核心章节：
+
+- [FPGA 板级设计思维与器件冻结](18_Part8_FPGA板级设计/01_FPGA板级设计思维与器件冻结.md)
+- [Bank / VCCO / IOSTANDARD / Pin Planning](18_Part8_FPGA板级设计/02_Bank_VCCO与IOSTANDARD_PinPlanning.md)
+- [多电源 Rail / PDN / Sequencing](18_Part8_FPGA板级设计/03_FPGA多电源Rail_PDN与Sequencing.md)
+- [Configuration / JTAG / SPI Flash](18_Part8_FPGA板级设计/04_Configuration_JTAG与SPIFlash.md)
+- [Clock Input / Clock Tree](18_Part8_FPGA板级设计/05_Clock_Input与ClockTree.md)
+- [BGA Fanout / Escape](18_Part8_FPGA板级设计/06_BGA_Fanout_Escape与层数.md)
+- [DDR3 / MIG / Byte Lane](18_Part8_FPGA板级设计/07_DDR3_MIG与ByteLane_PinPlanning.md)
+- [GTP 高速差分](18_Part8_FPGA板级设计/08_GTP高速差分与ConnectorChannel.md)
+- [Vivado XDC ↔ KiCad](18_Part8_FPGA板级设计/09_Vivado_XDC与KiCad协同.md)
+- [FPGA PDN / Decoupling / Thermal](18_Part8_FPGA板级设计/10_FPGA_PDN_Decoupling与Thermal.md)
+- [FPGA Bring-up](18_Part8_FPGA板级设计/11_Bringup与故障定位.md)
+- [Final Review](18_Part8_FPGA板级设计/12_FinalReview与FPGA板级毕业门槛.md)
+- [参考资料与 Source Freeze](18_Part8_FPGA板级设计/13_参考资料与SourceFreeze.md)
+
+互动：
+
+- [Bank Voltage Lab](interactive/fpga-bank-voltage-lab.html)
+- [BGA Escape Lab](interactive/fpga-bga-escape-lab.html)
+- [DDR3 Byte-Lane Lab](interactive/fpga-ddr3-byte-lane-lab.html)
+
+工程资产：[`projects/artix7-mainline/v1/`](projects/artix7-mainline/v1/)
+
+Fault Lab：[50 个 FPGA Board-Level Faults](projects/artix7-mainline/fault-lab/part8-fpga-board-faults.md)
+
+Part 8 的毕业标准不是“能下载 bitstream”，而是你能把 **Bank、电源、配置、BGA、DDR3、GTP 与 PCB 约束**放到同一套工程因果链里解释。
+
+---
+
+# 下一阶段：Part 9｜工程交付与量产化
+
+Part 9 将把前面所有板子统一推进到工程交付：
+
+```text
+Design Freeze
+→ DFM / DFA / DFT
+→ BOM lifecycle / alternates
+→ fabrication / assembly package
+→ programming / calibration
+→ test fixture
+→ bring-up evidence
+→ ECO / revision control
+→ pre-compliance / reliability
+→ pilot build
+→ production release
+```
+
+目标是把“能工作的样板”变成**可制造、可测试、可复现、可维护的工程产品**。
+
+---
+
+# 主线产品家族
 
 ```text
 STM32F407 V1 — 四层基本功
       ↓
 STM32F407 V2 — USB / CAN / SDIO + SI / PI / EMC
       ↓
-STM32H7 V3 — 六层 + Ethernet / SDRAM
+STM32H743 V3 — 六层 + Ethernet / SDRAM
 ```
 
 另有 FPGA 板级设计专项。
@@ -234,88 +330,35 @@ STM32H7 V3 — 六层 + Ethernet / SDRAM
 
 # Fault Lab：故意画错，然后亲手修
 
-每个 Fault 要求：
+每个 Fault 都要求：
 
 ```text
-Symptom
-→ Why DRC misses it
-→ Current path / field / parasitic
-→ Root cause
-→ Proposed PCB change
-→ Side effect
-→ A/B verification
-→ Checklist
+Symptom → Why DRC misses it → Current path / field / parasitic
+→ Root cause → PCB change → Side effect → A/B verification → Checklist
 ```
 
-课程希望训练的不是“看见错误答案”，而是**诊断能力**。
-
----
-
-# 教材可视化约定
-
-技术图优先使用 SVG：可缩放、可审阅、可版本控制。
-
-统一视觉语言：
-
-- **红色**：signal / outgoing current / high-di/dt path
-- **蓝色**：return / discharge current
-- **深灰**：GND reference
-- **铜色**：signal / power copper
-- **紫色**：field / coupling / impedance relationship
-- **红色警示**：错误结构
-- **绿色**：改进结构
-
-静态图不够时使用 HTML/JS 互动实验；KiCad 操作使用真实软件流程。
+课程训练的是**诊断能力**，不是背答案。
 
 ---
 
 # 数字与规则的写作纪律
 
-课程明确区分：
+课程明确区分：物理原理、工程经验、器件厂家要求、接口/认证标准要求、板厂制造限制、系统设计目标和教学数量级示例。
 
-1. 物理原理
-2. 工程经验
-3. 器件厂家要求
-4. 接口/认证标准要求
-5. 板厂制造限制
-6. 系统设计目标
-7. 教学数量级示例
-
-关键数字尽量给出来源和适用条件。
+不会把 `3W`、`≤1 mm`、`100 nF`、`TVS <5 mm`、固定 MHz 门槛等跨场景写成无条件铁律。
 
 ---
 
-# 当前一手资料基线
+# 一手资料原则
 
-- KiCad 9 PCB Editor：https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
-- STM32F407：https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html
-- ST AN4488：https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf
-- ST AN4879 USB hardware / PCB guide：https://www.st.com/resource/en/application_note/an4879-usb-hardware-and-pcb-guidelines-using-stm32-mcus-stmicroelectronics.pdf
-- USB-IF：https://www.usb.org/documents
-- TI ESD Protection Layout Guide (SLVA680A)：https://www.ti.com/lit/an/slva680a/slva680a.pdf
-- TI CAN transient reference design TIDA-00629：https://www.ti.com/tool/TIDA-00629
-- TI PDN Analysis：https://www.ti.com/lit/an/swpa222a/swpa222a.pdf
-- TI Buck Layout：https://www.ti.com/lit/pdf/slva494
-- JLCPCB controlled impedance：https://jlcpcb.com/impedance
+教材优先使用 STM32 / AMD FPGA Datasheet、Reference Manual / User Guide / Errata、接口规范、器件官方 Application Note、KiCad / Vivado 官方文档和板厂实际 stackup / capability。
 
-标准、软件、板厂与器件资料会变化；实际设计冻结前重新核对。
-
----
-
-# 关于旧版目录
-
-`01_零基础入门`、`03_二层板实战`、`04_多层板理论`、`05_KiCad多层板操作`、`06_实战项目` 等仍是重构前素材来源。
-
-**最终不会保留两套平行教材。**
-
-好的解释迁移、重复内容合并、误导规则修正；对应 Part 稳定后逐步删除旧章节。Git 历史本身保留旧版本。
+标准、器件、软件和板厂工艺会变化；**实际设计冻结前重新核对当前版本。**
 
 ---
 
 # 最终学习目标
 
-最终毕业作品不是“一块看起来很复杂的六层板”，而是：
-
-> **一块你能解释每个重要设计决策的六层板。**
+> **一套你能解释每个重要设计决策的多层高速硬件工程。**
 
 别人问你为什么这样叠层、为什么这个电容放这里、为什么这根线换层、为什么接口这样保护、为什么 shield 这样接，你能从电流路径、电磁场、器件要求、系统结构和制造约束解释，而不是回答“网上都这么画”。
