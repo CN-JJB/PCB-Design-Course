@@ -15,6 +15,9 @@ jobs:
       - name: Check Markdown relative links
         run: python3 tools/check_markdown_links.py
 
+      - name: Check formal-course consistency
+        run: python3 tools/check_course_consistency.py
+
       - name: Run KiCad 10.0.5 ERC/DRC
         run: |
           docker run --rm             -v "$PWD:/work"             -w /work             --entrypoint bash             kicad/kicad:10.0.5             tools/hardware-ci.sh
