@@ -1,0 +1,70 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDN Resonance Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:28px auto;padding:0 20px;color:#0f172a;background:#f8fafc}
+h1{margin-bottom:6px}.lead{color:#475569}.grid{display:grid;grid-template-columns:340px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #cbd5e1;border-radius:16px;padding:18px}.row{margin:13px 0}label{font-weight:700}.v{float:right;font-weight:800}input[type=range]{width:100%}
+canvas{width:100%;height:430px;background:#0f172a;border-radius:12px}.metric{font-size:24px;font-weight:800;margin:12px 0}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 14px;border-radius:8px}.small{font-size:13px;color:#64748b}
+table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}
+</style></head><body>
+<h1>PDN Resonance Lab：阻抗峰怎样放大 VCC 噪声</h1>
+<p class="lead">教学用二阶/多支路趋势模型。观察 local decoupling、upstream isolation、阻尼和负载重复频率怎样改变 resonance / ringing。不是 ADS、PIPro 或 VNA 测量替代品。</p>
+<div class="grid"><div class="card">
+<div class="row"><label>Local C <span class="v" id="cv"></span></label><input id="c" type="range" min="10" max="1000" step="10" value="100"></div>
+<div class="row"><label>Local ESR <span class="v" id="rv"></span></label><input id="r" type="range" min="5" max="300" step="5" value="30"></div>
+<div class="row"><label>Mounting L <span class="v" id="lv"></span></label><input id="l" type="range" min="0.2" max="10" step="0.1" value="2"></div>
+<div class="row"><label>Bulk C <span class="v" id="bv"></span></label><input id="bulk" type="range" min="1" max="100" step="1" value="10"></div>
+<div class="row"><label>Upstream isolation L / bead-like <span class="v" id="uv"></span></label><input id="up" type="range" min="5" max="1000" step="5" value="120"></div>
+<div class="row"><label>Source damping R <span class="v" id="sv"></span></label><input id="src" type="range" min="5" max="1000" step="5" value="100"></div>
+<div class="row"><label>Load repetition frequency <span class="v" id="fv"></span></label><input id="f" type="range" min="1" max="200" step="1" value="66"></div>
+<div class="row"><label>Edge severity <span class="v" id="ev"></span></label><input id="edge" type="range" min="1" max="10" step="1" value="6"></div>
+<div class="metric" id="risk"></div><div class="note" id="lesson"></div>
+</div><div class="card">
+<canvas id="plot" width="820" height="430"></canvas>
+<table><tr><th>观察项</th><th>趋势</th><th>解释</th></tr>
+<tr><td>Estimated low-frequency resonance</td><td id="fr"></td><td>由 upstream isolation 与 bulk/local C 的组合决定，真实系统会更复杂。</td></tr>
+<tr><td>Peak Q tendency</td><td id="q"></td><td id="qw"></td></tr>
+<tr><td>Repeated excitation</td><td id="pump"></td><td>当负载重复频率接近 resonance / harmonic relation 时更容易持续加能。</td></tr>
+<tr><td>First action</td><td colspan="2" id="act"></td></tr></table>
+<div class="small">真正 rail noise 满足 ΔV(f)=ZPDN(f)·ΔI(f)。本页只给归一化趋势，不输出假的 mV 或 dB。</div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id),ctx=$("plot").getContext("2d");["c","r","l","bulk","up","src","f","edge"].forEach(id=>$(id).oninput=draw);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function draw(){
+ const C=+$("c").value*1e-9,R=+$("r").value/1000,Lm=+$("l").value*1e-9,B=+$("bulk").value*1e-6,Lu=+$("up").value*1e-9,Rs=+$("src").value/1000,fsw=+$("f").value*1e3,edge=+$("edge").value;
+ $("cv").textContent=(C*1e9).toFixed(0)+" nF";$("rv").textContent=(R*1000).toFixed(0)+" mΩ";$("lv").textContent=(Lm*1e9).toFixed(1)+" nH";$("bv").textContent=(B*1e6).toFixed(0)+" µF";$("uv").textContent=(Lu*1e9).toFixed(0)+" nH";$("sv").textContent=(Rs*1000).toFixed(0)+" mΩ";$("fv").textContent=(fsw/1e3).toFixed(0)+" kHz";$("ev").textContent=edge+"/10";
+ const Ceq=(C*B)/(C+B), fr=1/(2*Math.PI*Math.sqrt(Math.max(1e-18,(Lu+Lm)*Ceq)));
+ const q=clamp(Math.sqrt((Lu+Lm)/Ceq)/(R+Rs),0,20);
+ const near=Math.exp(-Math.pow(Math.log10(Math.max(1,fsw/fr))/0.18,2));
+ const harm2=Math.exp(-Math.pow(Math.log10(Math.max(1,2*fsw/fr))/0.18,2))*.5;
+ const pump=clamp((near+harm2)*(edge/10)*(q/5),0,1);
+ const risk=Math.round(100*clamp(.35*Math.tanh(q/5)+.65*pump,0,1));
+ $("fr").textContent=(fr/1e3).toFixed(1)+" kHz";
+ $("q").textContent=q<1.5?"低":q<4?"中":"高";
+ $("qw").textContent=q>4?"阻尼较小，ring-down 较长。":"阻尼较强，peak 更平。";
+ $("pump").textContent=Math.round(pump*100)+"/100";
+ $("risk").textContent="Rail-ringing teaching risk: "+risk+"/100";
+ $("lesson").textContent="高 |Z| 不是“更多真实损耗”的同义词；关键是相同 ΔI 在该频率会产生更大的 ΔV。";
+ let act=q>5?"先增加阻尼 / 检查 ferrite+capacitor 形成的高-Q 网络。":pump>.55?"改变负载节奏不是根治；应降低该频段 ZPDN 或增加 damping。":Lm>5e-9?"先减小 local mounting inductance。":"继续用实际模型 / VNA or injection measurement 验证。";
+ $("act").textContent=act;
+
+ ctx.clearRect(0,0,820,430);ctx.fillStyle="#0f172a";ctx.fillRect(0,0,820,430);
+ const x0=60,x1=760,y0=360,y1=60;
+ ctx.strokeStyle="#64748b";ctx.lineWidth=1;for(let i=0;i<6;i++){let y=y0-i*(y0-y1)/5;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke()}
+ ctx.strokeStyle="#a78bfa";ctx.lineWidth=4;ctx.beginPath();
+ for(let i=0;i<300;i++){let f=10**(2+i/299*7),w=2*Math.PI*f;
+   let zlocR=R,zlocX=w*Lm-1/(w*C),zloc2=zlocR*zlocR+zlocX*zlocX;
+   let Ylr=zlocR/zloc2,Yli=-zlocX/zloc2;
+   let zbulkR=Rs,zbulkX=w*Lu-1/(w*B),zbulk2=zbulkR*zbulkR+zbulkX*zbulkX;
+   let Ybr=zbulkR/zbulk2,Ybi=-zbulkX/zbulk2;
+   let Yr=Ylr+Ybr,Yi=Yli+Ybi,z=1/Math.sqrt(Yr*Yr+Yi*Yi);
+   let x=x0+i/299*(x1-x0),logz=Math.log10(Math.max(1e-4,Math.min(1e3,z))),y=y0-(logz+4)/7*(y0-y1);
+   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+ }ctx.stroke();
+ const fx=x0+(Math.log10(fsw)-2)/7*(x1-x0);ctx.strokeStyle="#f59e0b";ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(fx,y1);ctx.lineTo(fx,y0);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle="#f59e0b";ctx.font="15px system-ui";ctx.fillText("load repetition",Math.max(65,fx-45),50);
+ ctx.fillStyle="#cbd5e1";ctx.fillText("100 Hz",55,392);ctx.fillText("1 GHz",720,392);ctx.fillText("|ZPDN| trend",65,35);
+}
+draw();
+</script></body></html>

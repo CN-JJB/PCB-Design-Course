@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="660" viewBox="0 0 1180 660">
+<rect width="1180" height="660" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">One RLC network, two views: impedance peak and current redistribution</text>
+<g font-family="sans-serif">
+<rect x="60" y="95" width="520" height="470" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="92" y="135" font-size="21" font-weight="700" fill="#0f172a">PDN impedance vs frequency</text>
+<line x1="110" y1="500" x2="530" y2="500" stroke="#64748b" stroke-width="3"/><line x1="110" y1="180" x2="110" y2="500" stroke="#64748b" stroke-width="3"/>
+<path d="M120 430 C220 410 280 390 330 250 C370 155 425 360 520 385" fill="none" stroke="#7c3aed" stroke-width="6"/>
+<line x1="345" y1="500" x2="345" y2="235" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="290" y="215" font-size="18" font-weight="700" fill="#92400e">high-|Z| peak</text>
+<text x="215" y="535" font-size="16" fill="#475569">frequency →</text>
+
+<rect x="620" y="95" width="500" height="470" rx="18" fill="#fff" stroke="#cbd5e1"/>
+<text x="650" y="135" font-size="21" font-weight="700" fill="#0f172a">AC current-density view</text>
+<rect x="670" y="200" width="390" height="250" rx="12" fill="#e2e8f0"/>
+<circle cx="760" cy="325" r="40" fill="#60a5fa"/><circle cx="930" cy="325" r="40" fill="#60a5fa"/>
+<path d="M800 325 C840 260 880 260 890 325 C880 390 840 390 800 325" fill="none" stroke="#ef4444" stroke-width="18" opacity=".9"/>
+<text x="720" y="485" font-size="17" fill="#334155">At resonance, reactive currents can become large</text>
+<text x="720" y="512" font-size="16" fill="#64748b">without implying equivalent real power loss.</text>
+
+<rect x="60" y="600" width="1060" height="36" rx="10" fill="#fff7ed"/>
+<text x="82" y="624" font-size="16" fill="#92400e">The engineering link is ΔV(f)=ZPDN(f)·ΔI(f): a high impedance peak magnifies rail disturbance when load-current spectrum overlaps it.</text>
+</g></svg>

@@ -158,6 +158,21 @@ Ztarget = 50 mΩ, DC → Fmax
 
 ---
 
+## 4.6.1 从负载端看：为什么 ZPDN 峰会直接变成 Rail Noise
+
+频域里最直接的关系是：
+
+\[
+\Delta V(f)=Z_{PDN}(f)\cdot\Delta I(f)
+\]
+
+所以当 load-current spectrum 与某个高阻抗峰重叠，VCC disturbance 会被放大。
+
+这里的“高阻抗”首先意味着更大的 voltage response，**不等价于更多真实功率损耗**；RLC 网络里大量能量可能只是 reactive exchange。
+
+完整 simulation ↔ measurement 案例见：[13｜实测案例：PDN 阻抗峰为什么会变成 VCC 噪声](13_实测案例_PDN阻抗峰与VCC噪声.md)。
+
+
 ## 4.7 一个教学级 3.3 V rail 预算
 
 以下数字只是演示，不是 STM32F407 官方 PI 限值：

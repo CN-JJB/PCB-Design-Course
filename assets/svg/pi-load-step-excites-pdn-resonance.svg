@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="690" viewBox="0 0 1180 690">
+<rect width="1180" height="690" rx="24" fill="#f8fafc"/>
+<text x="55" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#0f172a">A slow-repetition square wave can still excite a much higher PDN resonance</text>
+<g font-family="sans-serif">
+<text x="80" y="120" font-size="20" font-weight="700" fill="#1d4ed8">Load current step</text>
+<path d="M90 200 H210 V130 H360 V200 H480 V130 H630 V200 H750 V130 H900 V200 H1070" fill="none" stroke="#2563eb" stroke-width="6"/>
+<text x="80" y="285" font-size="20" font-weight="700" fill="#92400e">Each edge contains broad frequency content</text>
+<path d="M120 360 C155 305 190 415 225 360 C260 305 295 415 330 360" fill="none" stroke="#f59e0b" stroke-width="5"/>
+<path d="M445 360 C480 305 515 415 550 360 C585 305 620 415 655 360" fill="none" stroke="#f59e0b" stroke-width="5"/>
+<path d="M770 360 C805 305 840 415 875 360 C910 305 945 415 980 360" fill="none" stroke="#f59e0b" stroke-width="5"/>
+<text x="430" y="425" font-size="17" fill="#334155">Natural ring frequency belongs to the PDN, not to the repetition rate.</text>
+<text x="80" y="500" font-size="20" font-weight="700" fill="#991b1b">If edge timing repeatedly reinforces the ring...</text>
+<path d="M110 580 C145 490 180 670 215 580 C250 490 285 670 320 580 C355 490 390 670 425 580 C460 490 495 670 530 580 C565 490 600 670 635 580 C670 490 705 670 740 580 C775 490 810 670 845 580 C880 490 915 670 950 580 C985 490 1020 670 1055 580" fill="none" stroke="#dc2626" stroke-width="6"/>
+<text x="720" y="645" font-size="17" font-weight="700" fill="#991b1b">rail ringing grows</text>
+</g></svg>

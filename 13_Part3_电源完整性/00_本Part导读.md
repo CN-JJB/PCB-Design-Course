@@ -107,7 +107,8 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 - Decoupling Impedance Lab；
 - Target Impedance Lab；
 - Buck Hot Loop Lab；
-- Reference Transition Lab：比较 GND→GND / GND→PWR、plane separation、simultaneous switching 与 cavity 风险。
+- Reference Transition Lab：比较 GND→GND / GND→PWR、plane separation、simultaneous switching 与 cavity 风险；
+- PDN Resonance Lab：把 local C / mounting L / upstream isolation / damping 与动态负载激励放到同一个频域直觉模型。
 
 互动页面用来建立趋势直觉，不冒充厂商电容 S 参数、SPICE、PIA 或 3D EM 求解器。
 
@@ -150,5 +151,6 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 
 11. [DC Power Integrity：IR Drop、电流密度与热](11_DC_Power_Integrity_IRDrop与电流密度.md)
 12. [电源层真的必要吗：双 GND、Reference Transition 与 Plane Cavity](12_电源层真的必要吗_双地平面与PlaneCavity.md)
+13. [实测案例：PDN 阻抗峰为什么会变成 VCC 噪声](13_实测案例_PDN阻抗峰与VCC噪声.md)
 
 PI 不只等于去耦和 Ztarget。毕业 Review 必须同时覆盖 DC drop、瞬态、频域阻抗、热与测量。
