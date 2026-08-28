@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="t d">
+<title id="t">Prototype to Production Readiness</title>
+<desc id="d">Six production failure modes mapped to design gates: DFT, identity, fiducials, panelization, sourcing and reworkability.</desc>
+<rect width="1200" height="720" fill="#ffffff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.h{font:700 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.b{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.r{fill:#fee2e2;stroke:#f87171;stroke-width:2}
+.g{fill:#dcfce7;stroke:#4ade80;stroke-width:2}
+.a{stroke:#374151;stroke-width:3;fill:none;marker-end:url(#arr)}
+</style>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+<text x="55" y="52" class="t">Prototype 能工作，不等于 Production Ready</text>
+<text x="55" y="82" class="s">把 6 个“生产会炸”的问题变成 PCB Freeze 前必须通过的工程 Gate</text>
+
+<rect x="55" y="125" width="255" height="88" rx="14" class="r"/><text x="182" y="158" text-anchor="middle" class="h">1｜No Test Access</text><text x="182" y="185" text-anchor="middle" class="s">fault 无法观察 / fixture 昂贵</text>
+<rect x="55" y="235" width="255" height="88" rx="14" class="r"/><text x="182" y="268" text-anchor="middle" class="h">2｜No Physical Identity</text><text x="182" y="295" text-anchor="middle" class="s">裸板 / PCBA 无法映射 revision</text>
+<rect x="55" y="345" width="255" height="88" rx="14" class="r"/><text x="182" y="378" text-anchor="middle" class="h">3｜No Placement Datum</text><text x="182" y="405" text-anchor="middle" class="s">fiducial / tooling 未冻结</text>
+<rect x="55" y="455" width="255" height="88" rx="14" class="r"/><text x="182" y="488" text-anchor="middle" class="h">4｜No Panel Strategy</text><text x="182" y="515" text-anchor="middle" class="s">depanel stress 最后才发现</text>
+<rect x="55" y="565" width="255" height="88" rx="14" class="r"/><text x="182" y="598" text-anchor="middle" class="h">5/6｜Supply + Rework</text><text x="182" y="625" text-anchor="middle" class="s">缺料替换 / 密度导致无法返修</text>
+
+<path d="M320 169 L430 169" class="a"/><path d="M320 279 L430 279" class="a"/><path d="M320 389 L430 389" class="a"/><path d="M320 499 L430 499" class="a"/><path d="M320 609 L430 609" class="a"/>
+
+<rect x="440" y="125" width="300" height="88" rx="14" class="g"/><text x="590" y="158" text-anchor="middle" class="h">DFT Gate</text><text x="590" y="185" text-anchor="middle" class="s">fault coverage → access → fixture</text>
+<rect x="440" y="235" width="300" height="88" rx="14" class="g"/><text x="590" y="268" text-anchor="middle" class="h">Configuration Gate</text><text x="590" y="295" text-anchor="middle" class="s">marking ↔ PCB/BOM/FW/Test release</text>
+<rect x="440" y="345" width="300" height="88" rx="14" class="g"/><text x="590" y="378" text-anchor="middle" class="h">Assembly Gate</text><text x="590" y="405" text-anchor="middle" class="s">EMS-specific fiducial / tooling rules</text>
+<rect x="440" y="455" width="300" height="88" rx="14" class="g"/><text x="590" y="488" text-anchor="middle" class="h">Panel / Depanel Gate</text><text x="590" y="515" text-anchor="middle" class="s">rail / tab / V-score / stress path</text>
+<rect x="440" y="565" width="300" height="88" rx="14" class="g"/><text x="590" y="598" text-anchor="middle" class="h">BOM + Rework Gate</text><text x="590" y="625" text-anchor="middle" class="s">AVL / substitution / process access</text>
+
+<path d="M750 389 L850 389" class="a"/>
+<rect x="865" y="275" width="280" height="230" rx="16" class="b"/>
+<text x="1005" y="320" text-anchor="middle" class="h">Production Ready</text>
+<text x="1005" y="355" text-anchor="middle" class="s">repeatable build</text>
+<text x="1005" y="383" text-anchor="middle" class="s">testable</text>
+<text x="1005" y="411" text-anchor="middle" class="s">traceable</text>
+<text x="1005" y="439" text-anchor="middle" class="s">repairable</text>
+<text x="1005" y="467" text-anchor="middle" class="s">supply-controlled</text>
+</svg>

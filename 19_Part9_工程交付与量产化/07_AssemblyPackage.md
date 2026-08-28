@@ -32,6 +32,25 @@ Release 前自动/人工检查：
 - 重点检查 IC / diode / connector；
 - 将工厂反馈固化进流程。
 
+### 7.3.1 Fiducial / Tooling / Edge Rail 也属于 Assembly Package 输入
+
+Assembly package 不能只包含 BOM + centroid。
+
+对需要 automated placement / panel handling 的产品，应冻结：
+
+- panel drawing；
+- edge rails；
+- tooling holes；
+- fiducials；
+- datum/orientation；
+- breakaway method；
+- local-fiducial requirement；
+- supplier-added features policy。
+
+如果允许 EMS 自动加 rail/fiducial/tooling，也必须在 release note 中明确：
+
+> 哪些 feature 可以由供应商调整，哪些必须工程批准。
+
 ## 7.4 Stencil / Paste
 
 对：

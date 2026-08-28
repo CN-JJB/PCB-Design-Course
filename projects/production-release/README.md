@@ -28,3 +28,4 @@
 - production-release-gate.md
 - source-freeze.md
 - reliability-validation-matrix.md
+- production-test-access-plan.md

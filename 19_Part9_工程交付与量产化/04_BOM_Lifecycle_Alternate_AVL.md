@@ -61,6 +61,66 @@ Approved Vendor / Manufacturer List 解决：
 
 不要混成一列。
 
+### 4.4.1 Sourcing Risk：Multiple Sources ≠ Multiple Approved Parts
+
+视频建议在 BOM freeze 前检查：
+
+- availability；
+- EOL/NRND；
+- distributor coverage；
+- supply continuity。
+
+这个方向应该保留。
+
+但“多个网站都能买到”不能自动等价于：
+
+> **这个设计已经 multi-source。**
+
+必须区分：
+
+~~~text
+multiple distributors
+≠ multiple manufacturers
+≠ approved alternate MPNs
+≠ qualified second source
+~~~
+
+同一个 MPN 出现在三家 distributor，只是渠道更分散。
+
+真正的 supply-risk review 至少记录：
+
+- lifecycle status；
+- authorized channels；
+- lead time / MOQ；
+- geographic/vendor concentration；
+- PCN/EOL path；
+- alternate qualification effort；
+- firmware/calibration dependency；
+- footprint/pinout lock-in；
+- last-time-buy exposure。
+
+### 4.4.2 禁止 Silent Substitution
+
+视频提醒有些制造环境可能为了继续 build 而替换缺料器件。
+
+课程把这一点升级成 Release Rule：
+
+> **未在 AVL / approved alternate 中的 substitution 不得静默进入量产。**
+
+流程：
+
+~~~text
+shortage
+→ proposed substitute
+→ engineering equivalence review
+→ sample / validation as required
+→ ECO / deviation approval
+→ BOM/AVL update
+→ controlled rollout
+~~~
+
+不能用“same value / same footprint”跳过。
+
 ## 4.5 PCN / EOL
 
 建立 lifecycle 流程：

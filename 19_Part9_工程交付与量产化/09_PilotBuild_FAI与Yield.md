@@ -14,6 +14,35 @@
 - rework；
 - packaging。
 
+### 9.1.1 Prototype Pass ≠ Production Ready
+
+这期视频最值得保留的一句话是：
+
+> **一块能工作的 prototype，只证明设计至少有一个成功样本。**
+
+Pilot Build 要主动扩大 variation：
+
+- multiple PCB lots / panels（按项目需要）；
+- multiple assembled units；
+- startup / low input / max load；
+- programming repeatability；
+- test fixture contact；
+- rework；
+- operator variation；
+- component-lot variation；
+- panel/depanel process。
+
+目标不是“多做几块样板”，而是验证：
+
+~~~text
+Design
++ Process
++ Test
++ Supply
++ Documentation
+→ repeatable production outcome
+~~~
+
 ## 9.2 First Article Inspection
 
 首件检查应覆盖：
