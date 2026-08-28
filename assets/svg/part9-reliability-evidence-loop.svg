@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Reliability evidence loop</title>
+<desc id="desc">Reliability design flow from mission profile through stressors, failure mechanisms, design controls, validation evidence and release gate.</desc>
+<rect width="1200" height="720" fill="#ffffff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.h{font:700 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.b{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.m{fill:#dbeafe;stroke:#60a5fa;stroke-width:2}
+.st{fill:#fef3c7;stroke:#f59e0b;stroke-width:2}
+.f{fill:#fee2e2;stroke:#f87171;stroke-width:2}
+.c{fill:#dcfce7;stroke:#4ade80;stroke-width:2}
+.e{fill:#ede9fe;stroke:#8b5cf6;stroke-width:2}
+.g{fill:#e5e7eb;stroke:#6b7280;stroke-width:2}
+.a{stroke:#374151;stroke-width:3;fill:none;marker-end:url(#arr)}
+</style>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+<text x="55" y="52" class="t">Reliability：从“看起来没问题”到可追溯的量产证据</text>
+<text x="55" y="82" class="s">不是背固定 derating / 温度 / coating 规则，而是把真实使用场景变成失效机制和验证闭环</text>
+
+<rect x="50" y="145" width="180" height="120" rx="14" class="m"/>
+<text x="140" y="182" text-anchor="middle" class="h">Mission Profile</text>
+<text x="140" y="212" text-anchor="middle" class="s">temperature / humidity</text>
+<text x="140" y="236" text-anchor="middle" class="s">duty / cycles / enclosure</text>
+
+<path d="M235 205 L300 205" class="a"/>
+<rect x="305" y="125" width="190" height="160" rx="14" class="st"/>
+<text x="400" y="162" text-anchor="middle" class="h">Stressors</text>
+<text x="400" y="191" text-anchor="middle" class="s">thermal / power</text>
+<text x="400" y="215" text-anchor="middle" class="s">vibration / connector</text>
+<text x="400" y="239" text-anchor="middle" class="s">ESD / moisture / contamination</text>
+
+<path d="M500 205 L565 205" class="a"/>
+<rect x="570" y="115" width="210" height="180" rx="14" class="f"/>
+<text x="675" y="152" text-anchor="middle" class="h">Failure Mechanisms</text>
+<text x="675" y="181" text-anchor="middle" class="s">aging / drift / dry-out</text>
+<text x="675" y="205" text-anchor="middle" class="s">solder fatigue / flex crack</text>
+<text x="675" y="229" text-anchor="middle" class="s">corrosion / leakage</text>
+<text x="675" y="253" text-anchor="middle" class="s">brownout / overstress</text>
+
+<path d="M785 205 L850 205" class="a"/>
+<rect x="855" y="125" width="290" height="160" rx="14" class="c"/>
+<text x="1000" y="162" text-anchor="middle" class="h">Design Controls</text>
+<text x="1000" y="191" text-anchor="middle" class="s">layout / derating / material</text>
+<text x="1000" y="215" text-anchor="middle" class="s">mechanical support / protection</text>
+<text x="1000" y="239" text-anchor="middle" class="s">process + supplier controls</text>
+
+<path d="M1000 290 L1000 370" class="a"/>
+<rect x="830" y="375" width="315" height="145" rx="14" class="e"/>
+<text x="987" y="412" text-anchor="middle" class="h">Validation + Evidence</text>
+<text x="987" y="441" text-anchor="middle" class="s">thermal image / scope / log</text>
+<text x="987" y="465" text-anchor="middle" class="s">mechanical / environmental test</text>
+<text x="987" y="489" text-anchor="middle" class="s">inspection / material record</text>
+
+<path d="M825 447 L715 447" class="a"/>
+<rect x="500" y="375" width="210" height="145" rx="14" class="g"/>
+<text x="605" y="416" text-anchor="middle" class="h">Release Gate</text>
+<text x="605" y="447" text-anchor="middle" class="s">pass / accepted risk</text>
+<text x="605" y="471" text-anchor="middle" class="s">or block release</text>
+
+<path d="M500 447 C390 447 350 370 350 310 C350 290 360 285 370 285" class="a"/>
+<text x="270" y="395" class="s">finding → root cause → ECO → retest</text>
+
+<rect x="55" y="590" width="1090" height="70" rx="12" class="b"/>
+<text x="600" y="618" text-anchor="middle" class="h">课程纪律</text>
+<text x="600" y="645" text-anchor="middle" class="s">“20°C 半寿命”“2× 耐压”“50% 功耗”“高 Tg”“三防漆”只能是有适用条件的输入，不能直接成为跨产品 sign-off 规则。</text>
+</svg>

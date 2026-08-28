@@ -81,6 +81,39 @@ PCN/EOL received
 
 高影响电容必须按 exact MPN 管理，而不是只按 value/package。
 
+### 4.6.1 Rating / Derating 必须落到 Exact MPN
+
+“25 V capacitor”“0.25 W resistor”只是额定值，不是可靠性结论。
+
+对 critical parts，BOM review 增加：
+
+| Field | Example |
+|---|---|
+| actual stress | voltage / current / power / Tj / ripple |
+| rating or curve | datasheet limit / derating curve |
+| mission-profile corner | max ambient / startup / fault |
+| margin rationale | requirement-based |
+| evidence | calc / simulation / measurement |
+| failure consequence | safe / degraded / hazardous |
+
+课程不使用跨器件统一的“全部 50% derating”规则。
+
+### 4.6.2 Capacitor Alternate 还要比较 Lifetime / Bias / Ripple
+
+电容 alternate 除 value/package 外，还应按用途检查：
+
+- DC-bias effective C；
+- ESR / ESL；
+- ripple-current rating；
+- rated life / temperature；
+- surge / fault behavior；
+- mechanical robustness；
+- dielectric/technology。
+
+所以：
+
+> “10 µF 0805 X7R”或“100 µF electrolytic”都不足以自动批准替代料。
+
 ## 4.7 BOM Risk Register
 
 | MPN | Risk | Why | Alternate | Inventory | Action |

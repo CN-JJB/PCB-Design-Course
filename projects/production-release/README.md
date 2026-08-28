@@ -27,3 +27,4 @@
 - traceability-plan.md
 - production-release-gate.md
 - source-freeze.md
+- reliability-validation-matrix.md

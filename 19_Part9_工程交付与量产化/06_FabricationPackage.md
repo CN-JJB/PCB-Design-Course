@@ -45,6 +45,38 @@ approved fab adjustment policy
 coupon/TDR requirement
 ```
 
+### 6.3.1 Material Identity 与 Substitution Control
+
+“FR-4”不是足够完整的 reliability specification。
+
+按产品需要冻结：
+
+- approved laminate family / exact material；
+- Tg；
+- Td；
+- Z-axis expansion / CTE；
+- moisture behavior；
+- CAF requirement；
+- lead-free reflow compatibility；
+- Dk / Df or controlled-impedance relevance；
+- copper thickness / construction；
+- applicable certification。
+
+**Higher Tg 不是自动更可靠。**
+
+材料选择必须回到具体 failure mechanism。
+
+Fab substitute material 前应满足：
+
+~~~text
+property equivalence
+→ impedance/process impact review
+→ reliability impact review
+→ approval / ECO when required
+~~~
+
+而不是由工厂在量产时静默换成“差不多的 FR-4”。
+
 ## 6.4 Drill Review
 
 区分：

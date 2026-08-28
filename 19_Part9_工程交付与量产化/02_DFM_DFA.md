@@ -44,6 +44,55 @@ DRC 只是输入，不是结论。
 - connector mechanical load；
 - hand-solder / rework access。
 
+### 2.3.1 Solder Joint Reliability：可焊不等于耐久
+
+DFA 不只看“这颗料能不能贴上去”，还要看 joint 在真实 mission profile 下承受什么：
+
+- thermal cycling；
+- board flex；
+- connector side load；
+- vibration/shock；
+- heavy-component inertia；
+- depanel / assembly stress。
+
+因此：
+
+> **thermal relief、via-in-pad、paste aperture 都属于工艺 + 电气 + 机械的联合决策。**
+
+课程禁止写成两个绝对规则：
+
+~~~text
+“所有 plane pad 都必须 thermal relief”
+“所有 via-in-pad 都必须禁止”
+~~~
+
+Via-in-pad 如果被使用，必须明确 fill / cap / planarization / plating 与 assembly process。
+
+### 2.3.2 Connector Mechanical Load Path
+
+对 USB、DC jack、board-edge connector、wire harness 等，Review 时画出：
+
+~~~text
+user / cable force
+→ connector anchor
+→ PCB
+→ standoff / mounting hole
+→ enclosure / chassis
+~~~
+
+如果主要载荷最终由 signal-pad solder fillet 承担，应视为可靠性 finding。
+
+检查：
+
+- shell/anchor pin；
+- mounting hole proximity；
+- board-edge leverage；
+- strain relief；
+- insertion/extraction cycle；
+- enclosure support；
+- cable torque；
+- alignment tolerance。
+
 ## 2.4 Footprint Provenance
 
 每个 critical footprint 保存：
