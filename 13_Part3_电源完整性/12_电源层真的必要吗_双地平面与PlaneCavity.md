@@ -147,6 +147,27 @@ L2 / L3 同属 GND，可以在 signal via 附近放 GND stitching via，提供�
 
 ---
 
+
+### 12.3.1 不只比较 PWR vs 双 GND：还有一对“内外翻转”的四层拓扑
+
+Zach Peterson / Altium Academy 的另一段四层板讲解把选择继续展开成：
+
+~~~text
+GND / SIG+PWR / SIG+PWR / GND
+               ↕ invert
+SIG+PWR / GND / GND / SIG+PWR
+~~~
+
+这两者的核心 tradeoff 不是“谁更高级”，而是：
+
+- 外层 GND：更偏向 external-noise shielding / surface-ground access，但高 via density 可能 perforate GND，内层 signal 还要防 broadside coupling；
+- 内层双 GND：更方便 Top↔Bottom 的 same-net reference transition，表面 signal 可直接进入器件，但 Power 要改用 pour / wide trace，并失去专用大面积 PWR plane 的 routing / plane-pair 资源。
+
+完整拓扑图、via perforation 边界和 V1 选型问题见 Part 1：[四层 Stackup：从真实板厂数据开始](../11_Part1_STM32F407四层板/03_四层Stackup与KiCad设置.md#32-四层板的层角色不是固定模板三种工程拓扑)。
+
+这部分不会重复本章已经讲过的 return-current 物理；它只把“电源层是否必要”提升成更完整的 **layer-role allocation** 问题。
+
+
 ## 12.4 Power Plane 当 signal reference 时，DC 电压是不是必须等于 IO 电压？
 
 不是。

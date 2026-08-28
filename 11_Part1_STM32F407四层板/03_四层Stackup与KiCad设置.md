@@ -103,6 +103,130 @@ Part 0 的 [实测接地案例](../10_Part0_从二层到多层/06_实测案例_�
 
 原因不是“Bottom 天生差”，而是本 stackup 的 reference relationship 不同。
 
+
+### 3.2 四层板的“层角色”不是固定模板：三种工程拓扑
+
+Zach Peterson 在 Altium Academy 的 *Alternative 4-layer Boards for High Speed PCBs* 里强调了一个很适合放进本课程的判断：
+
+> **板厂给你的四层物理结构，不等于板厂替你决定了每层必须是 Signal / GND / Power。层角色仍然是设计变量。**
+
+<p align="center"><img src="../assets/svg/part1-four-layer-alternative-stackups.svg" width="980" alt="three four-layer PCB stackup topology options"></p>
+
+本课程把视频中的结构整理成下面这张工程对比表。它不是“谁绝对最好”，而是提醒你先写清楚目标。
+
+| 拓扑 | 主要优点 | 主要风险 / 代价 | 更适合什么 |
+|---|---|---|---|
+| `SIG / GND / PWR / SIG` | 电源分配直接；常见板厂结构；顶层容易形成清晰的 SIG↔GND 几何 | Top/Bottom 的 reference 条件不同；若从 GND-reference 换到 PWR-reference，必须解释 return transition | 单面承载主要快速器件、rail 较多或确实需要专用 PWR layer 的通用 MCU 板 |
+| `GND / SIG+PWR / SIG+PWR / GND` | 外层 GND 对外部场有更强屏蔽直觉；表面可形成直接 GND/ESD 回路 | 内层两层同时承载 signal/power，需防 broadside crosstalk；器件很多时，大量过孔/anti-pad 可能把外层 GND 打成“筛子” | 外部噪声隔离优先、器件密度中等、能认真规划内层 routing 的板 |
+| `SIG+PWR / GND / GND / SIG+PWR` | 两个表面信号层都紧邻 GND；Top↔Bottom 换层时可用 nearby GND stitching via 做 same-net reference transition；表层直接进器件，不必为每个信号穿过外层 GND | 电源要用 surface pour / wide trace；对外部场的表面屏蔽不如外层 GND；没有大面积 PWR↔GND plane pair 时，不能指望很强的 plane capacitance | 两面都要放快速器件/走线、供电电流和 rail 数量仍可用 trace/pour 管理的 MCU / 中等 FPGA |
+
+#### 拓扑 A：为什么“经典四层”不是错，而是要限制使用方式
+
+对 V1 的 `SIG-GND-PWR-SIG`，本章前面已经采用了一个保守策略：
+
+- 最敏感快速线优先 L1 / reference L2 GND；
+- Bottom 不是禁区，但不能默认与 Top 等价；
+- L1→L4 的 signal via 不能只画“去程”，还要画 reference transition；
+- 若新 reference 是 PWR，需要 nearby GND↔PWR 高频 coupling / decoupling path。
+
+所以视频中真正应该吸收的不是：
+
+> “四层板永远不能有 Power Plane。”
+
+而是：
+
+> **Power Plane 的存在本身不是错误；错误是把不同 reference 条件当成完全等价，然后随意换层。**
+
+#### 拓扑 B：外层 GND 的隐藏代价——via perforation
+
+外层整面 GND 看起来很“干净”，但如果器件密度很高，内层 signal/power 必须频繁通过 via 到达表面 pad。
+
+每个 through via 都会在 GND copper 上留下 anti-pad / clearance。数量一多，可能出现：
+
+~~~text
+solid GND
+→ many via clearances
+→ local narrow neck
+→ anti-pad chain
+→ return structure 被切窄甚至近似形成 slot
+~~~
+
+所以不能只看“这一层名叫 GND”，还要审查：
+
+> **它在真实钻孔/anti-pad 几何下还剩多少连续铜。**
+
+这与 Part 2 的 via anti-pad / return-path review 是同一个问题。
+
+#### 拓扑 C：双内层 GND 为什么适合两面都走快速线
+
+当 L2 / L3 都是 GND：
+
+~~~text
+L1 SIG+PWR  → reference L2 GND
+L2 GND
+L3 GND
+L4 SIG+PWR  → reference L3 GND
+~~~
+
+如果信号从 L1 换到 L4，可以让 signal via 旁边有一条局部 GND stitching via，把 L2 与 L3 的 reference transition 做得很紧凑。
+
+这比：
+
+~~~text
+old reference = GND
+new reference = PWR
+→ 依赖 GND↔PWR capacitor path
+~~~
+
+更直接。
+
+但代价也很明确：Power 不再拥有整层资源。
+
+因此你必须先完成：
+
+- rail current / voltage-drop 预算；
+- via / connector bottleneck 检查；
+- surface pour / wide trace 规划；
+- 去耦安装电感设计；
+- 需要时的 PI 仿真 / 测量。
+
+#### Plane capacitance：不要把“没有 PWR plane”理解成免费升级
+
+视频还提醒：把 PWR plane 让给 GND 后，可能失去原本可利用的 PWR↔GND plane-pair capacitance。
+
+这个提醒是对的，但不能反过来写成：
+
+> “有 PWR plane 就一定有很强的高频去耦。”
+
+是否有用取决于：
+
+- plane separation；
+- overlap area；
+- dielectric；
+- cavity / resonance；
+- current injection geometry。
+
+本课程 V1 的 L2↔L3 core 很厚，因此本来就不应把 plane capacitance 当成主要高频去耦手段。
+
+更完整的 PI 讨论见 Part 3：[电源层真的必要吗：双 GND、Reference Transition 与 Plane Cavity](../13_Part3_电源完整性/12_电源层真的必要吗_双地平面与PlaneCavity.md)。
+
+#### 四层拓扑选择时，至少回答 5 个问题
+
+1. 快速器件是否必须同时放在 Top / Bottom？
+2. 最大 rail 是否真的需要整层 PWR，还是 wide trace / pour 已足够？
+3. 你更怕外部场耦合，还是更怕内部 signal-layer crosstalk / reference transition？
+4. 器件与过孔密度会不会把“整面 GND”打成 perforated plane？
+5. PI 是否依赖 plane pair，还是主要依靠 local decoupling + low-inductance mounting？
+
+> **制造纪律仍然不变**：无论选哪种层角色，物理介质/铜厚/机械对称性必须与板厂确认；视频中的“对称 stackup”是设计原则，不替代 fabricator 的正式 stackup approval。
+
+**来源纪律：**
+
+- 原始视频：Zach Peterson / Altium Academy, *Alternative 4-layer Boards for High Speed PCBs*: https://www.youtube.com/watch?v=b4ncs8qfAiA
+- 同作者配套文章：*Two 4 Layer PCB Stackups With 50 Ohms Impedance*: https://resources.altium.com/p/two-alternative-4-layer-pcb-stackups-50-ohms-impedance
+- 视频中把“外层 GND / 内层 SIG+PWR”方案归因于 Rick Hartley；本课程仅记录为**视频中的转述归因**，没有把它冒充成本次独立核验过的 Rick Hartley 原文。
+
+
 ---
 
 ## 4. 为什么不直接给你一条“50 Ω = 0.18 mm”？

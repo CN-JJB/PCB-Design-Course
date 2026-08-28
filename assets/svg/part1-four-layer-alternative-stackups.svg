@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+<title id="title">Four-layer PCB stackup topology comparison</title>
+<desc id="desc">Comparison of SIG GND PWR SIG, outer-ground with internal signal and power, and outer signal and power with dual internal ground.</desc>
+<rect width="1200" height="640" fill="#ffffff"/>
+<style>
+  .title{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+  .sub{font:500 16px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+  .head{font:700 19px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+  .layer{font:700 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+  .note{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#374151}
+  .card{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+  .sig{fill:#dbeafe;stroke:#93c5fd}
+  .gnd{fill:#dcfce7;stroke:#86efac}
+  .pwr{fill:#fee2e2;stroke:#fca5a5}
+  .mix{fill:#fef3c7;stroke:#fcd34d}
+  .arrow{stroke:#6b7280;stroke-width:3;fill:none;marker-end:url(#m)}
+</style>
+<defs><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6b7280"/></marker></defs>
+<text x="60" y="54" class="title">四层板不是只有一种“层角色”</text>
+<text x="60" y="84" class="sub">先按 reference / routing / shielding / PI 目标分配层，再把真实介质与铜厚交给板厂确认</text>
+
+<g transform="translate(45 120)">
+  <rect class="card" x="0" y="0" rx="16" width="350" height="440"/>
+  <text class="head" x="24" y="38">A｜经典通用</text>
+  <rect class="sig" x="28" y="70" width="294" height="58" rx="8"/><text class="layer" x="175" y="106" text-anchor="middle">L1  SIG</text>
+  <rect class="gnd" x="28" y="142" width="294" height="58" rx="8"/><text class="layer" x="175" y="178" text-anchor="middle">L2  GND</text>
+  <rect class="pwr" x="28" y="214" width="294" height="58" rx="8"/><text class="layer" x="175" y="250" text-anchor="middle">L3  PWR</text>
+  <rect class="sig" x="28" y="286" width="294" height="58" rx="8"/><text class="layer" x="175" y="322" text-anchor="middle">L4  SIG</text>
+  <text class="note" x="28" y="382">优点：PWR routing 直接</text>
+  <text class="note" x="28" y="408">注意：Top / Bottom reference 不等价</text>
+</g>
+
+<g transform="translate(425 120)">
+  <rect class="card" x="0" y="0" rx="16" width="350" height="440"/>
+  <text class="head" x="24" y="38">B｜外层 GND</text>
+  <rect class="gnd" x="28" y="70" width="294" height="58" rx="8"/><text class="layer" x="175" y="106" text-anchor="middle">L1  GND</text>
+  <rect class="mix" x="28" y="142" width="294" height="58" rx="8"/><text class="layer" x="175" y="178" text-anchor="middle">L2  SIG + PWR</text>
+  <rect class="mix" x="28" y="214" width="294" height="58" rx="8"/><text class="layer" x="175" y="250" text-anchor="middle">L3  SIG + PWR</text>
+  <rect class="gnd" x="28" y="286" width="294" height="58" rx="8"/><text class="layer" x="175" y="322" text-anchor="middle">L4  GND</text>
+  <text class="note" x="28" y="382">优点：外部场屏蔽直觉更强</text>
+  <text class="note" x="28" y="408">注意：内层串扰 + via perforation</text>
+</g>
+
+<g transform="translate(805 120)">
+  <rect class="card" x="0" y="0" rx="16" width="350" height="440"/>
+  <text class="head" x="24" y="38">C｜内层双 GND</text>
+  <rect class="mix" x="28" y="70" width="294" height="58" rx="8"/><text class="layer" x="175" y="106" text-anchor="middle">L1  SIG + PWR</text>
+  <rect class="gnd" x="28" y="142" width="294" height="58" rx="8"/><text class="layer" x="175" y="178" text-anchor="middle">L2  GND</text>
+  <rect class="gnd" x="28" y="214" width="294" height="58" rx="8"/><text class="layer" x="175" y="250" text-anchor="middle">L3  GND</text>
+  <rect class="mix" x="28" y="286" width="294" height="58" rx="8"/><text class="layer" x="175" y="322" text-anchor="middle">L4  SIG + PWR</text>
+  <path class="arrow" d="M250 155 C320 175,320 245,250 260"/>
+  <text class="note" x="28" y="382">优点：两面都直接 reference GND</text>
+  <text class="note" x="28" y="408">注意：Power 改走 pour / wide trace</text>
+</g>
+
+<text x="600" y="604" text-anchor="middle" class="sub">选择标准：能否解释每个快速网络的 reference continuity，以及每个 PWR layer / pour 到底解决什么工程问题</text>
+</svg>
