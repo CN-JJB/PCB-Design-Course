@@ -186,6 +186,97 @@ JLCPCB 2026-06-15 更新的 Impedance Calculator Guide 也明确要求输入 lay
 
 ---
 
+## 4.1 Stackup 尚未 Freeze 时的 Routing Policy
+
+实际项目经常出现：
+
+~~~text
+placement 已经开始
+但 final fab / stackup / impedance width 还没完全确认
+~~~
+
+此时不必完全停工，但必须把“可先做什么”和“不能假装已经冻结什么”分开。
+
+### 可以先做
+
+- placement；
+- layer assignment；
+- topology；
+- reference continuity；
+- via-transition strategy；
+- routing corridor；
+- provisional routing envelope；
+- connector / escape planning。
+
+### 不能提前伪造为最终值
+
+- controlled-impedance width；
+- differential width/gap；
+- propagation delay；
+- skew budget 中依赖真实 velocity 的部分；
+- fab tolerance；
+- coupon acceptance。
+
+### Provisional Geometry 的核心不是临时线宽，而是 Reserved Pitch
+
+例如一个候选结构预估最终单端线宽可能从：
+
+~~~text
+0.15 mm → 0.20 mm
+~~~
+
+变化。
+
+如果早期只是画一根 0.25 mm 临时 trace，却把邻线贴得很近，那么后面把 trace 变窄并不会自动得到足够 crosstalk margin。
+
+因此真正应该预留的是：
+
+~~~text
+routing pitch
+= trace width
++ required clearance / coupling budget
++ manufacturing margin
+~~~
+
+而不是只盯住 trace width。
+
+### 外部 Calculator 的定位
+
+Saturn PCB Toolkit 当前提供：
+
+- microstrip；
+- stripline；
+- differential pair；
+- conductor current / temperature-rise；
+- via；
+- crosstalk
+
+等计算器。
+
+它适合作为：
+
+> **前期 estimate / sanity check。**
+
+但 production controlled impedance 仍应优先使用：
+
+- fabricator current stackup；
+- fabricator impedance calculator / field solver；
+- CAM feedback；
+- coupon / TDR evidence（按项目需要）。
+
+原因是 fab process 还包含：
+
+- pressed dielectric thickness；
+- resin content；
+- finished copper；
+- etch compensation；
+- soldermask；
+- process tolerance。
+
+所以：
+
+> **通用 calculator 可以让你开始设计，但不能替 fabricator 定义制造出来的 cross-section。**
+
 # 5. Stackup Freeze Record
 
 至少记录：

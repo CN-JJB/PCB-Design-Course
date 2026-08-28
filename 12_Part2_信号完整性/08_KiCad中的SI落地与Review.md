@@ -85,6 +85,71 @@ Net Class 的作用是帮助 router 保持基本几何，不是替代具体 prot
 
 ---
 
+### 8.3.1 KiCad 10 Tuning Profiles：比“先画 10 mil，最后批量改”更适合正式项目
+
+KiCad 10 已提供 **Tuning Profiles**。
+
+它可以为具有特定 impedance requirement 的单端 / 差分网络定义：
+
+- target impedance；
+- signal layer；
+- reference layer(s)；
+- per-layer track width；
+- differential pair gap；
+- propagation delay。
+
+在 stackup 已配置后，KiCad 10 可以根据 target impedance 与 signal-reference geometry 自动计算部分 width / gap，并把 profile 绑定到 Net Class；interactive router 会使用对应 geometry，DRC 也可以检查是否偏离 profile。
+
+这意味着本课程把视频里的“临时较宽线 → 最后统一改线宽”升级成：
+
+~~~text
+Requirement
+→ provisional Net Class / Tuning Profile
+→ reserve routing envelope
+→ fab / stackup freeze
+→ recalculate profile
+→ router + DRC
+→ review affected transitions
+~~~
+
+### 为什么这比“按线宽批量选择”更可靠？
+
+因为：
+
+- 网络身份由 Net Class 表达；
+- per-layer geometry 可以不同；
+- diff pair width / gap 不会只改一半；
+- stackup 改变时有明确 reopen 点；
+- DRC 可以帮助发现漏改的段落；
+- 多人协作时不依赖“记住 10 mil 是临时值”。
+
+### 但 Tuning Profile 仍然不是板厂签核
+
+KiCad 的 calculator 是基于配置的 stackup 与理想化 microstrip/stripline geometry。
+
+最终 production geometry 仍应和：
+
+- current fab；
+- actual stackup；
+- finished copper；
+- Dk model；
+- soldermask；
+- etch compensation；
+- impedance tolerance
+
+一起冻结。
+
+所以正确关系是：
+
+~~~text
+KiCad Tuning Profile = executable design rule
+Fab calculator / field solver = geometry source / cross-check
+CAM / coupon / TDR = manufacturing evidence（按项目需要）
+~~~
+
+官方 KiCad 10 文档：
+https://docs.kicad.org/10.0/en/pcbnew/pcbnew.html
+
 ## 8.4 Custom Rules：用来表达“条件化约束”
 
 KiCad 10 custom rules 可以表达比 net class 更具体的关系。
@@ -294,6 +359,8 @@ Part 2 结束时，不要求你已经完成 USB compliance lab，但要求：
 
 ## 参考资料
 
-- KiCad 10 PCB Editor documentation: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor documentation: https://docs.kicad.org/10.0/en/pcbnew/pcbnew.html
+- Saturn PCB Toolkit: https://saturnpcb.com/saturn-pcb-toolkit/
+- Robert Feranec, track-width / provisional-routing video: https://www.youtube.com/watch?v=VGY1qFE-kC0
 - ST AN4879 USB hardware guide: https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
 - Texas Instruments, *Solutions to High-Speed Design Issues*: https://www.ti.com/lit/pdf/spraav0

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Provisional routing envelope before impedance freeze</title>
+<desc id="desc">Workflow showing semantic net classes, provisional routing envelope, final stackup solver geometry and DRC review.</desc>
+<rect width="1200" height="720" fill="#ffffff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.h{font:700 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.b{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.p{fill:#dbeafe;stroke:#60a5fa;stroke-width:2}
+.f{fill:#dcfce7;stroke:#4ade80;stroke-width:2}
+.w{fill:#fef3c7;stroke:#f59e0b;stroke-width:2}
+.a{stroke:#374151;stroke-width:3;fill:none;marker-end:url(#arr)}
+.trace{stroke:#2563eb;stroke-linecap:round}
+.keep{fill:#eff6ff;stroke:#93c5fd;stroke-width:2;stroke-dasharray:7 5}
+</style>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+
+<text x="55" y="52" class="t">Final 线宽未知时：预留 Routing Envelope，不要用“神秘临时线宽”管理工程</text>
+<text x="55" y="82" class="s">Stackup / fab 未冻结 ≠ 不能布局；但 topology、reference 和 routing pitch 要先留出调整空间</text>
+
+<rect x="55" y="135" width="220" height="120" rx="14" class="p"/>
+<text x="165" y="172" text-anchor="middle" class="h">1｜Net Semantics</text>
+<text x="165" y="202" text-anchor="middle" class="s">FAST_SE_PROVISIONAL</text>
+<text x="165" y="226" text-anchor="middle" class="s">USB / POWER / ANALOG</text>
+
+<path d="M280 195 L350 195" class="a"/>
+
+<rect x="355" y="120" width="270" height="150" rx="14" class="w"/>
+<text x="490" y="157" text-anchor="middle" class="h">2｜Reserve Envelope</text>
+<rect x="390" y="185" width="200" height="44" rx="8" class="keep"/>
+<line x1="425" y1="207" x2="555" y2="207" class="trace" stroke-width="18"/>
+<text x="490" y="252" text-anchor="middle" class="s">provisional W + spacing + margin</text>
+
+<path d="M630 195 L700 195" class="a"/>
+
+<rect x="705" y="120" width="205" height="150" rx="14" class="p"/>
+<text x="807" y="157" text-anchor="middle" class="h">3｜Freeze</text>
+<text x="807" y="188" text-anchor="middle" class="s">fab + stackup</text>
+<text x="807" y="212" text-anchor="middle" class="s">target Z0 / Zdiff</text>
+<text x="807" y="236" text-anchor="middle" class="s">solver / CAM</text>
+
+<path d="M915 195 L985 195" class="a"/>
+
+<rect x="990" y="120" width="155" height="150" rx="14" class="f"/>
+<text x="1067" y="157" text-anchor="middle" class="h">4｜Final Rule</text>
+<text x="1067" y="188" text-anchor="middle" class="s">width / gap</text>
+<text x="1067" y="212" text-anchor="middle" class="s">tuning profile</text>
+<text x="1067" y="236" text-anchor="middle" class="s">DRC</text>
+
+<rect x="80" y="350" width="470" height="235" rx="16" class="b"/>
+<text x="315" y="388" text-anchor="middle" class="h">错误：用数值当网络身份</text>
+<text x="315" y="426" text-anchor="middle" class="s">10.0 mil = signal</text>
+<text x="315" y="452" text-anchor="middle" class="s">10.1 mil = power</text>
+<text x="315" y="492" text-anchor="middle" class="s">批量选择/单位变化/多人协作后容易失控</text>
+<text x="315" y="525" text-anchor="middle" class="s">DRC 也不知道 0.1 mil 差值是什么意思</text>
+
+<rect x="650" y="350" width="470" height="235" rx="16" class="f"/>
+<text x="885" y="388" text-anchor="middle" class="h">推荐：语义 + 可执行规则</text>
+<text x="885" y="426" text-anchor="middle" class="s">Net Class → Tuning Profile → Custom Rule</text>
+<text x="885" y="452" text-anchor="middle" class="s">per-layer geometry / diff gap / DRC</text>
+<text x="885" y="492" text-anchor="middle" class="s">换 fab / stackup → 更新 profile</text>
+<text x="885" y="525" text-anchor="middle" class="s">只重审受影响的 routing / transition</text>
+
+<rect x="80" y="625" width="1040" height="50" rx="10" class="b"/>
+<text x="600" y="656" text-anchor="middle" class="s">关键纪律：最终几何来自 current fab + current stackup + target impedance；Saturn/KiCad 可用于 estimate 与 executable rule，但不替代制造签核。</text>
+</svg>
