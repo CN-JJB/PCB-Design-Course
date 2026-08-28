@@ -325,6 +325,39 @@ rail supervisor + watchdog
 
 例如高电容 TVS 可能伤害高速接口；PTC 在高温下可能提前限流；eFuse retry 模式可能让 fault load 周期性发热；supervisor threshold 选错会 false reset。
 
+
+### USB / High-Speed Interface：Protection Device 本身也是 Channel Element
+
+对 USB D+/D− 这类接口，TVS/ESD array 不能只按：
+
+~~~text
+IEC rating
+working voltage
+package
+~~~
+
+选。
+
+还要检查：
+
+- line capacitance；
+- pin-to-pin symmetry；
+- flow-through topology；
+- package / pad discontinuity；
+- ground-return inductance；
+- placement relative to connector；
+- leakage；
+- exact layout recommendation。
+
+因此：
+
+> **Protection placement 与 SI channel review 必须联动。**
+
+完整 USB 通道方法见：
+[Part 2｜06 差分对与 USB 实战](../12_Part2_信号完整性/06_差分对与USB实战.md)。
+
+
+
 所以目标是：
 
 > **对每个威胁选择最少但足够的 protection layers。**

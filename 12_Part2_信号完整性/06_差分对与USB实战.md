@@ -219,6 +219,53 @@ Z_{diff}\approx100\,\Omega
 仍然需要 actual stackup + field solver。
 
 
+## 6.7.2 视频里的 6.7 mil / 8 mil 只能当“特定 Stackup 的 Solver 结果”
+
+这期视频用一个 PCBWay 四层示例，通过 edge-coupled microstrip calculator 输入：
+
+- target differential impedance；
+- top copper thickness；
+- L1→L2 dielectric height；
+- dielectric constant；
+- pair gap；
+
+再反算 trace width。
+
+视频示例得到的约：
+
+~~~text
+width ≈ 6.7 mil
+gap   ≈ 8 mil
+~~~
+
+只属于**那一个 stackup + calculator model + input gap**。
+
+它最值得保留的不是数字，而是：
+
+> **Differential width 与 gap 是耦合变量；改 gap，求出来的 width 也会跟着变。**
+
+因此 USB pair 不能用：
+
+~~~text
+“我记得以前 USB 是 6 mil / 8 mil”
+~~~
+
+来签核。
+
+正确流程仍然是：
+
+~~~text
+USB mode / requirement
+→ actual board stackup
+→ reference plane
+→ target Zdiff
+→ field solver / fab calculator
+→ width + gap
+→ KiCad rule
+→ fabrication confirmation
+~~~
+
+
 ## 6.8 USB connector / ESD 的正确顺序
 
 推荐从板边向 MCU 看：
@@ -234,6 +281,113 @@ USB receptacle
 ```
 
 ESD protection 的目标是让 ESD 电流尽早被旁路，而不是让 surge 沿 D+/D− 先跑半块板再被钳位。
+
+### 6.8.1 把 USB 看成“完整通道”，不要只看中间那段平行线
+
+<p align="center"><img src="../assets/svg/si-usb-connector-esd-channel.svg" width="980" alt="USB connector ESD differential channel review"></p>
+
+真正的板级通道是：
+
+~~~text
+connector contact
+→ connector breakout
+→ ESD pad / package
+→ post-ESD breakout
+→ controlled pair
+→ MCU / module pad
+→ PHY
+~~~
+
+每一段都可能改变：
+
+- width；
+- pair gap；
+- pad capacitance；
+- local reference；
+- P/N symmetry；
+- common-mode conversion；
+- return path。
+
+所以“中间 40 mm 走得很漂亮”不能自动抵消 connector / ESD 两端的糟糕 transition。
+
+### 6.8.2 ESD 器件优先看 Flow-Through Topology，但不能自己发明 Pin Short
+
+视频演示了为了让 D+/D− 尽量直穿 ESD 器件而采用直通式布线的思路，这个方向非常值得保留。
+
+但课程加一条纪律：
+
+> **必须按 exact ESD MPN 的 datasheet pinout 和 internal topology 布局。**
+
+不同器件可能是：
+
+- true flow-through；
+- pass-through array；
+- rail-to-rail steering；
+- discrete TVS；
+- 带 common-mode filter 的保护器件。
+
+不能因为 PCB 想走直线，就在 schematic 中把多个 pin 人为并接，然后假设“器件内部本来就一样”。
+
+Review 时记录：
+
+~~~text
+ESD MPN
+pin mapping
+I/O direction / symmetry
+Cio / line capacitance
+GND pin / discharge return
+recommended land pattern
+flow-through capability
+~~~
+
+### 6.8.3 ESD Ground Return 与 Signal Reference 是两件相关但不同的事
+
+USB pair 的正常高速 reference 可能是：
+
+~~~text
+L2 solid GND
+~~~
+
+而 IEC ESD 事件的 discharge current 需要：
+
+~~~text
+connector
+→ TVS
+→ very short low-inductance return
+→ ground/chassis structure
+~~~
+
+两个问题都叫“ground”，但 review 目标不同。
+
+不能只检查：
+
+> “L2 有 GND plane。”
+
+还要检查：
+
+- TVS GND pad 到 return structure 的路径是否短；
+- discharge current 是否穿过 MCU core 区；
+- connector shield / chassis strategy 是否清楚；
+- TVS 位置是否真的位于 entry boundary。
+
+### 6.8.4 不要把“USB 下方画一块 GND Zone”当成完整 Reference Plane
+
+视频演示里为了聚焦 USB pair，在 L2 下方画了一块 GND copper。
+
+教学上能帮助理解 reference plane，但正式四层板应优先使用：
+
+> **连续的 L2 solid GND plane。**
+
+局部 patch 如果：
+
+- 只有很细的 neck；
+- 被 void / split 切断；
+- 与主 GND 连接很远；
+- 周围被 anti-pad 打碎；
+
+就不能因为 net name 是 GND 自动获得理想 reference 的行为。
+
+
 
 ### 常见错误
 
@@ -261,6 +415,35 @@ VBUS 也不应与 DP/DM 长距离贴近并行；ST AN4879 明确建议 VBUS 远�
 
 ---
 
+
+## 6.9.1 Full-Speed “更宽容”不等于可以忽略通道
+
+视频把 USB Low/Full-Speed 与 High-Speed 做了正确的难度分层：
+
+- LS：1.5 Mbit/s；
+- FS：12 Mbit/s；
+- HS：480 Mbit/s。
+
+当前 ST AN4879 也列出 USB OTG_FS / OTG_HS 支持的这些速率等级。
+
+USB HS 对 channel discontinuity、loss、jitter 和 layout 更敏感。
+
+但课程禁止推导成：
+
+> “FS 只有 12 Mbit/s，所以 impedance 随便画都没事。”
+
+因为真正影响 transmission-line behavior 的不只是 bit rate，还有：
+
+- driver rise/fall time；
+- path length；
+- connector / ESD discontinuity；
+- reference quality；
+- cable/device environment；
+- EMC margin。
+
+对于 V2 的 USB FS，90 Ω differential 仍作为一个很好的规范化设计练习；只是 validation 深度和 HS compliance 不同。
+
+
 ## 6.10 KiCad 10：真正用 Differential Pair Router
 
 ### 命名
@@ -281,6 +464,13 @@ KiCad 会根据成对命名识别差分：
 - clearance。
 
 ### Routing
+
+KiCad 10 官方文档确认：
+
+- USB+ / USB-；
+- USB_P / USB_N
+
+都可以被识别为 differential pair，但 suffix 风格不能混用。
 
 KiCad 10：
 
@@ -331,6 +521,31 @@ pair 本身对称，reference structure 不对称。
 
 ---
 
+
+## 6.12.1 USB Channel Review Sheet
+
+V2 新增工程模板：
+
+[usb-channel-review.md](../projects/stm32f407-mainline/v2/usb-channel-review.md)
+
+它强制从 connector 一直看到 PHY，而不是只记录一组 width/gap。
+
+至少填写：
+
+- connector footprint / launch；
+- ESD exact MPN；
+- ESD pin topology；
+- pre/post-ESD uncoupled section；
+- controlled pair width/gap；
+- reference plane；
+- plane void/split；
+- VBUS adjacency；
+- P/N symmetry；
+- layer transition；
+- measurement access；
+- fabrication source。
+
+
 ## 6.13 Design Review
 
 - [ ] USB mode（FS/HS）明确
@@ -338,6 +553,10 @@ pair 本身对称，reference structure 不对称。
 - [ ] pair width/gap 与当前 stackup 对应
 - [ ] DP/DM 全程环境大体对称
 - [ ] ESD 靠近 connector
+- [ ] ESD exact MPN / pin topology / capacitance 已 review
+- [ ] connector→ESD→PHY 全通道几何已 review
+- [ ] 没有为了“直线”人为发明器件内部 pin short
+- [ ] ESD discharge return 与 normal signal reference 都有明确路径
 - [ ] VBUS 与 pair 不长距离并行
 - [ ] 不跨 reference split
 - [ ] layer transition 对称并审查 return structure
@@ -356,7 +575,8 @@ pair 本身对称，reference structure 不对称。
 4. 写进 `v2/si-routing-constraints.md`；
 5. 在 KiCad 中用 differential router 完成 pair；
 6. 用 skew tuner 只修真正需要的差值；
-7. 做一次“几何对称性 Review”，不要只看长度数字。
+7. 做一次“几何对称性 Review”，不要只看长度数字；
+8. 填写 usb-channel-review.md，从 connector 一直审到 PHY。
 
 ---
 
@@ -364,4 +584,5 @@ pair 本身对称，reference structure 不对称。
 
 - ST AN4879, *USB hardware design guidelines for STM32 microcontrollers*: https://www.st.com/resource/en/application_note/an4879-usb-hardware-design-guidelines-for-stm32-microcontrollers-stmicroelectronics.pdf
 - USB-IF Document Library / USB 2.0 Specification: https://www.usb.org/documents?search=usb%202.0
-- KiCad 10 PCB Editor — differential routing and length tuning: https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html
+- KiCad 10 PCB Editor — differential routing and length tuning: https://docs.kicad.org/10.0/en/pcbnew/pcbnew.html
+- John Teel / Predictable Designs, KiCad USB differential-pair routing video: https://www.youtube.com/watch?v=Itsrdc8tX7M

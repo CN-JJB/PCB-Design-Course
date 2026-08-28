@@ -29,12 +29,25 @@
 - Pair-to-other clearance: **TBD from board geometry / review**
 - Max skew: **do not invent universal number; derive from applicable guide**
 - Layer transitions: avoid if possible for V2 teaching board
-- ESD: near connector
+- ESD: near connector; exact MPN / pin topology / line capacitance / return path must be reviewed
 - VBUS: route away from DP/DM
 
 ### KiCad
 
-Create `USB_FS` Net Class with the solved width/gap. Use differential router rather than manually drawing two independent tracks.
+Create USB_FS Net Class with the solved width/gap. Use differential router rather than manually drawing two independent tracks.
+
+For connector / ESD / module breakout:
+
+- short uncoupled sections are allowed when geometry forces them；
+- keep P/N transitions symmetric；
+- do not force open-field pair gap through pads；
+- record the entire connector → ESD → PHY channel in usb-channel-review.md.
+
+### Channel Review
+
+- Template: [usb-channel-review.md](usb-channel-review.md)
+- Review unit: connector contact → ESD → controlled pair → MCU/PHY pad
+- Pass condition: no unexplained reference discontinuity, asymmetric protection transition, long stub, or invented ESD pin short
 
 ---
 

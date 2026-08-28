@@ -18,6 +18,7 @@
 - [hw/](hw/) — real KiCad source
 - [bom/](bom/) — exact BOM / alternates
 - [sim/](sim/) — IBIS / S-parameter / simulation manifests
+- [usb-channel-review.md](usb-channel-review.md) — USB connector → ESD → PHY differential-channel review
 - [test/](test/) — bring-up / measurement evidence
 - [release/](release/) — immutable release packages
 

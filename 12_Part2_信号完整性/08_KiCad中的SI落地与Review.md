@@ -180,6 +180,41 @@ KiCad 10 custom rules 可以表达比 net class 更具体的关系。
 
 ---
 
+
+### 8.4.1 Differential Router 在 Connector / ESD 处“接不上”怎么办？
+
+视频演示了一个很常见的真实情况：
+
+- open field 中 differential router 很顺；
+- 进入 connector / ESD / module pad 时，pin pitch 与设置的 pair gap 不一致；
+- router 可能需要短暂 uncouple / fan-out。
+
+KiCad 10 官方文档也明确说明：当起点或终点 pad spacing 与配置的 differential gap 不同时，router 会生成一小段 fan-out，以尽量减少 uncoupled length。
+
+课程要求：
+
+~~~text
+open-field pair
+→ controlled width/gap
+
+breakout / ESD / connector
+→ short + symmetric transition
+→ width/gap 可暂时偏离
+→ DRC / manual review
+~~~
+
+不要为了让 router 强行维持固定 gap 而：
+
+- 绕奇怪的 S 弯；
+- 在 ESD pad 前后塞不必要 meander；
+- 拉长 uncoupled section；
+- 破坏 P/N symmetry。
+
+对这些区域，**几何对称 + transition 短**通常比“视觉上全程恒 gap”更重要。
+
+KiCad 10 还提供 diff_pair_uncoupled 约束，可以对过长的 uncoupled section 做 DRC。
+
+
 ## 8.5 KiCad Differential Pair Router 的边界
 
 KiCad 10 能：

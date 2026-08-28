@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">USB connector to PHY channel review</title>
+<desc id="desc">A USB differential pair channel from connector through ESD protection to MCU PHY, highlighting transitions, reference plane continuity, and ESD return.</desc>
+<rect width="1200" height="720" fill="#fff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.h{font:700 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.b{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.c{fill:#dbeafe;stroke:#60a5fa;stroke-width:2}
+.e{fill:#fee2e2;stroke:#f87171;stroke-width:2}
+.g{fill:#dcfce7;stroke:#4ade80;stroke-width:2}
+.p{stroke:#2563eb;stroke-width:6;fill:none}
+.n{stroke:#dc2626;stroke-width:6;fill:none}
+.ref{fill:#6b7280}
+.ret{stroke:#7c3aed;stroke-width:3;fill:none;marker-end:url(#arr)}
+</style>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+<text x="55" y="52" class="t">USB Channel Review：Connector → ESD → Controlled Pair → PHY</text>
+<text x="55" y="82" class="s">90 Ω 不是只检查中间那段线；pad、ESD、breakout、reference 和 discharge return 都是通道的一部分</text>
+<rect x="55" y="140" width="180" height="150" rx="14" class="c"/>
+<text x="145" y="178" text-anchor="middle" class="h">USB Connector</text>
+<text x="145" y="208" text-anchor="middle" class="s">contact / shell</text>
+<text x="145" y="232" text-anchor="middle" class="s">breakout geometry</text>
+<rect x="335" y="125" width="220" height="180" rx="14" class="e"/>
+<text x="445" y="162" text-anchor="middle" class="h">ESD Protection</text>
+<text x="445" y="192" text-anchor="middle" class="s">exact MPN / pinout</text>
+<text x="445" y="216" text-anchor="middle" class="s">Cio / symmetry</text>
+<text x="445" y="240" text-anchor="middle" class="s">flow-through if supported</text>
+<text x="445" y="264" text-anchor="middle" class="s">short return to GND/chassis</text>
+<rect x="660" y="140" width="245" height="150" rx="14" class="g"/>
+<text x="782" y="178" text-anchor="middle" class="h">Controlled Pair</text>
+<text x="782" y="208" text-anchor="middle" class="s">W / gap from stackup solver</text>
+<text x="782" y="232" text-anchor="middle" class="s">continuous L2 reference</text>
+<rect x="1000" y="140" width="145" height="150" rx="14" class="c"/>
+<text x="1072" y="178" text-anchor="middle" class="h">PHY</text>
+<text x="1072" y="208" text-anchor="middle" class="s">MCU/module</text>
+<text x="1072" y="232" text-anchor="middle" class="s">pad/package</text>
+<path d="M235 195 C275 195 290 195 335 195" class="p"/>
+<path d="M235 230 C275 230 290 230 335 230" class="n"/>
+<path d="M555 195 C600 195 620 195 660 195" class="p"/>
+<path d="M555 230 C600 230 620 230 660 230" class="n"/>
+<path d="M905 195 C945 195 960 195 1000 195" class="p"/>
+<path d="M905 230 C945 230 960 230 1000 230" class="n"/>
+<rect x="55" y="355" width="1090" height="42" class="ref"/>
+<text x="600" y="382" text-anchor="middle" fill="#fff" font-family="system-ui" font-weight="700">L2 SOLID GND REFERENCE — no split / slot / narrow neck under the channel</text>
+<path d="M445 305 C445 330 445 338 445 355" class="ret"/>
+<text x="465" y="334" class="s">ESD discharge return</text>
+<rect x="65" y="470" width="260" height="140" rx="14" class="b"/>
+<text x="195" y="505" text-anchor="middle" class="h">1｜Connector Transition</text>
+<text x="195" y="535" text-anchor="middle" class="s">pad pitch ≠ pair gap</text>
+<text x="195" y="559" text-anchor="middle" class="s">short + symmetric breakout</text>
+<rect x="365" y="470" width="260" height="140" rx="14" class="b"/>
+<text x="495" y="505" text-anchor="middle" class="h">2｜ESD Transition</text>
+<text x="495" y="535" text-anchor="middle" class="s">capacitance / pin mapping</text>
+<text x="495" y="559" text-anchor="middle" class="s">do not invent internal shorts</text>
+<rect x="665" y="470" width="220" height="140" rx="14" class="b"/>
+<text x="775" y="505" text-anchor="middle" class="h">3｜Open Field</text>
+<text x="775" y="535" text-anchor="middle" class="s">stable W / gap / H</text>
+<text x="775" y="559" text-anchor="middle" class="s">solver-backed geometry</text>
+<rect x="925" y="470" width="220" height="140" rx="14" class="b"/>
+<text x="1035" y="505" text-anchor="middle" class="h">4｜PHY Breakout</text>
+<text x="1035" y="535" text-anchor="middle" class="s">short uncoupled length</text>
+<text x="1035" y="559" text-anchor="middle" class="s">P/N symmetry first</text>
+<text x="600" y="665" text-anchor="middle" class="s">Review unit = complete channel. A perfect 90 Ω middle section cannot erase a bad connector / ESD / reference transition.</text>
+</svg>
