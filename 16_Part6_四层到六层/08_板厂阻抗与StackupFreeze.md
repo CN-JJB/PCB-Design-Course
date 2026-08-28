@@ -38,6 +38,112 @@
 
 ---
 
+
+## 2.1 标准 Stackup 太多时：先 Shortlist，再 Solver
+
+板厂页面经常同时给出很多标准结构。
+
+不要这样选：
+
+~~~text
+看名字
+→ 觉得某个 prepreg 更“高级”
+→ 直接下单
+~~~
+
+更稳健的流程是：
+
+~~~text
+Project constraints
+→ shortlist standard stackups
+→ compare adjacency / H
+→ assign layer roles
+→ calculate impedance geometry
+→ check density / crosstalk / PI
+→ confirm fab
+→ freeze
+~~~
+
+### 第一轮：不碰阻抗数字，先淘汰结构
+
+先按这些条件删候选：
+
+- finished thickness；
+- copper weight；
+- required layer count；
+- HDI / via process；
+- mechanical thickness；
+- cost / lead time；
+- material / reliability requirement。
+
+### 第二轮：看关键 Signal–Reference Pair
+
+对每个高速/敏感 routing layer，记录：
+
+| Layer | Reference | H | Continuous? | Transition risk |
+|---|---|---:|---|---|
+| L1 | L2 | | | |
+| L3 | L2/L4 | | | |
+| L6 | L5 | | | |
+
+不要只看：
+
+> “这是六层板。”
+
+要看：
+
+> **关键 signal 到 reference 的实际距离是多少。**
+
+### 第三轮：Target Impedance → Width / Gap → Density
+
+当 H 确定后，再用制造商 calculator / solver 计算：
+
+- single-ended width；
+- differential width/gap；
+- coplanar gap（若使用）。
+
+此时才评估：
+
+- BGA escape 能不能塞下；
+- parallel bus spacing 是否够；
+- neck-down 区是否需要单独建模；
+- fabrication tolerance 是否现实。
+
+JLCPCB 当前 2026-06-15 更新的 calculator guide 也把 layer count、finished thickness、铜厚、routing layer、target impedance 与 differential spacing 作为输入，并说明材料/几何参考值可能未来调整。
+
+来源：
+https://jlcpcb.com/help/article/user-guide-to-the-jlcpcb-impedance-calculator
+
+### 第四轮：材料不是用固定 GHz 门槛决定
+
+“普通 FR-4 到某个 GHz 都不用管材料”只能作为很粗的入门直觉。
+
+真正是否要升级材料，至少比较：
+
+~~~text
+channel length
+× frequency-dependent loss
+× required insertion-loss margin
+× temperature / process variation
+~~~
+
+然后再决定是否需要：
+
+- tighter Dk control；
+- lower Df；
+- lower roughness copper；
+- specialty laminate；
+- weave mitigation。
+
+所以 stackup selection 的成熟问题不是：
+
+> “频率有没有超过 2.5 GHz？”
+
+而是：
+
+> **当前 channel 在目标 Nyquist / harmonic range 下还有多少 loss / timing / eye margin？**
+
+
 # 3. 当前 JLCPCB 六层能力作为教学案例
 
 截至 2026-08-26，JLCPCB 的 6-layer 页面公开说明：

@@ -227,6 +227,161 @@ new reference = PWR
 - 视频中把“外层 GND / 内层 SIG+PWR”方案归因于 Rick Hartley；本课程仅记录为**视频中的转述归因**，没有把它冒充成本次独立核验过的 Rick Hartley 原文。
 
 
+
+### 3.3 当板厂给你很多四层 Stackup：不要先问“哪个最好”，先做候选评分
+
+Robert Feranec 在这期视频里用 JLCPCB 的四层标准叠层说明了一个很实用的入门问题：
+
+> **同样都是四层板，介质厚度不同，会同时改变 field confinement、crosstalk、受控阻抗所需线宽和 routing density。**
+
+<p align="center"><img src="../assets/svg/part1-stackup-candidate-scorecard.svg" width="980" alt="four-layer stackup candidate comparison for reference height, crosstalk and routing density"></p>
+
+以 JLCPCB 当前公开的 1.6 mm 四层案例为例，外层到相邻内层的 nominal prepreg 厚度大致是：
+
+| Candidate | L1→L2 prepreg | Teaching interpretation |
+|---|---:|---|
+| JLC3313 | 0.0994 mm | reference 较近；更容易形成紧凑 signal-reference field |
+| JLC7628 | 0.2104 mm | reference 较远；同样 routing pitch 下需更认真检查 field spread / crosstalk |
+
+来源：
+
+- https://jlcpcb.com/impedance
+- https://cart.jlcpcb.com/client/template/placeOrder/impedance.html
+
+这些数值是**当前板厂案例**，不是跨厂商固定结构。
+
+#### 候选 Stackup 评分顺序
+
+不要只看材料名字，也不要只看“总板厚一样”。
+
+建议按下面顺序评分：
+
+~~~text
+1. mechanical / board thickness / copper requirement
+2. critical signal layer 的 reference 是否连续
+3. signal ↔ reference distance H
+4. target impedance 对应的 width / gap
+5. routing density / BGA escape
+6. crosstalk / field confinement
+7. layer-transition / return path
+8. PI / plane role
+9. material loss requirement
+10. cost / lead time / standard-process availability
+~~~
+
+这样就能把：
+
+> “3313 看起来更高级吗？”
+
+改成：
+
+> **哪一个 stackup 更匹配这块板的约束？**
+
+#### H 更小，为什么可能同时改善 Crosstalk 和 Routing Density？
+
+对外层 microstrip，在其他条件相近时：
+
+~~~text
+H ↓
+→ signal-reference coupling ↑
+→ field 更局部
+→ 邻线进入 fringe field 的比例通常下降
+~~~
+
+与此同时，如果 target impedance 固定：
+
+~~~text
+H ↓
+→ 需要的 trace width 通常也可以变小
+→ routing pitch 压力下降
+~~~
+
+视频用其当时的 JLCPCB calculator 示例展示了：
+
+- 较厚 7628 外层 dielectric 时，50 Ω 单端线宽约为 0.34 mm；
+- 较薄 3313 外层 dielectric 时，示例线宽约为 0.15 mm。
+
+这两个线宽只保留为**视频中的计算器快照 / 教学例子**。
+
+当前项目签核必须重新执行：
+
+~~~text
+current fab
+→ current stackup
+→ target impedance
+→ current calculator / field solver
+→ project width / gap
+~~~
+
+不能从视频截图复制 0.15 mm 或 0.34 mm。
+
+#### “数字线通常做 50 Ω”也要加适用条件
+
+视频用 50 Ω 来演示 stackup 对线宽的影响，这是合理的教学例子。
+
+但课程继续坚持：
+
+> **先有 interface / device / system impedance requirement，再决定是不是 50 Ω。**
+
+普通短 GPIO 不会因为它是“digital”就自动变成必须受控 50 Ω。
+
+#### “2.5 GHz 以下材料不关键”不能作为课程分界线
+
+视频把标准 FR-4 在约 2.5 GHz 以下作为一个入门简化。
+
+课程不采用这个 GHz 门槛。
+
+材料损耗是否重要取决于：
+
+- channel length；
+- insertion-loss budget；
+- edge / harmonic content；
+- Dk / Df；
+- glass weave / resin system；
+- copper roughness；
+- protocol margin；
+- temperature / tolerance。
+
+因此：
+
+> **先用损耗预算判断是否需要特殊材料，不用一个固定频率把 FR-4 切成“安全 / 不安全”两类。**
+
+更完整的 loss / S-parameter 内容见 Part 2：[09｜损耗、S 参数与高速通道](../12_Part2_信号完整性/09_损耗_S参数与高速通道.md)。
+
+#### 层数增加不是为了“获得更多能走线的铜层”
+
+视频对初学者最重要的提醒之一是：
+
+> **从 2 层升级到 4 层，不应该只是为了多两层 signal routing。**
+
+增加的层首先可以购买：
+
+- continuous reference；
+- smaller return loop；
+- better field confinement；
+- predictable impedance；
+- cleaner layer transition architecture。
+
+所以：
+
+~~~text
+L1 signal
+L2 solid reference
+L3 solid reference / planned power role
+L4 signal
+~~~
+
+并不是“浪费两层”。
+
+这是用层数换**更受控的电磁结构**。
+
+---
+
+**本资源来源：**
+
+- Robert Feranec, 4-layer PCB stackup / JLCPCB 3313 vs 7628 teaching video: https://www.youtube.com/watch?v=Lqc1jmbSxnE
+
+
 ---
 
 ## 4. 为什么不直接给你一条“50 Ω = 0.18 mm”？
