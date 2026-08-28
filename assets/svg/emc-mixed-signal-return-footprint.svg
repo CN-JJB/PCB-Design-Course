@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+<title id="title">Mixed-signal return-current footprint</title>
+<desc id="desc">Illustration comparing a fast digital trace with localized return-current density and a lower-frequency analog path with a broader return-current footprint over a shared solid ground plane.</desc>
+<rect width="1200" height="660" fill="#fff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 16px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.h{font:700 20px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.n{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#374151}
+.card{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.plane{fill:#ecfdf5;stroke:#86efac;stroke-width:2}
+.trace{stroke:#111827;stroke-width:8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tight{fill:#93c5fd;opacity:.65}
+.broad{fill:#fbbf24;opacity:.28}
+.arrow{stroke:#6b7280;stroke-width:2.5;fill:none;marker-end:url(#a)}
+</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6b7280"/></marker></defs>
+<text x="55" y="52" class="t">Mixed-Signal 隔离：先看 Return Footprint</text>
+<text x="55" y="82" class="s">同一块 solid GND 上，不同频谱与几何会形成不同的 return-current distribution</text>
+
+<g transform="translate(45 115)">
+<rect class="card" x="0" y="0" width="535" height="455" rx="16"/>
+<text class="h" x="26" y="38">Fast-edge digital</text>
+<text class="n" x="26" y="64">高频分量更容易局部耦合到邻近 reference</text>
+<rect class="plane" x="30" y="215" width="475" height="145" rx="10"/>
+<text class="n" x="45" y="342">solid GND reference</text>
+<path class="trace" d="M75 165 L210 165 L300 110 L455 110"/>
+<ellipse class="tight" cx="145" cy="242" rx="78" ry="30"/>
+<ellipse class="tight" cx="255" cy="223" rx="86" ry="31"/>
+<ellipse class="tight" cx="385" cy="205" rx="85" ry="30"/>
+<path class="arrow" d="M215 92 C225 125,225 162,235 198"/>
+<text class="n" x="285" y="398">关键：trace-to-plane H、edge spectrum、reference continuity</text>
+</g>
+
+<g transform="translate(620 115)">
+<rect class="card" x="0" y="0" width="535" height="455" rx="16"/>
+<text class="h" x="26" y="38">Lower-frequency analog / sensor path</text>
+<text class="n" x="26" y="64">低频时 resistance / terminal geometry 对 return 分布更重要</text>
+<rect class="plane" x="30" y="215" width="475" height="145" rx="10"/>
+<text class="n" x="45" y="342">same solid GND reference</text>
+<path class="trace" d="M75 165 L210 165 L300 110 L455 110"/>
+<ellipse class="broad" cx="250" cy="257" rx="205" ry="78"/>
+<ellipse class="broad" cx="340" cy="235" rx="150" ry="68"/>
+<path class="arrow" d="M180 95 C150 145,130 188,118 218"/>
+<text class="n" x="55" y="398">关键：source/load return、共享阻抗、connector/cable、noise budget</text>
+</g>
+
+<text x="600" y="618" text-anchor="middle" class="s">不要从图中读固定“宽度”；它表达的是频率与几何改变 return-current footprint 的趋势</text>
+</svg>
