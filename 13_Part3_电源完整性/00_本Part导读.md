@@ -154,5 +154,6 @@ Buck 的关键不是把所有线都加粗，而是识别**高 `di/dt` 的不连�
 12. [电源层真的必要吗：双 GND、Reference Transition 与 Plane Cavity](12_电源层真的必要吗_双地平面与PlaneCavity.md)
 13. [实测案例：PDN 阻抗峰为什么会变成 VCC 噪声](13_实测案例_PDN阻抗峰与VCC噪声.md)
 14. [仿真案例：去耦 Via、走线与正反面连接](14_仿真案例_去耦过孔与连接拓扑.md)
+15. [超大电流核心供电：分级 PDN、平坦阻抗与验证](15_超大电流核心供电_分级PDN与平坦阻抗.md)
 
 PI 不只等于去耦和 Ztarget。毕业 Review 必须同时覆盖 DC drop、瞬态、频域阻抗、热与测量。

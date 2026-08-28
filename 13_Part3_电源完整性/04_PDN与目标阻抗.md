@@ -266,6 +266,50 @@ Ztarget ≈ 0.1 / 0.2 = 0.5 Ω
 
 ---
 
+
+### 4.10.1 “低于 Target”不等于“越低越好”：还要看 Flatness
+
+基础 target-impedance 方法首先给出一个**允许上限**：
+
+[
+|Z_{PDN}(f)| lesssim Z_{target}
+]
+
+因此从单一频点看，阻抗更低通常意味着同样 (Delta I) 引起更小的 (Delta V)。
+
+但在真实多级 PDN 里，不应把目标误解成：
+
+> **把所有频率的阻抗无限压低。**
+
+原因是一个很深的低谷往往意味着：
+
+- 某个 capacitor bank 的 ESR 很低；
+- 某个频段出现很高 Q 的 series resonance；
+- 之后又可能和下一段 inductance / package resonance 形成更高的 peak；
+- 从 load 端看，下一阶段需要“匹配”的有效阻抗也被拉得更低。
+
+Steve Sandler 在高电流 PDN 的 staged-matching 方法中强调：
+
+> **目标阻抗应该取系统允许的最高合理值，然后让各阶段尽量平坦地衔接，而不是用过度电容制造深谷。**
+
+这里要区分两个概念：
+
+1. **Ztarget 是 noise budget 给出的上限**；
+2. **实际 ZPDN 仍然希望低于上限，但同时避免不必要的深谷、高 Q 峰和阶段失配。**
+
+也就是说：
+
+~~~text
+“峰很高”          → 明显危险
+“整段平坦且低于目标” → 理想
+“局部极低但旁边高峰” → 不能只看最低点宣布成功
+~~~
+
+高端 ASIC / GPU / FPGA rail 还会涉及 package characteristic impedance 与 board→package 的频率交接，见：
+
+[15｜超大电流核心供电：分级 PDN、平坦阻抗与验证](15_超大电流核心供电_分级PDN与平坦阻抗.md)
+
+
 ## 4.11 KiCad 项目动作
 
 在 `projects/stm32f407-mainline/v2/` 建 rail budget：

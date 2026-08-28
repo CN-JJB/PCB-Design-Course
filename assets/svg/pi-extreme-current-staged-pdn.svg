@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+<title id="title">Staged extreme-current power distribution network</title>
+<desc id="desc">A staged PDN showing 48 volt bus, intermediate conversion, multiphase VRM, board plane inductance and decoupling, package, and die, emphasizing progressively lower voltage and higher current near the load.</desc>
+<rect width="1200" height="690" fill="#fff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.h{font:700 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.bus{fill:#dbeafe;stroke:#60a5fa;stroke-width:2}
+.vrm{fill:#fef3c7;stroke:#f59e0b;stroke-width:2}
+.pdn{fill:#dcfce7;stroke:#4ade80;stroke-width:2}
+.pkg{fill:#ede9fe;stroke:#8b5cf6;stroke-width:2}
+.die{fill:#fee2e2;stroke:#f87171;stroke-width:2}
+.line{stroke:#374151;stroke-width:4;fill:none;marker-end:url(#a)}
+.ind{stroke:#7c3aed;stroke-width:3;fill:none}
+.cap{stroke:#0f766e;stroke-width:3}
+</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+<text x="55" y="52" class="t">Extreme-Current PDN：高压传得远，低压大电流最后再生成</text>
+<text x="55" y="82" class="s">每一阶段都在做同一件事：限制 inductance、选择合适 capacitance / damping、把 impedance 平坦地交给下一阶段</text>
+
+<g transform="translate(45 145)">
+<rect class="bus" x="0" y="90" width="165" height="130" rx="14"/>
+<text class="h" x="82" y="128" text-anchor="middle">48 V Bus</text>
+<text class="s" x="82" y="158" text-anchor="middle">low current</text>
+<text class="s" x="82" y="182" text-anchor="middle">long distance</text>
+
+<path class="line" d="M170 155 L245 155"/>
+<rect class="bus" x="250" y="70" width="180" height="170" rx="14"/>
+<text class="h" x="340" y="112" text-anchor="middle">Intermediate</text>
+<text class="h" x="340" y="137" text-anchor="middle">Converter</text>
+<text class="s" x="340" y="172" text-anchor="middle">48 V → 12 V</text>
+
+<path class="line" d="M435 155 L510 155"/>
+<rect class="vrm" x="515" y="55" width="200" height="200" rx="14"/>
+<text class="h" x="615" y="98" text-anchor="middle">Multi-phase VRM</text>
+<text class="s" x="615" y="128" text-anchor="middle">Point-of-load</text>
+<text class="s" x="615" y="152" text-anchor="middle">sub-1 V</text>
+<path class="ind" d="M545 195 q15 -28 30 0 q15 28 30 0 q15 -28 30 0 q15 28 30 0"/>
+<text class="s" x="615" y="228" text-anchor="middle">VRM excess L</text>
+
+<path class="line" d="M720 155 L795 155"/>
+<rect class="pdn" x="800" y="35" width="190" height="240" rx="14"/>
+<text class="h" x="895" y="77" text-anchor="middle">Board PDN</text>
+<text class="s" x="895" y="105" text-anchor="middle">thin PWR/GND pairs</text>
+<text class="s" x="895" y="129" text-anchor="middle">bulk + local decap</text>
+<line class="cap" x1="850" y1="165" x2="880" y2="165"/>
+<line class="cap" x1="850" y1="178" x2="880" y2="178"/>
+<line class="cap" x1="910" y1="165" x2="940" y2="165"/>
+<line class="cap" x1="910" y1="178" x2="940" y2="178"/>
+<path class="ind" d="M845 220 q12 -22 24 0 q12 22 24 0 q12 -22 24 0 q12 22 24 0"/>
+<text class="s" x="895" y="255" text-anchor="middle">plane / via L</text>
+
+<path class="line" d="M995 155 L1035 155"/>
+<rect class="pkg" x="1040" y="65" width="135" height="180" rx="14"/>
+<text class="h" x="1107" y="112" text-anchor="middle">Package</text>
+<text class="s" x="1107" y="141" text-anchor="middle">package C/L</text>
+<text class="s" x="1107" y="168" text-anchor="middle">handoff</text>
+<rect class="die" x="1070" y="190" width="75" height="38" rx="8"/>
+<text class="s" x="1107" y="214" text-anchor="middle">Die</text>
+</g>
+
+<text x="600" y="485" text-anchor="middle" class="h">Flatness target</text>
+<path d="M135 550 C240 550 260 545 340 548 C430 552 480 545 570 550 C670 555 730 544 830 549 C920 554 1010 548 1080 550" stroke="#111827" stroke-width="4" fill="none"/>
+<line x1="120" y1="515" x2="1100" y2="515" stroke="#dc2626" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="1090" y="505" text-anchor="end" class="s">Z target ceiling</text>
+<text x="600" y="605" text-anchor="middle" class="s">不要只追求某个“最低点”；要同时控制 peak、deep dip、Q，并明确 board → package → die 的频率交接</text>
+</svg>
