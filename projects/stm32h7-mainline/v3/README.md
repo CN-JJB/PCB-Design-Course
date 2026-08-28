@@ -18,6 +18,7 @@
 - [hw/](hw/) — real KiCad source
 - [bom/](bom/) — exact BOM / alternates
 - [sim/](sim/) — IBIS / S-parameter / simulation manifests
+- [high-speed-routing-review.md](high-speed-routing-review.md) — edge/reference/impedance/via/timing 高速布线联合审查
 - [test/](test/) — bring-up / measurement evidence
 - [release/](release/) — immutable release packages
 

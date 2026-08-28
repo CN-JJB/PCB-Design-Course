@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">High-speed routing review map</title>
+<desc id="desc">Review flow connecting edge rate, reference planes, impedance, crosstalk, vias, differential timing and SI/EMC evidence.</desc>
+<rect width="1200" height="720" fill="#fff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.h{font:700 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 13px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.b{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.c1{fill:#dbeafe;stroke:#60a5fa;stroke-width:2}
+.c2{fill:#dcfce7;stroke:#4ade80;stroke-width:2}
+.c3{fill:#fef3c7;stroke:#f59e0b;stroke-width:2}
+.c4{fill:#fee2e2;stroke:#f87171;stroke-width:2}
+.a{stroke:#374151;stroke-width:3;fill:none;marker-end:url(#arr)}
+</style>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+<text x="55" y="52" class="t">High-Speed Routing Review Map</text>
+<text x="55" y="82" class="s">不要背 50 Ω / 3H / 少打 via / 等长 四条口诀；按完整 channel 因果链审查</text>
+<rect x="55" y="125" width="190" height="100" rx="14" class="c1"/><text x="150" y="160" text-anchor="middle" class="h">1｜Edge / Interface</text><text x="150" y="190" text-anchor="middle" class="s">rise/fall, data rate</text>
+<path d="M250 175 L315 175" class="a"/>
+<rect x="320" y="125" width="190" height="100" rx="14" class="c1"/><text x="415" y="160" text-anchor="middle" class="h">2｜Reference</text><text x="415" y="190" text-anchor="middle" class="s">signal ↔ plane</text>
+<path d="M515 175 L580 175" class="a"/>
+<rect x="585" y="125" width="190" height="100" rx="14" class="c2"/><text x="680" y="160" text-anchor="middle" class="h">3｜Impedance</text><text x="680" y="190" text-anchor="middle" class="s">stackup → W / gap</text>
+<path d="M780 175 L845 175" class="a"/>
+<rect x="850" y="125" width="295" height="100" rx="14" class="c3"/><text x="997" y="160" text-anchor="middle" class="h">4｜Spacing / Crosstalk</text><text x="997" y="190" text-anchor="middle" class="s">S/H + parallel length + edge</text>
+<path d="M997 230 L997 300" class="a"/>
+<rect x="830" y="305" width="315" height="115" rx="14" class="c4"/><text x="987" y="342" text-anchor="middle" class="h">5｜Via / Layer Transition</text><text x="987" y="372" text-anchor="middle" class="s">barrel / pad / antipad / stub</text>
+<path d="M825 362 L750 362" class="a"/>
+<rect x="505" y="305" width="240" height="115" rx="14" class="c2"/><text x="625" y="342" text-anchor="middle" class="h">6｜Differential</text><text x="625" y="372" text-anchor="middle" class="s">P vs N intra-pair skew</text>
+<path d="M500 362 L425 362" class="a"/>
+<rect x="120" y="305" width="300" height="115" rx="14" class="c1"/><text x="270" y="342" text-anchor="middle" class="h">7｜Bus / Lane Timing</text><text x="270" y="372" text-anchor="middle" class="s">clock↔data / lane↔lane</text>
+<path d="M270 425 L270 495" class="a"/>
+<rect x="120" y="500" width="300" height="115" rx="14" class="b"/><text x="270" y="537" text-anchor="middle" class="h">8｜Discontinuities</text><text x="270" y="567" text-anchor="middle" class="s">package / connector / ESD / test</text>
+<path d="M425 557 L555 557" class="a"/>
+<rect x="560" y="500" width="280" height="115" rx="14" class="b"/><text x="700" y="537" text-anchor="middle" class="h">9｜Validation</text><text x="700" y="567" text-anchor="middle" class="s">IBIS / TDR / eye / VNA</text>
+<path d="M845 557 L920 557" class="a"/>
+<rect x="925" y="500" width="220" height="115" rx="14" class="c2"/><text x="1035" y="537" text-anchor="middle" class="h">10｜Release Evidence</text><text x="1035" y="567" text-anchor="middle" class="s">assumptions closed</text>
+<text x="600" y="675" text-anchor="middle" class="s">每条经验规则都必须知道它在解决 reflection、return、crosstalk、timing 还是 EMI。</text>
+</svg>

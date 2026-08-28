@@ -91,6 +91,42 @@ via discontinuity
 
 ---
 
+
+### 高速 Screening 公式只能用来决定“是否值得进一步分析”
+
+Phil's Lab 这期高速 PCB 视频用两个常见入门近似：
+
+~~~text
+f_edge ≈ 0.5 / tr
+critical length ≈ λ / 12
+~~~
+
+来说明：高速与否更应该看 rise/fall time，而不是只看 clock fundamental。
+
+这个方向应该保留，但课程不把 0.5/tr 或 λ/12 当成统一 sign-off 规则。不同资料会使用不同的 bandwidth、knee-frequency 或 electrical-length screening 定义，例如 0.35/tr、0.5/tr、1/(πtr)、td<tr/6、td<tr/4 或某个波长分数。
+
+这些差异来自：
+
+- 希望保留多少谐波；
+- 允许多少反射误差；
+- driver / receiver impedance；
+- termination；
+- topology；
+- noise margin。
+
+课程中的正确用法是：
+
+~~~text
+edge rate
+→ estimate spectral / electrical-length risk
+→ compare propagation delay with rise/fall time
+→ decide whether transmission-line analysis is required
+→ then use actual source / channel / load model
+~~~
+
+不是“小于 λ/12 就一定安全，大于 λ/12 就一定失败”。
+
+
 ## 一个互动入口：把四类退化同时拖一遍
 
 打开：

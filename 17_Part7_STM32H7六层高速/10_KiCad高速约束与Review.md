@@ -167,6 +167,33 @@ RMII 是 single-ended LVCMOS，不因为属于 Ethernet 就使用差分规则。
 
 ---
 
+
+## 10.1 六层高速板新增 High-Speed Routing Review
+
+V3 不只保存 DRC / length table。
+
+新增：
+
+projects/stm32h7-mainline/v3/high-speed-routing-review.md
+
+它要求对每个关键 group 同时记录：
+
+- edge / interface source；
+- topology；
+- routing layer；
+- reference；
+- impedance；
+- spacing / parallel length；
+- via count / via span / unused stub；
+- return transition；
+- intra-pair skew；
+- inter-lane timing；
+- connector/package discontinuity；
+- simulation / measurement evidence。
+
+这张表的目标是把 50 Ω、3H、少打 via、等长、地孔从五条孤立口诀变成一个可审计的高速 channel 设计。
+
+
 # 11. Release 前检查
 
 - [ ] .kicad_dru 已版本控制

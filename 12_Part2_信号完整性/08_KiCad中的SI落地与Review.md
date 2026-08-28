@@ -266,6 +266,67 @@ t_{flight}=\int \frac{dl}{v(l)}
 
 ---
 
+
+## 8.6.1 High-Speed Routing Review Map：不要把规则拆成互不相干的口诀
+
+<p align="center"><img src="../assets/svg/si-high-speed-routing-review-map.svg" width="980" alt="high-speed routing review map from edge rate to timing and EMI"></p>
+
+这期 Phil's Lab 视频把高速布局常见问题放在一条线里：edge rate、reference plane、stackup、controlled impedance、spacing/crosstalk、via/return transition、differential matching、bus lane timing 和 EMI。
+
+课程把它升级成固定 Review 顺序：
+
+~~~text
+1. Edge / interface requirement
+2. Source → load topology
+3. Signal layer ↔ reference layer
+4. Stackup / impedance geometry
+5. Spacing + parallel length
+6. Via / layer transition / return transition
+7. Differential intra-pair skew
+8. Inter-pair / clock-data timing budget
+9. Connector / protection / package discontinuities
+10. SI + EMC validation evidence
+~~~
+
+这样可以防止一种常见错误：
+
+> “我已经做了 50 Ω、3H、等长，所以高速设计完成了。”
+
+这些动作只有放进同一条 channel / timing / return-path 因果链里才有意义。
+
+### Intra-pair 与 Inter-pair 不要混
+
+视频同时展示了 differential pair 内 P/N matching，以及 MIPI CSI 这类总线中 clock lane 与 data lane 的 relative matching。
+
+它们回答不同问题。
+
+Intra-pair：
+
+~~~text
+P vs N
+→ differential skew
+→ common-mode conversion / eye degradation
+~~~
+
+Inter-pair / lane-to-lane：
+
+~~~text
+clock lane vs data lane
+or data lane A vs data lane B
+→ interface timing / deskew budget
+~~~
+
+是否需要后者、允许多少 skew，必须来自 interface specification、PHY capability、controller timing model、package delay 与 receiver deskew。
+
+不能因为“都是 differential pair”就自动要求所有 lanes 铜长完全相等。
+
+### 在 Via 附近做局部补偿也要看 Electrical Delay
+
+视频展示了在 discontinuity / via 附近做 differential-pair length correction 的直觉。它的好处是避免 pair 在很长距离上持续处于 phase-skewed 状态。
+
+但最终仍以 electrical delay、stackup propagation、via/package delay 与 protocol skew budget 为准，而不是只追求 CAD copper length 相等。
+
+
 ## 8.7 SI Review 的五张图
 
 每个项目至少保存以下截图：

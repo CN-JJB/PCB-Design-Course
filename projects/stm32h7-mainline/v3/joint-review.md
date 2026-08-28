@@ -28,6 +28,17 @@
 - [ ] buck hot loop
 - [ ] plane neck-down
 
+## High-Speed Routing
+
+- [ ] edge rate / interface requirement 已记录
+- [ ] stackup / reference pair 已冻结
+- [ ] impedance geometry 有 current source
+- [ ] crosstalk 不是只凭 3H/3W 判断
+- [ ] via transition 同时审 signal + return
+- [ ] unused via stub 已按实际 start/end layer 检查
+- [ ] differential intra-pair 与 lane-to-lane timing 分开审
+- [ ] 详细结果见 [high-speed-routing-review.md](high-speed-routing-review.md)
+
 ## Gate
 
 - Blockers open: TBD
