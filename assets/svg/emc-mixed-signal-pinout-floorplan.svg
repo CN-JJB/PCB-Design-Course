@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+<title id="title">Pinout-driven mixed-signal PCB floorplan</title>
+<desc id="desc">A conceptual mixed-signal PCB floorplan with a central MCU, analog ADC corridor to a sensor connector, digital peripherals on the opposite side, power input and regulation below, and RF feed to an antenna connector at the board edge.</desc>
+<rect width="1200" height="700" fill="#fff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.h{font:700 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.board{fill:#f9fafb;stroke:#9ca3af;stroke-width:3}
+.mcu{fill:#e5e7eb;stroke:#6b7280;stroke-width:2}
+.ana{fill:#dbeafe;stroke:#60a5fa;stroke-width:2}
+.dig{fill:#fee2e2;stroke:#f87171;stroke-width:2}
+.pwr{fill:#fef3c7;stroke:#f59e0b;stroke-width:2}
+.rf{fill:#ede9fe;stroke:#8b5cf6;stroke-width:2}
+.route{stroke:#111827;stroke-width:5;fill:none;stroke-linecap:round}
+.via{fill:#166534}
+.arrow{stroke:#6b7280;stroke-width:2.5;fill:none;marker-end:url(#a)}
+</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6b7280"/></marker></defs>
+
+<text x="55" y="52" class="t">Mixed-Signal Floorplan：从 Pinout 向外“长”功能区</text>
+<text x="55" y="82" class="s">先固定机械边界与关键 connector，再让 ADC / digital / RF / power pin groups 朝向各自 routing corridor</text>
+
+<rect class="board" x="80" y="120" width="1040" height="500" rx="22"/>
+
+<rect class="mcu" x="500" y="285" width="200" height="170" rx="16"/>
+<text x="600" y="355" text-anchor="middle" class="h">MCU / FPGA</text>
+<text x="600" y="382" text-anchor="middle" class="s">connectivity hub</text>
+
+<rect class="ana" x="140" y="255" width="250" height="230" rx="16"/>
+<text x="265" y="295" text-anchor="middle" class="h">Analog / ADC Region</text>
+<rect class="ana" x="95" y="325" width="110" height="80" rx="10"/>
+<text x="150" y="355" text-anchor="middle" class="s">Sensor</text>
+<text x="150" y="377" text-anchor="middle" class="s">connector</text>
+<path class="route" d="M205 365 L500 365"/>
+<text x="404" y="345" class="s">ADC / AFE corridor</text>
+
+<rect class="dig" x="800" y="255" width="250" height="230" rx="16"/>
+<text x="925" y="295" text-anchor="middle" class="h">Digital Peripherals</text>
+<path class="route" d="M700 365 L930 365"/>
+<text x="795" y="345" class="s">SPI / I²C / GPIO</text>
+
+<rect class="pwr" x="450" y="500" width="300" height="88" rx="14"/>
+<text x="600" y="535" text-anchor="middle" class="h">Power / DC Input / Regulation</text>
+<text x="600" y="560" text-anchor="middle" class="s">keep hot-loop / surge current out of analog corridor</text>
+<path class="arrow" d="M600 500 L600 458"/>
+
+<rect class="rf" x="435" y="150" width="330" height="88" rx="14"/>
+<text x="600" y="183" text-anchor="middle" class="h">RF / Matching / CPWG Corridor</text>
+<text x="600" y="208" text-anchor="middle" class="s">toward antenna / U.FL / SMA boundary</text>
+<path class="route" d="M600 285 L600 238"/>
+
+<rect class="rf" x="545" y="120" width="110" height="40" rx="8"/>
+<text x="600" y="146" text-anchor="middle" class="s">Antenna edge</text>
+
+<circle class="via" cx="470" cy="244" r="5"/><circle class="via" cx="500" cy="244" r="5"/><circle class="via" cx="530" cy="244" r="5"/>
+<circle class="via" cx="670" cy="244" r="5"/><circle class="via" cx="700" cy="244" r="5"/><circle class="via" cx="730" cy="244" r="5"/>
+
+<text x="600" y="658" text-anchor="middle" class="s">这不是固定方位模板；真正规则是让 pin groups、mechanical boundary、routing corridor 与 return path 同时对齐</text>
+</svg>
