@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+<title id="title">Mixed-signal ground topology comparison</title>
+<desc id="desc">Three mixed-signal PCB grounding topologies: disconnected split grounds with a trace crossing the gap, split grounds connected by a narrow bridge, and a continuous solid ground with analog and digital functional partitions.</desc>
+<rect width="1200" height="690" fill="#fff"/>
+<style>
+.t{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.s{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#4b5563}
+.h{font:700 19px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#111827}
+.card{fill:#f9fafb;stroke:#d1d5db;stroke-width:2}
+.a{fill:#dbeafe;stroke:#93c5fd;stroke-width:2}
+.d{fill:#fee2e2;stroke:#fca5a5;stroke-width:2}
+.g{fill:#dcfce7;stroke:#86efac;stroke-width:2}
+.sig{stroke:#111827;stroke-width:7;fill:none;stroke-linecap:round}
+.ret{stroke:#7c3aed;stroke-width:4;fill:none;stroke-dasharray:9 7}
+.bad{stroke:#dc2626;stroke-width:4;fill:none}
+</style>
+<text x="55" y="50" class="t">Mixed-Signal Ground：Split、Bridge、Solid 不是一回事</text>
+<text x="55" y="78" class="s">关键问题始终是：跨区 signal 的 reference / return 是否连续、局部、可解释</text>
+
+<g transform="translate(35 115)">
+<rect class="card" width="350" height="485" rx="16"/>
+<text class="h" x="22" y="38">A｜Disconnected split</text>
+<rect class="a" x="28" y="85" width="125" height="250" rx="8"/>
+<rect class="d" x="197" y="85" width="125" height="250" rx="8"/>
+<text class="s" x="90" y="115" text-anchor="middle">Analog GND</text>
+<text class="s" x="260" y="115" text-anchor="middle">Digital GND</text>
+<path class="sig" d="M70 175 L280 175"/>
+<path class="bad" d="M167 145 L185 205 M185 145 L167 205"/>
+<path class="ret" d="M270 225 C255 310,110 370,78 230"/>
+<text class="s" x="22" y="385">跨 gap 后：return 被迫寻找别的闭合路径</text>
+<text class="s" x="22" y="414">风险：大 loop、寄生路径、EMI</text>
+</g>
+
+<g transform="translate(425 115)">
+<rect class="card" width="350" height="485" rx="16"/>
+<text class="h" x="22" y="38">B｜Narrow bridge / mecca</text>
+<rect class="a" x="28" y="85" width="125" height="250" rx="8"/>
+<rect class="d" x="197" y="85" width="125" height="250" rx="8"/>
+<rect class="g" x="150" y="190" width="50" height="42" rx="5"/>
+<path class="sig" d="M70 170 L175 170 L280 170"/>
+<path class="ret" d="M280 215 L178 215 L75 215"/>
+<text class="s" x="22" y="385">可以工作，但所有跨界都要受控通过 corridor</text>
+<text class="s" x="22" y="414">风险：shared impedance、ECO 易破坏假设</text>
+</g>
+
+<g transform="translate(815 115)">
+<rect class="card" width="350" height="485" rx="16"/>
+<text class="h" x="22" y="38">C｜Solid GND + partition</text>
+<rect class="g" x="28" y="85" width="294" height="250" rx="8"/>
+<rect class="a" x="50" y="105" width="105" height="82" rx="8"/>
+<rect class="d" x="195" y="105" width="105" height="82" rx="8"/>
+<text class="s" x="102" y="135" text-anchor="middle">Analog area</text>
+<text class="s" x="247" y="135" text-anchor="middle">Digital area</text>
+<path class="sig" d="M75 245 L275 245"/>
+<path class="ret" d="M275 280 L78 280"/>
+<text class="s" x="22" y="385">默认起点：reference 连续，区域靠 placement/routing 控制</text>
+<text class="s" x="22" y="414">跨界仍需 review，但不先制造 slot</text>
+</g>
+
+<text x="600" y="642" class="s" text-anchor="middle">真正的 isolation 需要 isolation components / barrier；把一块 GND polygon 切成两块并不会自动产生 galvanic isolation</text>
+</svg>
