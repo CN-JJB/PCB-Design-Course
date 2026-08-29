@@ -60,6 +60,50 @@
 - [ ] no unnecessary detour created just to satisfy the router
 - [ ] no dense skew meander without a real budget
 
+## 5.1 Forum-Derived Stress Checks
+
+> 这些检查来自实际工程师对 USB 2.0 布板的争论，用来找“看起来很专业但方向错了”的设计。它们不是协议规范。
+
+### Geometry Before Cosmetics
+
+- [ ] 没有为了亚毫米级 mismatch 自动添加密集蛇形
+- [ ] 若添加 tuning，已写出当前 USB mode / device guide 的 skew budget
+- [ ] meander 本身的局部 coupling / spacing 已检查
+- [ ] pair 附近新增 copper 后重新确认了阻抗模型
+
+### Microstrip vs Coplanar
+
+- [ ] 若同层 GND pour 靠近 DP/DM，阻抗模型已切换/纳入 coplanar geometry
+- [ ] soldermask 已按 fab model 纳入 calculator / field solver
+- [ ] 没有把“铺更多 GND”自动等同于“阻抗更正确”
+- [ ] copper-to-pair setback 有来源：solver / fab，而不是固定 3W 口号
+
+### ESD / Stub
+
+- [ ] ESD 器件没有通过长 stub 挂到主线上
+- [ ] connector→ESD→PHY 尽量形成 flow-through path
+- [ ] 测试点/探针焊盘没有形成明显 branch stub
+- [ ] ESD GND discharge path 与 signal reference path 都已单独画出
+
+### Evidence Note
+
+记录以下任一项时，不写“论坛推荐”，而写：
+
+~~~text
+Observation:
+Physical reason:
+Project requirement:
+Chosen geometry:
+Evidence / source:
+~~~
+
+Forum threads used as practitioner context:
+
+- https://electronics.stackexchange.com/questions/52851/usb-differential-pair-length
+- https://electronics.stackexchange.com/questions/496135/advice-for-90-ohm-traces-of-a-usb-2-0-hub
+- https://electronics.stackexchange.com/questions/669162/unexpected-low-characteristic-impedance-using-the-jlcpcb-impedance-calculator
+
+
 ## 6. Neighbor / EMC Review
 
 - [ ] VBUS does not run long and close to DP/DM
