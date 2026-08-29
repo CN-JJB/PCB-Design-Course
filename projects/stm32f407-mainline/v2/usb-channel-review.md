@@ -19,6 +19,33 @@
 - Gap:
 - Geometry source:
 
+## 1.1 Requirement Provenance
+
+> 每一个具体数字都要能回答“谁要求的？”
+
+| Item | Value | Source class | Exact source | Applies to this device/mode? | Status |
+|---|---|---|---|---|---|
+| Zdiff target | | protocol / device / fab | | | |
+| intra-pair skew | | protocol / device | | | |
+| max via count | | device/vendor guide | | | |
+| width / gap | | fab solver | | | |
+| ESD capacitance | | component datasheet | | | |
+| copper-to-pair spacing | | solver / project SI target | | | |
+
+Allowed source classes:
+
+~~~text
+protocol requirement
+device requirement
+vendor layout guideline
+fabricator geometry
+project target
+engineering heuristic
+~~~
+
+如果某行只能写“论坛说”“视频里是这样”，它可以作为提示，但不能作为 frozen requirement。
+
+
 ## 2. Channel Segments
 
 | Segment | Geometry / Layer | Reference | Symmetry | Discontinuity / Loading | Evidence | Result |
