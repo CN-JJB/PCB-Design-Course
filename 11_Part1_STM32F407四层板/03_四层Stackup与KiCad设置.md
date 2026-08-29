@@ -480,6 +480,110 @@ flowchart TD
 > 这些帖子用于展示工程实践中的**争议与条件边界**。真正冻结仍以本项目电流、stackup、板厂、接口和测量/仿真证据为准。
 
 
+### 3.5 证据阶梯：Ott、Hartley、Ritchey、JLCPCB 为什么看起来“互相打架”？
+
+当你开始查四层叠层，会很快遇到一种困惑：
+
+- Henry Ott 强调 EMC 目标、紧耦合 reference、外层 plane 屏蔽；
+- Rick Hartley 强调现代快边沿下，传统 1.6 mm `SIG/GND/PWR/SIG` 的厚 PWR–GND 间距已经不能按旧时代直觉理解；
+- Lee Ritchey 强调真正阻抗和串扰取决于**制造出来的截面**，不是层名；
+- JLCPCB 则直接给出它实际会压合的 prepreg/core 结构。
+
+这些不是四套互斥“门派”。它们分别站在不同层级。
+
+| 层级 | 你应该问什么 | 本章对应来源 |
+|---|---|---|
+| 电磁目标 | signal 是否紧邻 reference？回路、屏蔽、common-mode 风险怎样？ | Ott |
+| 现代边沿 | 老叠层为什么以前能工作、现在可能变差？ | Hartley |
+| 制造截面 | Dk、铜厚、prepreg/core、etch 后截面到底是什么？ | Ritchey |
+| 真实订单 | 这家板厂当前标准模板具体给我什么 H / copper / material？ | JLCPCB |
+
+#### Ott 的五个目标，不是“五条必须同时满足的四层规则”
+
+资料集中整理的 Ott 目标包括：
+
+1. 每个 signal layer 邻近 plane；
+2. signal–plane coupling 要紧；
+3. PWR–GND coupling 要紧；
+4. high-speed 尽量埋在 planes 之间；
+5. 多 ground/reference 有利于降低 common-mode。
+
+关键点是：
+
+> **四层和六层本来就是折中。**
+
+所以不要看到 Ott 的某个 4L 图就抄层序；先看它是在牺牲哪一项、换取哪一项。
+
+#### Hartley 的重要提醒：旧的“经典”叠层不一定适合现代 edge
+
+Hartley 在较新的访谈/文章里特别强调：
+
+- 62 mil / 1.6 mm 四层板里，L2–L3 常常相距接近 1 mm；
+- 这不构成理想紧耦合 PWR–GND pair；
+- 过去 tens-of-ns 边沿还能“凑合”的结构，面对 sub-ns / few-ns edge 时不能继续靠旧经验推导。
+
+所以本课程不会用：
+
+~~~text
+clock = 20 MHz
+→ 这是低速
+→ 经典四层一定没问题
+~~~
+
+而是继续追问 **edge rate + geometry**。
+
+#### Ritchey 把问题拉回制造截面
+
+Ritchey 的核心价值在于把“理论 stackup”翻译成制造变量：
+
+~~~text
+copper thickness
++ etch trapezoid
++ prepreg pressed thickness
++ Dk(f)
++ soldermask
++ actual trace width
+→ impedance / coupling
+~~~
+
+这也是为什么：
+
+> **闭式公式适合预估，正式 controlled impedance 要回到 fab stackup + field solver / calculator。**
+
+#### JLCPCB 是“现实落地层”，不是物理定律
+
+板厂模板告诉你的只是：
+
+> “如果今天按这个模板下单，我们准备怎样压这块板。”
+
+因此本课程的顺序固定为：
+
+~~~mermaid
+flowchart LR
+    A[Ott/Hartley<br/>电磁目标] --> B[项目约束<br/>接口/电流/密度]
+    B --> C[板厂标准 Stackup]
+    C --> D[Ritchey式截面思维<br/>H/Dk/Cu/Mask]
+    D --> E[Solver / Fab Calculator]
+    E --> F[KiCad Rule + Review]
+    F --> G[CAM / Coupon / 实测]
+~~~
+
+### 📌 本章的一手/高质量参考
+
+- Henry W. Ott, *PCB Stack-Up*  
+  https://www.frontdoor.biz/HowToPCB/HowToPCB-extra/PCBStackups(Ott).pdf
+- Rick Hartley, *PCB Stack-up Design Best Practices*  
+  https://resources.altium.com/p/pc-board-stack-up-best-practices-with-rick-hartley
+- Lee Ritchey, *Everything You Need for Successful PCB Stackup Design*  
+  https://resources.altium.com/p/everything-you-need-successful-pcb-stackup-design
+- JLCPCB, *Controlled Impedance Stackup*  
+  https://jlcpcb.com/impedance
+- JLCPCB, *Impedance Calculator User Guide*  
+  https://jlcpcb.com/help/article/user-guide-to-the-jlcpcb-impedance-calculator
+
+> **来源纪律：** Ott/Hartley/Ritchey 用来解释设计目标和工程边界；JLCPCB 数字属于“当前板厂制造输入”，每次下单前必须重新确认。
+
+
 ## 4. 为什么不直接给你一条“50 Ω = 0.18 mm”？
 
 因为受控阻抗取决于 stackup、copper thickness、Dk model、solder mask、etching compensation、finished geometry，以及差分时的 gap。
