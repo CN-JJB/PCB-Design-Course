@@ -101,6 +101,104 @@ https://jlcpcb.com/impedance
 
 ---
 
+# 3.1 教科书六层 Stackup 的陷阱：板厂可能根本不是那个几何
+
+很多资料会直接画：
+
+~~~text
+L1 SIG
+L2 GND
+L3 SIG
+L4 SIG/PWR
+L5 GND
+L6 SIG
+~~~
+
+然后口头说：
+
+> “L1、L3 都紧贴 L2，所以这是一组很好用的三层结构。”
+
+真正下单时，这句话可能完全不成立。
+
+### 论坛里的典型冲突
+
+一组 2023 年工程讨论指出，常见低成本 1.6 mm 六层工艺经常呈现更像**成对耦合**的结构，而不是“L1/L2/L3 三层都很紧”。
+
+论坛当时举过类似：
+
+~~~text
+L1
+  ~4 mil
+L2
+  ~22 mil
+L3
+  ~4 mil
+L4
+  ~22 mil
+L5
+  ~4 mil
+L6
+~~~
+
+的例子。
+
+这些数字不是本课程当前制造常数；它们真正想说明的是：
+
+> **不要把杂志/视频里的 layer-role 图直接贴到板厂 order form 上。**
+
+本章当前使用的 JLC06161H-1080 已经给出了另一组真实结构：
+
+- L1↔L2：0.0764 mm；
+- L2↔L3：0.55 mm；
+- L3↔L4：0.2104 mm；
+- L4↔L5：0.55 mm；
+- L5↔L6：0.0764 mm。
+
+因此你必须重新判断：
+
+- L3 到底主要参考 L2，还是更受 L4 影响？
+- L4 的角色如果改成 signal，它更适合参考谁？
+- 哪些层间 transition 可以保持 same-reference？
+- 哪些层只是“编号相邻”，电磁上却并不近？
+
+### 🧭 Stackup 翻译练习：从“层名”翻译成“pair map”
+
+不要只写：
+
+~~~text
+SIG / GND / SIG / PWR / GND / SIG
+~~~
+
+再加一张：
+
+| Signal layer | Candidate reference | H | Reference continuous? | Primary use |
+|---|---|---:|---|---|
+| L1 | L2 | 0.0764 mm | | |
+| L3 | L2 / L4 | 0.55 / 0.2104 mm | | |
+| L4 | L3 / L5 | 0.2104 / 0.55 mm | | |
+| L6 | L5 | 0.0764 mm | | |
+
+这张表比层序字符串更接近真正的 SI 设计。
+
+### 🐜 一个好用的工程直觉
+
+如果一条内层线紧贴上方参考面，而离另一侧铜层很远，那么它首先“看到”的是附近结构。  
+论坛里有工程师用过类似“天花板上的蚂蚁不会先关心地板上的洞”的比喻来解释这一点。
+
+教材把它改写成可执行规则：
+
+> **先比较距离与场耦合，再判断另一侧 power polygon / signal layer 是否真的主导当前传输结构。**
+
+### 工程实践来源（论坛讨论，不是规范）
+
+- Electronics StackExchange, *6-layer stack up: Optimal core/prepreg thickness and coupling to GND*  
+  https://electronics.stackexchange.com/questions/676466/6-layer-stack-up-optimal-core-prepreg-thinkness-and-coupling-to-gnd
+- Electronics StackExchange, *6-Layer Stackup - Where to put the Power Planes?*  
+  https://electronics.stackexchange.com/questions/576750/6-layer-stackup-where-to-put-the-power-planes
+- Electronics StackExchange, *Best layer stack strategy for a 6 layer PCB with mostly SMD components*  
+  https://electronics.stackexchange.com/questions/427747/best-layer-stack-strategy-for-a-6-layer-pcb-with-mostly-smd-components
+
+
 # 4. 为什么 dielectric thickness 如此重要
 
 传输线的 field distribution 与以下几何相关：
