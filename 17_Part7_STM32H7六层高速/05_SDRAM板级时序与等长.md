@@ -210,6 +210,51 @@ IBIS / scope evidence
 
 ---
 
+# 10.1 视频现场课：Via 也在吃 Timing Budget，不只是吃“长度”
+
+Feranec 的 High-Speed Design Rules 与 EEVblog #1247 都强调同一件事：**板级 timing 应该用时间看，不要只盯毫米数。**
+
+一个常见错误是：
+
+~~~text
+DQ0 = 42.0 mm
+DQ1 = 42.1 mm
+→ “等长非常漂亮”
+~~~
+
+但如果 DQ0 中间多了一次较长 via transition、DQ1 没有，那么真正 arrival time 仍可能不一致。
+
+<img src="../assets/svg/si-delay-length-vs-time.svg" alt="物理长度与传播时间不是一回事" width="100%">
+
+### Timing Budget 里至少要分四项
+
+| 项目 | 为什么会产生 skew |
+|---|---|
+| planar trace | 长度、层、Dk 不同 |
+| layer change / via | barrel、pad、antipad、reference transition |
+| package delay | MCU / SDRAM ball-to-die 路径不同 |
+| topology / termination | 反射和阈值 crossing 改变有效到达时间 |
+
+### 课程动作
+
+以后做 memory group matching，先统一：
+
+1. **layer topology**；
+2. **via count / transition type**；
+3. 再做 planar length tuning。
+
+如果不得不混 outer / inner layer，就回到 propagation delay，而不是用同一个 `mm target`。
+
+### 视频来源
+
+- Robert Feranec — *High Speed PCB Design Rules (Lesson 4)*  
+  https://www.youtube.com/watch?v=BlHLmQ2HO1w
+- EEVblog #1247 — *DDR Memory PCB Propagation Delay & Layout*  
+  https://www.youtube.com/watch?v=4VTtkF5fzMM
+
+> 本章对象是 STM32H7 SDR SDRAM，不把 DDR 视频里的具体数值直接搬过来；吸收的是 timing-budget 方法。
+
+
 # 11. SDRAM Skew Lab
 
 [SDRAM Skew Lab](../interactive/sdram-skew-lab.html)
