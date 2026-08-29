@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#fff"/>
+<text x="600" y="48" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="700">“DDR 要几层？”——先问具体 SoC / DDR 类型 / Vendor Guide</text>
+<text x="300" y="95" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700">ST STM32MP13x DDR3/LPDDR2/3 示例</text>
+<text x="900" y="95" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700">TI AM64x/AM243x DDR4/LPDDR4 示例</text>
+<rect x="100" y="140" width="400" height="60" fill="#f7f7f7" stroke="#333"/><text x="300" y="178" text-anchor="middle" font-family="sans-serif" font-size="21">Top：DDR signals</text>
+<rect x="100" y="210" width="400" height="60" fill="#e6e6e6" stroke="#333"/><text x="300" y="248" text-anchor="middle" font-family="sans-serif" font-size="21">L2：统一 GND</text>
+<rect x="100" y="280" width="400" height="60" fill="#ededff" stroke="#333"/><text x="300" y="318" text-anchor="middle" font-family="sans-serif" font-size="21">L3：统一 VDD_DDR</text>
+<rect x="100" y="350" width="400" height="60" fill="#f7f7f7" stroke="#333"/><text x="300" y="388" text-anchor="middle" font-family="sans-serif" font-size="21">Bottom：DDR signals</text>
+<text x="300" y="455" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700">4L 可以，但属于 Vendor 冻结配方</text>
+<text x="300" y="490" text-anchor="middle" font-family="sans-serif" font-size="17">Bottom DDR 必须持续得到完整 VDD_DDR reference</text>
+
+<rect x="700" y="140" width="400" height="270" rx="15" fill="#fafafa" stroke="#333" stroke-width="2"/>
+<text x="900" y="195" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700">Minimum ≥ 6 Layers</text>
+<text x="900" y="245" text-anchor="middle" font-family="sans-serif" font-size="20">40 Ω single-ended / 80 Ω differential</text>
+<text x="900" y="285" text-anchor="middle" font-family="sans-serif" font-size="20">solid VSS + VDDS_DDR reference</text>
+<text x="900" y="325" text-anchor="middle" font-family="sans-serif" font-size="20">no plane cut / stripline strongly recommended</text>
+<text x="900" y="365" text-anchor="middle" font-family="sans-serif" font-size="20">via stub may require backdrill</text>
+<text x="900" y="455" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700">同样叫 DDR，层数结论不同</text>
+<text x="600" y="570" text-anchor="middle" font-family="sans-serif" font-size="23" font-weight="700">课程结论：接口名字不是层数规则，Vendor Constraint 才是项目入口。</text>
+<text x="600" y="615" text-anchor="middle" font-family="sans-serif" font-size="18">ST 的 4L DDR3 配方不能拿去证明 TI 的 DDR4 也能 4L；TI 的 6L 下限也不能反推“所有 DDR 必须六层”。</text>
+<text x="600" y="665" text-anchor="middle" font-family="sans-serif" font-size="16">来源：ST AN5692（资料中为索引/章节信息，PDF需下单前再核）；TI SPRACU1A。</text>
+</svg>
