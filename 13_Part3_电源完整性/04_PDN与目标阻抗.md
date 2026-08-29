@@ -310,6 +310,74 @@ Steve Sandler 在高电流 PDN 的 staged-matching 方法中强调：
 [15｜超大电流核心供电：分级 PDN、平坦阻抗与验证](15_超大电流核心供电_分级PDN与平坦阻抗.md)
 
 
+## 4.10.2 Barnes：Flat-Z 不是“电容越多越好”
+
+Heidi Barnes 把 PI 的核心压缩成一个词：**impedance**。
+
+对初学者最重要的不是背一条公式，而是先看整个供电链怎样交接：
+
+~~~text
+VRM 低频能力
+    ↓
+PCB bulk / MLCC
+    ↓
+plane / via / package
+    ↓
+die capacitance
+~~~
+
+每一段都在不同频率接力。如果两段交接处一个明显呈电感性、另一个明显呈电容性，就可能形成很高的谐振峰。
+
+### “Big V” 与 Flat-Z 的直觉
+
+~~~text
+Z
+|       /\        /\        ← 高 Q 峰：瞬态时可能叠成很大的 rail noise
+|______/  \______/  \__
+|----------------------  Ztarget
++-----------------------> f
+~~~
+
+更理想的目标不是“某一点特别低”，而是：
+
+> **在真正关心的频带内，阻抗尽量平、尽量不超过允许上限。**
+
+### C = L / R² 应该怎么用？
+
+Barnes 的访谈给出过 `C = L / R²` 这样的 Flat-Z 估算关系，其中 `R` 可近似取目标阻抗。
+
+课程里只把它当 **first-order sizing tool**：
+
+1. 先估出要被接管的电感 L；
+2. 用目标阻抗得到 C 的数量级；
+3. 再把真实 ESL / ESR / placement / plane / package 加回来；
+4. 最后看完整 Z(f)，而不是公式算完就结束。
+
+### 一个典型错误
+
+~~~text
+100 nF + 1 uF + 10 uF
+~~~
+
+并不因为跨了三个 decade 就自动成为“宽频去耦”。不同电容的 C 和 ESL 互相组合，反而可能产生 anti-resonance peak。
+
+所以本课程的顺序是：
+
+~~~text
+先降 L
+→ 再定 Ztarget
+→ 再配 C / ESR
+→ 再看 Z(f) 是否平
+~~~
+
+### 来源
+
+- Heidi Barnes, *Power Integrity Fundamentals: Impedance vs. Frequency*  
+  https://www.signalintegrityjournal.com/blogs/12-fundamentals/post/2108-power-integrity-fundamentals-impedance-vs-frequency
+- Heidi Barnes interview, *PDN integrity in embedded systems*  
+  https://www.powerelectronictips.com/power-distribution-network-integrity-in-embedded-systems-virtual-interview-part-1-of-2/
+
+
 ## 4.11 KiCad 项目动作
 
 在 `projects/stm32f407-mainline/v2/` 建 rail budget：
