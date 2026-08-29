@@ -177,6 +177,69 @@ stacking stripe / witness structure 的价值，就是在装配前给你一个�
   https://resources.altium.com/p/pcb-manufacturing-and-impedance-control-how-specify-your-requirements
 
 
+## 6.6.2 Finished Geometry Ownership：Gerber 里的线宽到底是谁负责？
+
+受控阻抗交付里最容易发生的一类沟通事故是：
+
+~~~text
+Designer 以为：Fab 会帮我自动把线宽调到目标阻抗
+Fab 以为：Gerber 里的宽度就是你要的 finished width
+~~~
+
+Lee Ritchey 的制造建议强调：设计输出应该明确 **finished geometry**，板厂为了补偿 etch 可以调整其 working film / CAM 数据，但不能靠双方默契猜测。
+
+### 课程要求：每个 controlled-impedance profile 都写清四件事
+
+| 项目 | 必须明确 |
+|---|---|
+| Target Z | 例如 50 Ω / 90 Ω / 100 Ω |
+| Design geometry | Gerber 中的 W / S / G |
+| Finished geometry ownership | 设计者冻结，还是允许 fab 调整 |
+| Acceptance evidence | coupon / TDR / CAM report / lot record |
+
+### 两种可接受的协作方式
+
+#### A. Designer-owned geometry
+
+~~~text
+stackup frozen
+→ designer solver
+→ Gerber width = intended finished width
+→ fab only applies process compensation internally
+~~~
+
+#### B. Fab-tuned controlled impedance
+
+~~~text
+designer supplies target + starting geometry
+→ fab uses its real laminate / etch model
+→ fab adjusts permitted geometry
+→ coupon / TDR confirms result
+~~~
+
+这两种都可以，但**不能混在一起**。
+
+### 还有一个经常被忽略的证据：Stacking Stripe
+
+Ritchey 推荐在 panel 边缘保留 stacking stripe / witness structure，用来验证：
+
+- layer order；
+- dielectric thickness；
+- etch bias；
+- 某些情况下的错误压合。
+
+它的价值在于：如果整块高速板都表现异常，可以先排除“层序压错 / 介质做错”这类系统性制造错误，而不是直接怀疑所有 SI 仿真。
+
+### 来源
+
+- Lee Ritchey, *Everything You Need for Successful PCB Stackup Design*  
+  https://resources.altium.com/p/everything-you-need-successful-pcb-stackup-design
+- Lee Ritchey, *PCB Design For Test — Test Structures And Types Of Tests, Part 1*  
+  https://resources.altium.com/p/pcb-design-test-test-structures-and-types-tests-part-1
+- Zachariah Peterson, *Impedance Control: How to Specify Your Requirements for PCB Manufacturers*  
+  https://resources.altium.com/p/pcb-manufacturing-and-impedance-control-how-specify-your-requirements
+
+
 ## 6.7 Release Gate
 
 - [ ] 从冻结 commit 生成；
