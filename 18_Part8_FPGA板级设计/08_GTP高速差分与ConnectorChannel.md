@@ -124,6 +124,63 @@ V1 GTP teaching lane 可以预留：
 
 ---
 
+# 7.1 Vendor Loss Budget 案例：为什么“100 Ω 对了”仍然可能完全不能用？
+
+Intel/Altera 的 P-Tile PCB 指南提供了一个很好的 SerDes 教学案例：
+
+高速通道的验收目标不是：
+
+~~~text
+Zdiff = 100 Ω
+→ PASS
+~~~
+
+而是完整 channel budget：
+
+~~~text
+package
++ PCB trace loss
++ via / connector loss
++ edge-finger transition
++ reflections / mode conversion
+→ insertion-loss / return-loss budget
+~~~
+
+资料集记录的 P-Tile Gen4 示例在 8 GHz 给出了明确的 end-to-end / package / PCB loss allocation。**这些数值只属于对应 Intel 器件与规范环境，不能复制给 Artix-7 GTP。**
+
+我们真正要学的是：
+
+> **Vendor 会把“通道能不能工作”写成 loss budget，而不是只写 100 Ω。**
+
+### 🎮 Layer Count 反推题
+
+如果一个接口要求：
+
+- 很低的 insertion loss；
+- 很短 residual via stub；
+- edge finger / connector 有特定 void；
+- 需要 backdrill 或 blind via；
+
+那么“能不能用四层”就不再是审美问题，而是：
+
+~~~text
+channel budget
+→ transition count
+→ via technology
+→ reference architecture
+→ required layer count
+~~~
+
+这也是为什么某些 PCIe/SerDes 设计会自然进入 6L/8L+，不是因为“高速都必须八层”。
+
+### 来源
+
+- Intel/Altera, *P-Tile PCB Design Guidelines*  
+  https://www.intel.com/content/www/us/en/docs/programmable/683864/current/p-tile-pcb-design-guidelines.html
+- TI SNLA426, *High-Speed PCB Layout for PCIe Gen 5*  
+  https://www.ti.com/lit/an/snla426/snla426.pdf
+
+
 # 8. GTP Power
 
 MGT analog rails 必须单独进入：
