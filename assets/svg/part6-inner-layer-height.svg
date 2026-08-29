@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+<rect width="1200" height="700" fill="#fff"/>
+<text x="600" y="48" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="700">六层内层阻抗：L3 不是“挑一个 H”就算完</text>
+<rect x="160" y="110" width="880" height="38" fill="#e6e6e6" stroke="#333"/><text x="600" y="137" text-anchor="middle" font-family="sans-serif" font-size="18">L2：参考铜层</text>
+<rect x="160" y="285" width="880" height="26" fill="#222"/><text x="1060" y="307" font-family="sans-serif" font-size="18">L3 signal</text>
+<rect x="160" y="520" width="880" height="38" fill="#e6e6e6" stroke="#333"/><text x="600" y="547" text-anchor="middle" font-family="sans-serif" font-size="18">L4：另一侧铜层</text>
+<line x1="300" y1="148" x2="300" y2="285" stroke="#333" stroke-width="3"/>
+<line x1="285" y1="148" x2="315" y2="148" stroke="#333" stroke-width="3"/>
+<line x1="285" y1="285" x2="315" y2="285" stroke="#333" stroke-width="3"/>
+<text x="260" y="220" text-anchor="end" font-family="sans-serif" font-size="24" font-weight="700">H1</text>
+<line x1="300" y1="311" x2="300" y2="520" stroke="#333" stroke-width="3"/>
+<line x1="285" y1="311" x2="315" y2="311" stroke="#333" stroke-width="3"/>
+<line x1="285" y1="520" x2="315" y2="520" stroke="#333" stroke-width="3"/>
+<text x="260" y="425" text-anchor="end" font-family="sans-serif" font-size="24" font-weight="700">H2</text>
+<rect x="435" y="210" width="330" height="145" rx="15" fill="#fafafa" stroke="#333"/>
+<text x="600" y="245" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700">错误做法</text>
+<text x="600" y="282" text-anchor="middle" font-family="sans-serif" font-size="19">“KiCad 要一个 H，</text>
+<text x="600" y="313" text-anchor="middle" font-family="sans-serif" font-size="19">我随便选上面或下面。”</text>
+<rect x="435" y="385" width="330" height="145" rx="15" fill="#fafafa" stroke="#333"/>
+<text x="600" y="420" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700">正确做法</text>
+<text x="600" y="455" text-anchor="middle" font-family="sans-serif" font-size="18">使用真实 fab stackup</text>
+<text x="600" y="486" text-anchor="middle" font-family="sans-serif" font-size="18">+ 两侧介质模型 / field solver</text>
+<text x="600" y="620" text-anchor="middle" font-family="sans-serif" font-size="20">尤其当 H1 与 H2 差很多时，层名并不能告诉你真实 reference coupling。</text>
+<text x="600" y="660" text-anchor="middle" font-family="sans-serif" font-size="16">对应 Reddit 初学者问题：JLC 6L inner layer 到底哪个 dielectric height 才是 H？答案是先回到命名 stackup 和正确几何模型。</text>
+</svg>
