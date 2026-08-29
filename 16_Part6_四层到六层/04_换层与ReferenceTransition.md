@@ -89,6 +89,79 @@ new PWR reference
 后者的 high-frequency impedance 由 capacitor + via + pad + spreading geometry 共同决定，不能只看“放了一颗 100 nF”。
 
 
+
+# 2.2 工程师争议现场：一定要 Stitching Capacitor，还是 Plane Capacitance 就够？
+
+论坛里关于 GND↔PWR reference transition 有一个很典型的分歧：
+
+- 一派强调：signal via 附近要给 return current 一个明确的 **GND↔PWR stitching capacitor path**；
+- 另一派认为：如果 PWR/GND plane 本身耦合足够强，distributed interplane capacitance 已经提供了高频路径，不必机械再塞一颗 capacitor。
+
+两边都可能在特定结构上成立。真正缺少的是条件。
+
+### 🧭 先看这四个变量
+
+| 变量 | 对判断的影响 |
+|---|---|
+| PWR↔GND separation | 越近，单位面积 plane capacitance 越大，transfer path 往往更强 |
+| overlap area | overlap 越大，distributed capacitance 越多，但还要考虑 spreading / cavity |
+| signal via 到 local coupling path 的距离 | 越远，return transition loop / spreading path 越大 |
+| edge spectrum | 边沿越快，对 transition inductance / cavity 的要求越严 |
+
+所以廉价 1.6 mm 四层板上如果：
+
+~~~text
+L2 GND
+  ~1 mm core
+L3 PWR
+~~~
+
+就不能把“plane capacitance 会自动救我”当作稳健默认。
+
+而在更高层数、紧耦合 PWR/GND pair 上，distributed plane coupling 的角色会明显变强。
+
+### 🔀 决策图
+
+~~~mermaid
+flowchart TD
+    A[Signal layer changes] --> B{Old/New reference same net?}
+    B -- Yes --> C[Nearby stitching via]
+    B -- No --> D[Measure actual PWR-GND geometry]
+    D --> E{Plane pair tightly coupled?}
+    E -- No --> F[Design local capacitor + via transfer path]
+    E -- Yes --> G[Evaluate plane capacitance + spreading/cavity]
+    G --> H{Evidence sufficient?}
+    H -- No --> F
+    H -- Yes --> I[Document transition support]
+    C --> I
+    F --> I
+~~~
+
+### 🔬 Review 练习：不要只在 PCB 上圈 signal via
+
+对每个高速换层点，画两种颜色：
+
+~~~text
+红色：signal conductor transition
+蓝色：return/reference transition
+~~~
+
+如果蓝色路径需要你说：
+
+> “大概会从某个远处 decoupling cap 回来。”
+
+这次 transition 还没有设计完成。
+
+### 工程实践来源（论坛讨论，不是规范）
+
+- Electronics StackExchange, *Ground vias on high speed PCBs*  
+  https://electronics.stackexchange.com/questions/64854/ground-vias-on-high-speed-pcbs
+- Electronics StackExchange, *Do I need a via or stitching cap when I transition between physical reference planes of the same potential?*  
+  https://electronics.stackexchange.com/questions/204785/do-i-need-a-via-or-stitching-cap-when-i-transition-between-physical-reference-pl
+- Electronics StackExchange, *4-Layer PCB bottom signal reference plane?*  
+  https://electronics.stackexchange.com/questions/612373/4-layer-pcb-bottom-signal-reference-plane
+
+
 # 3. 为什么 Reference Transition 会造成 EMI 风险
 
 如果 return current 没有就近转移路径，它会：
