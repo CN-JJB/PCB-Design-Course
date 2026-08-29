@@ -105,6 +105,58 @@ multi-Gb/s 下 via stub 的影响明显高于 MCU SDRAM/RMII。
 
 ---
 
+# 6.1 Backdrill 不是“高速板必选项”：先算 Stub，再看制造代价
+
+这批资料补上了一个以前很容易讲虚的部分：**residual stub 到底要控制到什么程度，以及它和 HDI 成本是什么关系。**
+
+Sierra 的 backdrill 文章给出的制造目标是 residual stub 尽量 **< 10 mil**，并给出具体 oversize、depth tolerance、copper clearance 等 DFM 项。
+
+但课程不把 `10 mil` 写成所有 SerDes 的硬规则，因为真正约束来自：
+
+~~~text
+data rate / spectral content
++ via geometry
++ stub electrical length
++ channel loss budget
++ connector/package
+~~~
+
+### 先做三个方案，不要直接选最贵的
+
+| 方案 | 优点 | 代价 / 风险 |
+|---|---|---|
+| Through via + 选靠近端部的 routing layer | 最便宜 | layer assignment 受限制 |
+| Through via + backdrill | 去掉无用 barrel，工艺相对成熟 | 增加工序、残桩公差、keepout |
+| Blind / buried / microvia | stub 最容易控制、escape 更灵活 | sequential lamination、yield、成本显著上升 |
+
+### HDI 成本数据怎么用？
+
+本批 6L 制造资料给出了额外 lamination、blind/buried via、VIP 等相对成本案例。它们适合说明：
+
+> **HDI 的成本主要来自额外工艺循环和良率，不是“多打几个小孔”这么简单。**
+
+但这些百分比和美元数字属于特定厂商/数量/时间的报价案例，不能写进课程当永久价格表。
+
+### Review Gate
+
+只有同时满足以下条件，才进入 backdrill / HDI 决策：
+
+- 当前 through-via stub 已进入 channel risk；
+- 调整 layer assignment 不能合理解决；
+- 仿真/估算表明 transition 是真实瓶颈；
+- 板厂明确给出 residual-stub capability；
+- 成本/交期进入项目预算。
+
+### 来源
+
+- Sierra Circuits, *What is PCB Back Drilling?*  
+  https://www.protoexpress.com/blog/back-drilling-pcb-design-and-manufacturing/
+- Highleap, *The True Blind Buried Via PCB Cost Breakdown*  
+  https://hilelectronic.com/blind-buried-via-pcb-cost/
+- PCBELEC, *What Affects 6 Layer PCB Cost?*  
+  https://www.pcbelec.com/blog/pcb-cost-and-budgeting/what-affects-6-layer-pcb-cost-a-complete-pricing-breakdownfor-engineers-and-buyers.html
+
+
 # 7. Connector
 
 V1 GTP teaching lane 可以预留：
