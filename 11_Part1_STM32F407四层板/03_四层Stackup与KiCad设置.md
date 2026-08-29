@@ -384,6 +384,102 @@ L4 signal
 
 ---
 
+
+### 3.4 工程师争议现场：四层板真的需要专用 Power Plane 吗？
+
+这是论坛里最值得拿来训练判断力的一类争论。你会同时看到两种都很有经验的声音：
+
+> A：`SIG / GND / PWR / SIG` 是经典四层结构，电源分配直接、易于布板。  
+> B：在廉价 1.6 mm 四层板上，专用 PWR layer 经常“看起来像 plane，电气上却没赚到多少”，不如改成 `SIG+PWR / GND / GND / SIG+PWR`。
+
+这两句话并不真正矛盾。决定答案的是**几何、负载、换层方式和电源架构**。
+
+| 论坛里的说法 | 什么时候很有道理 | 什么时候会误导 |
+|---|---|---|
+| “Power plane 是浪费” | L2–L3 相距很远；多 rail 把 PWR 切成很多岛；BGA anti-pad 把平面打成筛子；DC 电流用宽线/局部 pour 已足够 | 单一大电流 rail、热扩散、BGA power escape 或 routing density 明显受益于整层电源 |
+| “PWR 也能当高速 reference” | plane 连续、低 ripple、附近有良好的 PWR↔GND 高频耦合，数字信号 margin 充足 | analog/RF、跨 power split、换层时没有局部 reference transition path |
+| “双 GND 更干净” | Top↔Bottom 频繁换层，需要 same-net stitching via；两面都承载快边沿网络 | 电源分配因此被迫走很长的细 neck，反而让 DC/PI/热设计恶化 |
+
+#### 为什么廉价 1.6 mm 四层尤其容易让人误判？
+
+以本章的 JLC04161H-3313 为例：
+
+~~~text
+L1
+  0.0994 mm
+L2
+  1.265 mm   ← 很厚的 core
+L3
+  0.0994 mm
+L4
+~~~
+
+L2–L3 相距约 1.265 mm。于是：
+
+- L1↔L2、L4↔L3 是强耦合的 signal-reference pair；
+- L2↔L3 的 distributed plane capacitance 不应被想象成“免费高频去耦”；
+- 如果 L3 又被多个 rail 切碎，它更像**大面积宽导体网络**，而不是一个理想“电源平面”。
+
+这就是论坛里“4 层 power plane 常被浪费”的真实背景，而不是说 **Power Plane 这个概念本身错误**。
+
+#### 🎮 30 秒判断题：你会选哪一个？
+
+**Board A**
+
+- STM32 + USB 2.0 + CAN；
+- 3V3 主 rail，其他 rail 电流都小；
+- Top/Bottom 都要走线；
+- 多次 L1↔L4 换层；
+- 1.6 mm 标准四层，L2–L3 很远。
+
+候选：
+
+~~~text
+A1: SIG / GND / PWR / SIG
+A2: SIG+PWR / GND / GND / SIG+PWR
+~~~
+
+**推荐先评估 A2**。理由不是“论坛说双地最好”，而是：
+same-net reference transition 简单，而且这块板的 power routing 可能不值得占整层。
+
+**Board B**
+
+- 一个 FPGA 大面积 BGA；
+- 单一核心 rail 电流高；
+- escape / power-via density 高；
+- 需要低 DC drop 和较好的 thermal spreading。
+
+这时不能机械套 A2。专用 power copper / plane 可能重新变得有价值。
+
+#### 🧭 一个真正可复用的四层决策流
+
+~~~mermaid
+flowchart TD
+    A[先算最大 rail 的 DC/热需求] --> B{宽线/局部 pour 足够吗?}
+    B -- 否 --> C[保留 PWR plane 候选]
+    B -- 是 --> D[评估第二个 GND plane 的价值]
+    C --> E{PWR 是否会被多 rail / anti-pad 严重切碎?}
+    D --> F{Top↔Bottom 是否有快边沿换层?}
+    E -- 是 --> D
+    E -- 否 --> G[比较 PI/热/escape 收益]
+    F -- 是 --> H[双 GND 候选加分]
+    F -- 否 --> G
+    G --> I[用真实 fab stackup + impedance + routing density 冻结]
+    H --> I
+~~~
+
+#### 工程实践来源（论坛讨论，不是规范）
+
+- Electronics StackExchange, *The best stack-up possible with a four-layer PCB?*  
+  https://electronics.stackexchange.com/questions/41470/the-best-stack-up-possible-with-a-four-layer-pcb
+- EEVblog, *First 4 Layer PCB: Traces on each layer a good idea?*  
+  https://www.eevblog.com/forum/beginners/first-4-layer-pcb-traces-on-each-layer-a-good-idea/
+- Electronics StackExchange, *2 ground planes vs ground and power plane for 4-layer pcb with many power rails*  
+  https://electronics.stackexchange.com/questions/495706/2-ground-planes-vs-ground-and-power-plane-for-4-layer-pcb-with-many-power-rails
+
+> 这些帖子用于展示工程实践中的**争议与条件边界**。真正冻结仍以本项目电流、stackup、板厂、接口和测量/仿真证据为准。
+
+
 ## 4. 为什么不直接给你一条“50 Ω = 0.18 mm”？
 
 因为受控阻抗取决于 stackup、copper thickness、Dk model、solder mask、etching compensation、finished geometry，以及差分时的 gap。
