@@ -61,6 +61,42 @@
 - ECO；
 - traceability。
 
+## 12.2.1 Layout Review 不是“找难看的线”：按 Source → Return → Conversion → Antenna → Manufacturability 审
+
+EEVblog #1323 / #974 这类真实 Layout Review 视频的价值，不是让学生模仿某个 reviewer 的个人风格，而是学习**如何系统地找问题**。
+
+最终 Capstone 的 review 至少按下面五个视角走一遍：
+
+| 视角 | 你在找什么 |
+|---|---|
+| Source | clock、switch node、fast edge、high di/dt 在哪里 |
+| Return | reference 是否连续、换层是否有回流路径 |
+| Conversion | 差模如何变成共模、via/connector/split 是否不对称 |
+| Antenna | cable、board edge、slot、large loop 是否能被激励 |
+| Manufacturability | via、mask、panel、stackup、assembly 是否能稳定生产 |
+
+### Review 输出不能只是截图
+
+每一个发现要记录：
+
+~~~text
+Observation
+→ Why it matters
+→ Source / evidence
+→ Fix
+→ Re-check result
+~~~
+
+这正是从“会画 PCB”走向“会做工程 Review”的分界。
+
+### 视频来源
+
+- EEVblog #1323 — *PCB Layout Review & Analysis*  
+  https://www.youtube.com/watch?v=xhRhsCVF8mE
+- EEVblog #974 — *PCB Layout Walkthrough - PART 4*  
+  https://www.youtube.com/watch?v=JrH_itjMDjo
+
+
 ## 12.3 口头答辩
 
 随机抽一个设计区域，你必须能回答：
