@@ -627,6 +627,51 @@ V2 新增工程模板：
 - fabrication source。
 
 
+## 6.12.2 数字从哪里来：USB 规则的 Source Priority
+
+这一章同时引用了 USB 规范、STM32 文档、TI 高速接口指南、视频、论坛和板厂 calculator。
+
+它们的数字权重不同。
+
+| Source | 适合决定什么 | 不能直接做什么 |
+|---|---|---|
+| USB specification | 协议级 electrical / timing requirement | 不能替代某 MCU package/PHY 的 layout guide |
+| STM32 datasheet / HW guide | 当前器件 pin/package/PHY requirement | 不能自动代表 USB3/其他厂商 PHY |
+| TI SPRAAR7J 等 vendor app note | 对应 SoC/PHY 的 via、spacing、ESD、routing guideline | 不能把每个 mil 数字升级成所有 USB 的规范 |
+| Fabricator calculator | 当前 stackup 的 width/gap/manufacturing geometry | 不能修复跨 split、ESD stub、错误 reference |
+| Forum / video | 暴露常见坑、工程经验 | 不能取代正式 requirement |
+
+### 例如 TI 为什么能给出 USB2/USB3 不同的 via / skew 表？
+
+因为它是在特定 device/interface family 的 channel budget 下给 layout recommendation。
+
+所以本项目 STM32F407 USB FS 如果看到另一个 SoC 的：
+
+~~~text
+intrapair = XX mil
+max vias = N
+length = XXXX mil
+~~~
+
+不能直接复制。
+
+正确动作是：
+
+~~~text
+先看 STM32F407 / USB FS requirement
+→ 再把 TI 表当作高速布局对比案例
+→ 用当前 fab solver 确定 geometry
+→ 用项目 Review 验证完整 channel
+~~~
+
+### 高速接口资料来源
+
+- TI SPRAAR7J, *High-Speed Interface Layout Guidelines*  
+  https://www.ti.com/lit/an/spraar7j/spraar7j.pdf
+
+> **课程原则：数字越具体，越要追问它属于哪个 device、interface mode、stackup 和 test condition。**
+
+
 ## 6.13 Design Review
 
 - [ ] USB mode（FS/HS）明确
