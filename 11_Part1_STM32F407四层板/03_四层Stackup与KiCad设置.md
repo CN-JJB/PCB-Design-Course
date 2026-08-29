@@ -629,6 +629,47 @@ KiCad Physical Stackup 应与订单 nominal finished thickness 相符。
 
 ---
 
+## 5.1 视频操作坑：KiCad 里的 L2/L3 名字对了，不代表板厂真的按这个顺序压
+
+EEVblog #1193 专门提醒了一个新手很容易忽略的制造问题：**CAD 里的层顺序、Gerber 输出顺序、板厂最终 stackup drawing 必须三者一致。**
+
+如果你设计的是：
+
+~~~text
+L1  SIG
+L2  GND
+L3  PWR
+L4  SIG
+~~~
+
+但制造端把两个 inner layer 的功能理解反了，那么：
+
+- Bottom 的 reference 会改变；
+- 受控阻抗会改变；
+- return path 会改变；
+- 某些 split / power region 关系会完全翻转。
+
+### Stackup Freeze 新增一项：Layer Identity Cross-check
+
+| 对象 | 必须核对 |
+|---|---|
+| KiCad Board Setup | L1–L4 物理顺序 |
+| Gerber filenames | 每个 inner layer 的真实输出 |
+| fabrication drawing | layer function / copper / dielectric |
+| fab stackup confirmation | 压合后的最终顺序 |
+
+### 课程要求
+
+下单前把板厂 stackup drawing 和 KiCad Physical Stackup **逐层对照一遍**，而不是只看“4 Layers”这个选项有没有勾对。
+
+### 视频来源
+
+- EEVblog #1193 — *KiCAD PCB 4 Layer Swapping & Stackup*  
+  https://www.youtube.com/watch?v=2v5IvaWrPKk
+- Phil's Lab #56 — *PCB Stack-Up and Build-Up*  
+  https://www.youtube.com/watch?v=QAOEtfvCaMw
+
+
 ## 6. Layer Naming
 
 推荐在工程说明中统一：
