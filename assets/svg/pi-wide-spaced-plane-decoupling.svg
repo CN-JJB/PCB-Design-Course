@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#333"/></marker></defs>
+<rect width="1200" height="720" fill="#fff"/>
+<text x="600" y="48" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="700">宽间距 PWR–GND 四层板：去耦要看完整回路，不是只看“离芯片多近”</text>
+<text x="80" y="98" font-family="sans-serif" font-size="22" font-weight="700">Bad：电容离器件近，但远端参考面的连接绕远</text>
+<rect x="80" y="130" width="460" height="65" rx="10" fill="#f5f5f5" stroke="#333"/><text x="310" y="170" text-anchor="middle" font-family="sans-serif" font-size="22">L1：器件 + 电容</text>
+<rect x="80" y="240" width="460" height="34" fill="#e7eefc" stroke="#333"/><text x="310" y="265" text-anchor="middle" font-family="sans-serif" font-size="18">L2：VCC（近）</text>
+<rect x="80" y="455" width="460" height="34" fill="#ececec" stroke="#333"/><text x="310" y="480" text-anchor="middle" font-family="sans-serif" font-size="18">L3：GND（远）</text>
+<rect x="80" y="535" width="460" height="34" fill="#f5f5f5" stroke="#333"/><text x="310" y="560" text-anchor="middle" font-family="sans-serif" font-size="18">L4</text>
+<rect x="125" y="145" width="90" height="35" rx="5" fill="#fff" stroke="#333"/><text x="170" y="169" text-anchor="middle" font-family="sans-serif" font-size="16">IC</text>
+<rect x="360" y="145" width="90" height="35" rx="5" fill="#fff" stroke="#333"/><text x="405" y="169" text-anchor="middle" font-family="sans-serif" font-size="16">Cdec</text>
+<line x1="170" y1="180" x2="170" y2="255" stroke="#333" stroke-width="4"/>
+<path d="M405 180 L405 215 L495 215 L495 472 L220 472 L220 195" fill="none" stroke="#333" stroke-width="4" marker-end="url(#a)"/>
+<text x="305" y="390" text-anchor="middle" font-family="sans-serif" font-size="18">长回路 / 较大安装电感</text>
+
+<text x="660" y="98" font-family="sans-serif" font-size="22" font-weight="700">Better：优先缩短“通往较远平面”的那一侧</text>
+<rect x="660" y="130" width="460" height="65" rx="10" fill="#f5f5f5" stroke="#333"/><text x="890" y="170" text-anchor="middle" font-family="sans-serif" font-size="22">L1：器件 + 电容</text>
+<rect x="660" y="240" width="460" height="34" fill="#e7eefc" stroke="#333"/><text x="890" y="265" text-anchor="middle" font-family="sans-serif" font-size="18">L2：VCC（近）</text>
+<rect x="660" y="455" width="460" height="34" fill="#ececec" stroke="#333"/><text x="890" y="480" text-anchor="middle" font-family="sans-serif" font-size="18">L3：GND（远）</text>
+<rect x="660" y="535" width="460" height="34" fill="#f5f5f5" stroke="#333"/><text x="890" y="560" text-anchor="middle" font-family="sans-serif" font-size="18">L4</text>
+<rect x="760" y="145" width="90" height="35" rx="5" fill="#fff" stroke="#333"/><text x="805" y="169" text-anchor="middle" font-family="sans-serif" font-size="16">IC</text>
+<rect x="875" y="145" width="90" height="35" rx="5" fill="#fff" stroke="#333"/><text x="920" y="169" text-anchor="middle" font-family="sans-serif" font-size="16">Cdec</text>
+<line x1="805" y1="180" x2="805" y2="255" stroke="#333" stroke-width="4"/>
+<line x1="920" y1="180" x2="920" y2="255" stroke="#333" stroke-width="4"/>
+<path d="M805 180 L805 195 L920 195 L920 472 L840 472 L840 195" fill="none" stroke="#333" stroke-width="4" marker-end="url(#a)"/>
+<text x="890" y="390" text-anchor="middle" font-family="sans-serif" font-size="18">远平面侧 via 靠近 pin / cap</text>
+<text x="600" y="635" text-anchor="middle" font-family="sans-serif" font-size="20">教学重点：对典型 1.6 mm 四层宽间距 plane，先画电流环路，再讨论“电容离芯片几毫米”。</text>
+<text x="600" y="675" text-anchor="middle" font-family="sans-serif" font-size="16">依据：Todd Hubing / LearnEMC 的 widely-spaced-plane decoupling 思路；具体器件仍以 datasheet + 实际 stackup 为准。</text>
+</svg>
