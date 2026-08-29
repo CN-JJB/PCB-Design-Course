@@ -488,6 +488,87 @@ KiCad 的 tuner 可以帮你满足几何/长度 target，但它不会判断：
 
 ---
 
+## 6.10.1 工程争议卡：USB 2.0 到底该先盯“等长”还是“几何”？
+
+论坛里一个非常典型的场景是：
+
+~~~text
+D+ 比 D- 长 1 mm
+→ 设计者开始塞蛇形
+~~~
+
+很多有经验的工程师反而会先问：
+
+1. 这 1 mm 对当前 USB 模式的 skew budget 真有意义吗？
+2. 这对线的差分阻抗是不是已经被附近铜皮、ESD stub、via 或 gap 变化破坏了？
+3. 为了补 1 mm 新增的 meander，会不会制造比原 mismatch 更大的 discontinuity？
+
+### 🧪 错题诊所
+
+| 看起来很认真 | 真正可能更糟 | 优先修什么 |
+|---|---|---|
+| 把 1 mm mismatch 调到 0.01 mm | 密集 meander 改变耦合和局部阻抗 | 先确认接口 skew budget，再决定是否需要 tuning |
+| 在 pair 两侧贴很近铺 GND | 结构从普通 microstrip 变成 coated coplanar waveguide，Zdiff 会下降 | 用最终 copper + soldermask + coplanar gap 重新 solver |
+| ESD 二极管从主线拉一段 stub | stub 成为额外不连续 | 优先 flow-through topology |
+| 在线宽 calculator 里只填 FR-4 / 线宽 / gap | 忽略真实 H、铜厚、阻焊、etch 与 fab model | 用当前板厂 stackup / field solver |
+
+### 同层 GND pour 不是“免费屏蔽”
+
+如果 USB pair 原本按：
+
+~~~text
+trace
+↓
+L2 GND reference
+~~~
+
+计算，而后来又在 Top 上把 GND pour 推到很近：
+
+~~~text
+GND pour   D+  D-   GND pour
+       ↘   field   ↙
+----------- solder mask ----------
+               ↓
+             L2 GND
+~~~
+
+那么场分布已经变了。
+
+尤其在 coplanar gap 很小、又覆盖 soldermask 时，附近铜会明显降低 characteristic / differential impedance。  
+所以 Review 不能只问“有没有铺地”，而要问：
+
+> **我现在设计的到底是 microstrip，还是 coated coplanar structure？**
+
+### 🎯 训练目标：先把“美观等长”降级成预算问题
+
+课程里的默认顺序是：
+
+~~~text
+interface requirement
+→ stackup / reference
+→ width + gap
+→ connector / ESD / via transition
+→ pair symmetry
+→ intra-pair skew budget
+→ 最后才决定是否 tuning
+~~~
+
+这不是说 USB 2.0 不需要等长，而是：
+
+> **不要在不知道 budget 的情况下，把几何连续性献祭给“视觉上完全等长”。**
+
+### 工程实践来源（论坛讨论，不是规范）
+
+- Electronics StackExchange, *USB differential pair length*  
+  https://electronics.stackexchange.com/questions/52851/usb-differential-pair-length
+- Electronics StackExchange, *Advice for 90 Ohm traces of a USB 2.0 HUB*  
+  https://electronics.stackexchange.com/questions/496135/advice-for-90-ohm-traces-of-a-usb-2-0-hub
+- Electronics StackExchange, *Unexpected low characteristic impedance using the JLCPCB impedance calculator*  
+  https://electronics.stackexchange.com/questions/669162/unexpected-low-characteristic-impedance-using-the-jlcpcb-impedance-calculator
+
+> 论坛中出现的 1 mm、150 mil、100 ps 等数字只用于理解讨论背景；项目签核仍以当前 USB/device/fabricator 资料为准。
+
+
 ## 6.11 蛇形线：不要为了 0.05 mm 的差值制造 20 mm 的问题
 
 紧密 meander 的相邻段会彼此耦合，导致“几何长度增加”和“实际电气延迟增加”不再一一对应。
