@@ -233,6 +233,61 @@ inductor → COUT → load
 
 ---
 
+## 7.8.1 厂商应用笔记交叉验证：TI 的“五步布局”为什么顺序不能乱？
+
+TI 的 *Five steps to a great PCB layout for a step-down converter* 给出的优先级与本章的 hot-loop 模型高度一致：
+
+1. 先锁输入电容与 VIN/GND/SW 相关的高 di/dt 回路；
+2. 把 SW node 控制得短而小；
+3. 再放输出 inductor / capacitor；
+4. 最后处理 FB、SS、AVIN 等小信号；
+5. 尽量让关键 power stage 保持在同一侧，避免无意义的 via loop。
+
+这不是“TI 喜欢这样摆”的审美，而是按 **di/dt × loop inductance × coupling sensitivity** 排优先级。
+
+### 🧩 为什么先放 CIN，而不是先让电感看起来整齐？
+
+在 Buck 的两个开关状态之间，输入侧高速电流变化最剧烈。CIN 如果离开关器件远：
+
+~~~text
+VIN source
+→ long copper
+→ switch
+→ GND
+→ long return
+→ CIN
+~~~
+
+你已经把最大的高频电流环路做大了。后面再把 SW node 画得很漂亮，也只是补救。
+
+### 🧪 Layout 排序小游戏
+
+给学生 6 个对象：
+
+- CIN
+- Buck IC
+- SW copper
+- LOUT
+- COUT
+- FB divider
+
+要求先不连线，只按“如果摆错会产生多大高频后果”排序。
+
+推荐思路：
+
+~~~text
+IC + CIN hot loop
+→ SW node
+→ LOUT + COUT
+→ FB / small-signal
+~~~
+
+### 来源
+
+- TI SLYT614, *Five steps to a great PCB layout for a step-down converter*  
+  https://www.ti.com/lit/an/slyt614/slyt614.pdf
+
+
 ## 7.9 互动实验：Buck Hot Loop Lab
 
 打开：
