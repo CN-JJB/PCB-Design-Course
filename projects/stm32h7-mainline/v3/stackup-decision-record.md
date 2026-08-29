@@ -51,6 +51,32 @@ Decision rule:
 > If a forum recommendation cannot be translated into actual H / reference / routing / transition geometry for this fab stackup, it does not enter the frozen design.
 
 
+## Manufacturing Model Identity
+
+| Item | Frozen value | Source | Recheck before order | Result |
+|---|---|---|---|---|
+| Fab stackup template ID | | | yes | |
+| Calculator material family | | | yes | |
+| Order material / Tg option | | | yes | |
+| Outer finished copper | | | yes | |
+| Inner finished copper | | | yes | |
+| Soldermask model | | | yes | |
+| Fabricator allowed to adjust width? | | CAM agreement | yes | |
+| Fabricator allowed to adjust dielectric? | | CAM agreement | yes | |
+
+## Impedance Acceptance Plan
+
+| Structure | Target | Tolerance | Coupon | TDR/report | Acceptance owner |
+|---|---:|---:|---|---|---|
+| USB | | | | | |
+| Ethernet | | | | | |
+| Memory / clock | | | | | |
+
+Freeze rule:
+
+> Calculator model、订单材料、stackup ID 和 CAM 权限只要有一项变化，就 reopen impedance calculation，而不是只改文档版本号。
+
+
 ## Controlled Impedance
 
 | Net class | Layer | Target | Tolerance | Width | Gap | Calculator/source | CAM confirm |
