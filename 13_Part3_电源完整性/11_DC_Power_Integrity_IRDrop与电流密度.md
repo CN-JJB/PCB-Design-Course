@@ -127,6 +127,61 @@ Rail current
 - connector / fuse；
 - thermal relief。
 
+## 11.4.1 IPC-2152 的真正意义：铜宽不是唯一散热变量
+
+很多初学者把“电流线宽计算器”理解成：
+
+~~~text
+I → 查表 → 得到 width
+~~~
+
+但 IPC-2152 思路比这复杂：温升还取决于 **内/外层、邻近平面、板厚、介质导热、铜分布和环境**。
+
+### 为什么同样 2 mm 宽，内层和外层温升不同？
+
+外层铜可以直接和空气/表面环境交换热；内层铜主要通过 FR-4 和周围铜结构扩散。
+
+所以资料中的 IPC-2152 解读强调：
+
+- internal trace 常需要更大的 width 才得到类似温升；
+- 邻近大面积 plane 会成为 heat spreader；
+- 铜电阻还会随温度上升，形成 `I²R → 温升 → R 增大 → 更多发热` 的反馈。
+
+### 这会改变“Power Plane 有没有价值”的讨论
+
+在 SI/EMI 章节，我们可能因为 reference continuity 选择双 GND；
+
+但在高电流板上，一整层 power copper 还可能提供：
+
+- 更低 DC resistance；
+- 更低 current density；
+- 更好的 lateral heat spreading；
+- 更低局部热点。
+
+所以 `PWR plane vs GND+GND` 不能只从 plane capacitance 判断。
+
+### 项目动作
+
+对 >1 A 的关键 rail，不只记录 width，还要记录：
+
+| Item | 记录内容 |
+|---|---|
+| layer | inner / outer |
+| copper | finished oz / µm |
+| narrowest neck | mm |
+| via transition | count / drill / plating assumption |
+| adjacent copper | solid plane / sparse / none |
+| allowed ΔT | project target |
+| allowed ΔV | project target |
+
+### 来源
+
+- NextPCB, *PCB Trace Width Calculation: High-Current Design & Thermal Analysis*  
+  https://www.nextpcb.com/blog/pcb-trace-width-calculation-high-current-design-and-thermal-analysis
+
+> 文章中的具体百分比属于其 IPC-2152 解读和案例。正式产品的温升/载流仍需用当前板厂铜厚、实际环境和测量/热仿真闭环。
+
+
 ## 11.5 DC 与 AC PI 必须合并
 
 一个 rail 可能：
