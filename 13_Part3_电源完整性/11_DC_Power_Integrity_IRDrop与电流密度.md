@@ -54,6 +54,66 @@ P = I²R
 
 “打很多 via”如果上下层都汇入一个窄颈，瓶颈仍在。
 
+## 11.3.1 Via Bottleneck：宽铜到了换层点，可能突然只剩一根“细水管”
+
+很多 power rail 在平面上看起来很宽，但真正失败发生在 layer transition：
+
+~~~text
+wide pour
+========
+   ●     ← one via
+========
+wide pour
+~~~
+
+这时限制条件可能变成：
+
+- via barrel resistance；
+- plating thickness；
+- hole diameter；
+- board thickness；
+- local thermal environment；
+- 并联 via 之间的 current sharing；
+- via 到平面的 neck / antipad geometry。
+
+### 不要只背“一个 0.3 mm via 能过 X A”
+
+Sierra 的 current-carrying 资料把 via 近似为圆柱导体，并强调 current capacity 与横截面积、温升和 plating 有关。
+
+真正设计流程是：
+
+~~~text
+Rail current
+→ allowable ΔV
+→ allowable ΔT
+→ via geometry / plating
+→ required parallel-via count
+→ current density / thermal check
+→ measurement or simulation if critical
+~~~
+
+### 🎮 找瓶颈练习
+
+给一条 5 A rail：
+
+- top pour 8 mm 宽；
+- bottom pour 8 mm 宽；
+- 中间只有 1 个小 via。
+
+问学生：
+
+> “这还是一条 8 mm 宽的电源路径吗？”
+
+答案是：**只在大部分路段是。最窄的等效导体决定局部压降与温升。**
+
+### 来源
+
+- Sierra Circuits, *How to Design a Via with Current-Carrying Capacity*  
+  https://www.protoexpress.com/blog/how-to-design-via-with-current-carrying-capacity/
+- Sierra Circuits, *How Via Stitching Facilitates High-Current PCB Designs*  
+  https://www.protoexpress.com/blog/how-via-stitching-facilitates-high-current-pcb-designs/
+
+
 ## 11.4 Plane Current Density
 
 大铜面平均看起来很宽，不代表每个区域电流密度都低。
