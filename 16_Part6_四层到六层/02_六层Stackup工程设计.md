@@ -199,6 +199,65 @@ SIG / GND / SIG / PWR / GND / SIG
   https://electronics.stackexchange.com/questions/427747/best-layer-stack-strategy-for-a-6-layer-pcb-with-mostly-smd-components
 
 
+# 3.2 厂商高速接口指南 vs EMC Stackup 专家：冲突时听谁的？
+
+资料集中有一个非常适合训练工程判断的“表面冲突”：
+
+- TI 的 High-Speed Interface Layout Guidelines 给出可执行的 6L routing stackup 和 via/spacing 规则；
+- Ott / Hartley 则会从 field containment、PWR–GND coupling、reference continuity 的角度批评某些常见六层结构。
+
+不要把它理解成“TI 错了”或“Hartley 错了”。它们解决的问题不同。
+
+| 来源 | 首要目标 | 你应该拿走什么 |
+|---|---|---|
+| SoC / Interface Vendor | 确保该芯片/接口能在规定 channel budget 内工作 | via 数、pair spacing、reference、length/skew、stub、ESD、package breakout |
+| Ott / Hartley | 降低全板 field spread、common-mode、EMI、reference discontinuity | 每个 signal-reference pair 的邻接、plane continuity、plane pair 与层间转换 |
+| Fabricator | 确保结构能稳定生产且阻抗可控 | 真实 H / Dk / copper / process window |
+| 项目系统工程 | 在成本、密度、EMC、PI、DFM 中做最终折中 | freeze 的 layer-role map |
+
+### 一个实际例子：TI 为什么可以推荐“相邻 Signal Layers”？
+
+TI 的 6L 建议中可能出现两个 signal layers 相邻。这并不自动违反“相邻 signal layer 不好”。
+
+你要继续检查：两层之间 dielectric 多厚、分别离 reference 多近、主 routing 是否正交、co-parallel overlap 多长、这些 net 的 crosstalk budget 是什么。
+
+如果 signal-reference coupling 很强，同时 signal-signal coupling 可控，并且 routing direction / spacing 有纪律，那么相邻 signal layers 可以是合理工程折中。
+
+### 反过来也一样：名字叫 GND 不代表 reference 就“好”
+
+如果某 signal layer 到 GND 隔着 0.55 mm，而到另一侧 copper 只有 0.10 mm，就不能因为“GND 是我想要的 reference”而假装 field 只认 GND。
+
+因此本课程规定：
+
+~~~text
+Vendor suggested stackup
+→ 映射到真实 fab geometry
+→ 重建 signal-reference pair map
+→ 再决定是否照用
+~~~
+
+### 🎮 设计评审题
+
+假设 vendor app note 推荐 L1 SIG / L2 GND / L3 SIG / L4 SIG / L5 PWR-GND / L6 SIG，而你的板厂实际 L2-L3 = 0.55 mm、L3-L4 = 0.10 mm。
+
+你不能只回答“TI 推荐，所以 L3 没问题”。至少要给出：
+
+1. L3 的主 reference 判断；
+2. L3-L4 broadside coupling 风险；
+3. 关键 net 是否应该换层；
+4. 是否需要改变 layer-role assignment；
+5. 是否仍满足 vendor 的 channel requirement。
+
+### 来源
+
+- TI SPRAAR7J, *High-Speed Interface Layout Guidelines*  
+  https://www.ti.com/lit/an/spraar7j/spraar7j.pdf
+- Henry Ott, *PCB Stack-Up*  
+  https://www.frontdoor.biz/HowToPCB/HowToPCB-extra/PCBStackups(Ott).pdf
+- Rick Hartley, *PCB Stack-up Design Best Practices*  
+  https://resources.altium.com/p/pc-board-stack-up-best-practices-with-rick-hartley
+
+
 # 4. 为什么 dielectric thickness 如此重要
 
 传输线的 field distribution 与以下几何相关：
