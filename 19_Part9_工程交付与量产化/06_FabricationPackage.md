@@ -30,6 +30,39 @@
 7. NPTH/PTH；
 8. layer alignment。
 
+## 6.2.1 看懂制造流程后，你就不会把 Core / Prepreg 当成“CAD 里的两种颜色”
+
+EEVblog #939 的 PCB 制造流程非常适合放在 Stackup Freeze 之前看：内层成像、oxide、layup、press、drill、PTH、外层成像、soldermask，是一条连续制造链。
+
+对多层课程最重要的是：
+
+~~~text
+Core：已经固化的铜箔层压板
+Prepreg：压合时仍会流动、填充铜图形空隙的树脂/玻纤
+~~~
+
+这直接解释三个前面学过的现象：
+
+1. 为什么 outer microstrip 常坐在 prepreg 上；
+2. 为什么 residual copper ratio 会影响 pressed dielectric；
+3. 为什么板厂必须用自己的 process data 做阻抗补偿。
+
+<img src="../assets/svg/trace-geometry-stackup.svg" alt="Core与Prepreg在多层叠层中的位置" width="100%">
+
+### Fabrication Package 的意义因此也更清楚
+
+你交付的不只是 Gerber 图形，而是在告诉板厂：
+
+> **这组铜图形应该怎样被压成一个特定的电磁结构。**
+
+所以 stackup note、material identity、finished copper、controlled impedance、CAM adjustment permission 都不是行政文档，而是设计的一部分。
+
+### 视频来源
+
+- EEVblog #939 — *How Is A PCB Manufactured?*  
+  https://www.youtube.com/watch?v=rEB0pl8a5C0
+
+
 ## 6.3 Stackup Note
 
 至少写：
