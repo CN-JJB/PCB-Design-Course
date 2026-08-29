@@ -27,6 +27,62 @@ DRC 只是输入，不是结论。
 - tooling hole；
 - fab notes。
 
+## 2.2.1 Safety DFM：Creepage / Clearance 不是普通铜间距
+
+如果板上出现 mains、isolated DC/DC、primary/secondary 等电气隔离边界，普通的 `copper clearance` 规则已经不够。
+
+<img src="../assets/svg/part9-creepage-clearance-isolation.svg" alt="电气间隙与爬电距离示意" width="100%">
+
+### 两个词先分清
+
+- **Clearance**：两导体之间穿过空气的最短距离；
+- **Creepage**：沿绝缘表面的最短路径。
+
+因此开 slot 可能增加表面路径，但它不会自动修复所有空气间隙问题。
+
+### 最危险的误用
+
+不要把下面两类“分地”混在一起：
+
+~~~text
+AGND / DGND mixed-signal partition
+≠
+Primary / Secondary galvanic isolation
+~~~
+
+前者主要是 SI/EMC 与 shared reference；后者可能直接涉及人身安全和法规认证。
+
+### IPC-2221 表格只能做什么？
+
+本批资料提供了 IPC-2221B spacing 的 web explainer，可用于教学理解：
+
+- 内层 / 外层条件不同；
+- coating、污染、材料 CTI、海拔都会改变要求；
+- 更高电压需要更大的 creepage / clearance。
+
+但 **release 时不能只查这一张网页表**。
+
+最终必须根据产品适用标准（例如 IEC/UL 对应产品类别）、工作电压、绝缘等级、污染等级、材料组、海拔和认证要求重新确定。
+
+### Safety Release Gate
+
+| 项目 | 必须有证据 |
+|---|---|
+| working voltage / transient | schematic + system requirement |
+| insulation type | basic / supplementary / reinforced 等 |
+| creepage | 标准条款 + PCB 实测最短路径 |
+| clearance | 标准条款 + PCB 实测空气路径 |
+| slots / cutouts | DFM capability + 实际尺寸 |
+| copper keepout on all layers | Gerber / 3D / fab review |
+
+### 来源
+
+- *PCB Creepage and Clearance: IPC-2221 Safety Spacing Rules*  
+  https://pcbsync.com/pcb-creepage-clearance/
+
+> 该网页适合作为课程解释和初步检查入口，不代替适用产品安全标准。
+
+
 ## 2.3 DFA Review
 
 重点：
