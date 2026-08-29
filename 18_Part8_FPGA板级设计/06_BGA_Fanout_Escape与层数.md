@@ -160,6 +160,47 @@ GTP：
 
 ---
 
+# 8.1 视频拆板：BGA Fanout 决定的是“可用逃逸通道”，不是看起来能塞几根线
+
+EEVblog #1029 的价值在于把 BGA fanout 从抽象规则变成真实几何：dogbone、via-in-pad、via size、ball pitch 一变，能从某一圈 ball 逃出来的 channel 数就跟着变。
+
+<img src="../assets/svg/part8-bga-escape.svg" alt="BGA fanout与escape通道示意" width="100%">
+
+### 先算 channel，再谈层数
+
+一个 BGA 是否能四层/六层，不该用：
+
+> “0.8 mm pitch 通常六层就够。”
+
+而应该按：
+
+~~~text
+ball pitch
+→ pad diameter
+→ via technology
+→ trace / space
+→ 每层能逃出几圈
+→ power/GND 占掉多少通道
+→ DDR/GTP 是否限制层
+→ layer-count gate
+~~~
+
+### Via-in-Pad 不是“高级版 dogbone”
+
+视频里的几何讨论还可以帮助理解：
+
+- dogbone 受 pad-to-via neck 和 routing channel 限制；
+- via-in-pad 能释放平面空间，但引入 fill / cap / planarization 工艺；
+- microvia 能改变 escape 架构，但也改变成本和可靠性验证。
+
+因此课程里的层数判断永远同时看 **routing math + manufacturing process**。
+
+### 视频来源
+
+- EEVblog #1029 — *BGA PCB Fanout*  
+  https://www.youtube.com/watch?v=_1dr5FWYDgE
+
+
 # 9. BGA Escape Lab
 
 打开：
