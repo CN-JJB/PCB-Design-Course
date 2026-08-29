@@ -343,6 +343,58 @@ cavity resonant frequency 与：
 
 ---
 
+## 12.7.1 EEVblog 实测：Plane Capacitance 是 nF 级，不是“免费的大电容”
+
+EEVblog #1117 专门测过 PCB power-plane capacitance。这个视频最有价值的不是某一个读数，而是把一个常见误区直接拆掉：
+
+> **标准 1.6 mm 四层板的 PWR–GND 内层，并不会自动变成一颗很大的高频电容。**
+
+平行板的第一阶关系是：
+
+~~~text
+C ∝ ε × A / d
+~~~
+
+面积 `A` 越大、介质 `d` 越薄，plane capacitance 才越大。
+
+而廉价 1.6 mm 四层板最常见的问题恰恰是：
+
+~~~text
+L2 ───────── PWR / GND
+       ~1 mm thick core
+L3 ───────── GND / PWR
+~~~
+
+因此：
+
+- plane capacitance 往往只是 nF 数量级；
+- spreading inductance 仍然很重要；
+- 它不能替代局部 MLCC；
+- 如果真的想利用 plane pair 做高频储能，需要把两平面压得很近。
+
+<img src="../assets/svg/pi-plane-pair.svg" alt="电源地平面对的间距与平面电容" width="100%">
+
+### 这个实测应该怎样进入设计决策？
+
+不要问：
+
+> “我有 PWR plane，是不是就不用那么多电容？”
+
+而要问：
+
+1. PWR–GND 实际间距是多少？
+2. 有效重叠面积是多少？
+3. 这个 plane pair 在目标频带里阻抗是多少？
+4. 局部 decap loop 的安装电感是多少？
+
+### 视频来源
+
+- EEVblog #1117 — *PCB Power Plane Capacitance*  
+  https://www.youtube.com/watch?v=CBD9vwKcvtY
+
+> 视频中的具体 nF 读数属于其样板；课程只把它作为“标准厚核四层 plane C 很小”的测量证据。
+
+
 ## 12.8 “每个波长 6 个 via”怎么正确理解
 
 视频引用了一条 cavity stitching 的经验思路：
