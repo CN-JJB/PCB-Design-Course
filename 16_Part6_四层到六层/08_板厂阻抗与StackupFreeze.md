@@ -277,6 +277,98 @@ Saturn PCB Toolkit 当前提供：
 
 > **通用 calculator 可以让你开始设计，但不能替 fabricator 定义制造出来的 cross-section。**
 
+# 4.2 JLCPCB 制造案例：Calculator 假设、订单材料和实际铜厚必须对上
+
+这批文章/板厂资料里有一个非常容易被忽略的制造陷阱：
+
+> **“我用了 JLC 的 impedance calculator”不等于“我下单的材料一定和 calculator 的模型一致”。**
+
+资料集记录的 JLCPCB calculator guide 对 4–8 层阻抗模型给出了明确的材料/几何假设，例如：
+
+- 4–8L 使用 Nan Ya NP-155F 体系；
+- calculator 的 soldermask 介电常数模型约为 3.8；
+- outer 1 oz finished copper、inner 0.5 oz / 1 oz 的最终厚度按其工艺模型取值；
+- trace 截面按 etch 后梯形而不是理想矩形处理；
+- prepreg 7628 / 3313 / 1080 / 2116 使用不同 Dk 与 pressed thickness。
+
+这些数字属于**该板厂 calculator 的生产模型**，不是 FR-4 的通用常数。
+
+### ⚠️ 材料身份检查
+
+资料集同时指出一个值得每次订单都复查的点：报价页的默认 FR-4 Tg 选项，可能与 impedance calculator 假设的材料体系不同。
+
+因此 Stackup Freeze 新增一项：
+
+~~~text
+Calculator material model
+        ↓ compare
+Order material / Tg option
+        ↓ compare
+Stackup template ID
+        ↓ compare
+CAM confirmation
+~~~
+
+只要其中一项对不上，就不能说“阻抗已冻结”。
+
+### Microstrip、Coplanar、Soldermask 要写清楚
+
+制造交接不能只写：
+
+~~~text
+USB = 90 ohm
+~~~
+
+至少应明确：
+
+| Item | Example field |
+|---|---|
+| Layer | L1 |
+| Reference | L2 GND |
+| Structure | coated microstrip / coated coplanar |
+| Target | 90 Ω differential |
+| Width / Gap | project value |
+| Coplanar gap | if used |
+| Soldermask included? | yes/no per solver model |
+| Tolerance | project requirement |
+
+因为同一对 trace 只要同层 GND pour 靠近，结构就可能从普通 microstrip 变成 coplanar；如果 calculator tab 选错，结果没有制造意义。
+
+### 🎮 下单前 60 秒 Sanity Check
+
+1. 我用的 stackup template 名字，订单里能逐字找到吗？
+2. calculator 假设的 material/Tg，订单是否匹配？
+3. inner/outer copper 是 base copper 还是 finished copper？
+4. soldermask 是否进入模型？
+5. Gerber trace width 是我希望制造出来的 finished width，还是希望 CAM 自动改？
+6. fab 是否允许调整 width / dielectric？是否需要回传确认？
+7. 最终怎么验收：免费测试、precision test、coupon、TDR 还是只靠 CAM report？
+
+### Controlled Dielectric vs Controlled Impedance：别把两个交付模式混在一起
+
+文章资料把两种制造协作方式分得很清楚：
+
+| 模式 | Designer 做什么 | Fab 做什么 | 风险 |
+|---|---|---|---|
+| Controlled dielectric | designer 用已知 Dk/H 算 width | 按指定材料/厚度制造 | Dk/H 偏差直接进入 Z |
+| Controlled impedance | designer 给 target + starting geometry | fab 用其真实工艺调整并用 coupon/TDR 验证 | 必须明确谁有权改 width/H |
+
+项目里必须选定一种协作模型，而不是一边要求“Gerber width 不准改”，一边又假设 fab 会帮你自动调到目标阻抗。
+
+### 资料来源
+
+- JLCPCB, *User Guide to the JLCPCB Impedance Calculator*  
+  https://jlcpcb.com/help/article/user-guide-to-the-jlcpcb-impedance-calculator
+- JLCPCB, *Controlled Impedance PCB Layer Stackup*  
+  https://jlcpcb.com/impedance
+- Zachariah Peterson, *Impedance Management Through PCB Stackup Design With Reference Planes*  
+  https://resources.altium.com/p/impedance-management-through-pcb-stackup-design-reference-planes
+- Zachariah Peterson, *Impedance Control: How to Specify Your Requirements for PCB Manufacturers*  
+  https://resources.altium.com/p/pcb-manufacturing-and-impedance-control-how-specify-your-requirements
+
+> 这里引用的是本批资料中记录的板厂模型；真正下单前重新核对板厂页面、订单选项和 CAM 回复。
+
+
 # 5. Stackup Freeze Record
 
 至少记录：
