@@ -399,6 +399,35 @@ connector -------- 60mm trace -------- ESD -------- MCU
 
 ---
 
+## 6.8.5 Coplanar Ground 不是默认奖励：先问 L2 已经够不够近
+
+Altium Academy 的 *Coplanar Ground Done Right* 很适合纠正一个常见习惯：
+
+> “高速线旁边有空位，就铺一圈 GND，会更安全。”
+
+如果 L1 下方已经有一个很近、很完整的 L2 GND，那么同层 GND pour：
+
+- 可能几乎不提供你想象中的额外回流价值；
+- 会改变单端/差分阻抗；
+- 如果 stitching 不够，甚至可能变成浮动铜结构。
+
+### 什么时候 coplanar GND 才更像一个合理工具？
+
+| 场景 | 判断 |
+|---|---|
+| 2-layer，没有近 reference plane | 可能很有价值 |
+| RF GCPW | 这是结构的一部分，必须进 solver |
+| 4L Bottom 参考很远 / reference 不理想 | 可作为局部补救，但不能替代完整 plane |
+| L1 已紧贴完整 L2 GND | 不要默认加；先看阻抗与 EMC 目标 |
+
+所以 USB Pair 周围的铜不是装饰物，**只要它靠得足够近，就已经成为传输线几何的一部分。**
+
+### 视频来源
+
+- Altium Academy — *Coplanar Ground Done Right: PCB Design Best Practices*  
+  https://www.youtube.com/watch?v=C04j3C_AoHk
+
+
 ## 6.9 USB pair 周围不要放什么
 
 尽量避免：
