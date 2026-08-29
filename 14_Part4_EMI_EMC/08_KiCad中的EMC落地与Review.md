@@ -137,6 +137,38 @@ ESD/EFT 等外部电流从哪里进入、从哪里退出？
 
 ---
 
+## 7.1 每一个 EMC 规则都要带 Source Tag
+
+KiCad 里真正危险的不是“没有规则”，而是你设置了一堆**来历不明的规则**。
+
+因此 V2/V3 的 EMC Review 表新增一列：
+
+| Rule | Current value / action | Source tag | Applies to this design? | Evidence |
+|---|---|---|---|---|
+| USB ESD placement | | device/vendor | | |
+| RF keepout | | module vendor | | |
+| via-fence pitch | | heuristic / simulation | | |
+| AGND/DGND treatment | | device + Ott/TI/ADI | | |
+| chassis bond | | system EMC | | |
+
+允许的 source tag：
+
+~~~text
+STANDARD
+DEVICE
+FAB
+PHYSICS
+HEURISTIC
+PRACTITIONER
+~~~
+
+如果某条 KiCad rule 只能写：
+
+> “网上都这么画。”
+
+它就还没有资格冻结进项目。
+
+
 ## 8. V2 EMC Review 输出
 
 项目必须提交：
