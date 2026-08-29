@@ -369,6 +369,68 @@ USB = 90 ohm
 > 这里引用的是本批资料中记录的板厂模型；真正下单前重新核对板厂页面、订单选项和 CAM 回复。
 
 
+# 4.3 Beginner Trap：六层内层的 H 到底是哪一个？
+
+这批 Reddit 实际抓到的讨论里，有一个非常典型的初学者问题：
+
+> “JLC 6 层推荐 stackup 我已经选了，但 KiCad 阻抗计算器让我填 dielectric height。L3 上下两边介质厚度差很多，我到底填哪一个？”
+
+<img src="../assets/svg/part6-inner-layer-height.svg" alt="六层内层阻抗的上下双介质高度" width="100%">
+
+答案不是“挑更近的那个 H”。
+
+### 外层和内层不是同一个模型
+
+| 情况 | 需要的几何 |
+|---|---|
+| outer microstrip | trace 到最近 reference plane 的 H，加上 copper / mask / width 等 |
+| inner stripline / asymmetric stripline | trace 上下两侧的 dielectric、铜层、Dk 都要进入模型 |
+
+如果一个工具只有一个 H 输入，而你的真实 L3 上下介质明显不对称，那这个模型本身就可能不适合。
+
+### Reddit 的工程价值
+
+帖子里的回答没有给一个神奇公式，而是把 OP 推回：
+
+~~~text
+named fab stackup
+→ fab drawing
+→ correct inner-layer model / Polar-class solver
+→ fab impedance calculation
+~~~
+
+这正是课程希望学生形成的习惯：**遇到模型对不上真实结构时，不要硬塞一个数字。**
+
+### PCBWay 给出的第二个现实提醒：Pressed Thickness 不是固定常数
+
+PCBWay 的 4L/6L 层压表还展示了 residual copper ratio 对 prepreg 压后厚度的影响：铜越稀疏，树脂流动越明显，pressed dielectric 会略变薄。
+
+所以：
+
+> `H = datasheet prepreg thickness` 不是严谨的制造定义；真正受控的是板厂最终压合模型。
+
+### 嘉立创中文下单规则：±20% 不是“阻抗管控”
+
+资料中的嘉立创中文帮助页明确把订单模式分开：
+
+- `±10%`：进入其阻抗控制 / TDR 流程；
+- `±20%` 或“无要求”：不能等同于 controlled impedance；
+- 需要随 Gerber 交付网络、目标阻抗、层、reference 等说明。
+
+这比背“USB 90 Ω”重要，因为它决定工厂到底有没有按阻抗结果验收。
+
+### 来源
+
+- 嘉立创：阻抗设计说明  
+  https://www.jlc.com/portal/server_guide_38565.html
+- 嘉立创阻抗计算神器使用说明  
+  https://www.jlc.com/portal/server_guide_37381.html
+- PCBWay Multi-layer laminated structure  
+  https://www.pcbway.com/multi-layer-laminated-structure.html
+- Reddit: *How would I find the dielectric height value for impedance calculators?*  
+  https://www.reddit.com/r/PCB/comments/1v5p1at/how_would_i_find_the_dielectric_height_value_for/
+
+
 # 5. Stackup Freeze Record
 
 至少记录：
